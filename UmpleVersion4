@@ -1,0 +1,217 @@
+class Game
+{
+/**
+* Calls to, and initializes, fields and values that require generation upon a game's creation.  
+* Finally, begin the game loop by calling gameManager().  
+* If the game is fully 'booted' return gameManager() (also int), else return zero to account for errors in generation. 
+**/
+private int bootGame(){
+  //demo 
+  /**
+  if( someValue != expectedValue || someValue != null ){
+    return 0;
+  }
+  **/
+  return gameManager();
+}
+/**
+*  Contains the primary gameLoop mechanics. Fails and returns 0 if error is detected, 1 if the game concludes successfully
+*  Is the central hub for method calling and contains the main loop. 
+**/
+private int gameManager(){
+  return 0;
+}
+/**
+* Method to randomly return a number 1-6
+**/
+private int rollDice(){
+  Return 0 // implement random number 1-6 to slimulate dice roll
+}
+/**
+* User Interactable method to start the program. 
+* Manages bootGame() return values of 0 & 1 respectively for successful or failed attempts to boot
+**/
+public static void main(String... args) { 
+  bootGame();//implement 0 & 1 handling
+}
+  * -> * Player;
+  * -> * Board;
+}
+
+class Player
+{
+Character character; // the character the player controls 
+Estate estate = null; // what estate the player is in, null for no estate
+Worksheet worksheet; // visual tool to display known cards to the player
+String name; // the Player name (serves as ID)
+
+// getters and setters for all values are auto generated
+/**
+* prints the cards in the players hand (cards)
+**/
+public void printHand(){
+  System.out.print(Character.getName()+"s card's are ");
+  for ( Card card : cards ) {
+    card.draw();
+    System.out.print(", "); 
+  }
+  System.out.print("\n"); //output should be "playernames card's are 'cardname','cardname'" etc \n
+}
+  * -> * Card;
+  * -> * Character;
+}
+
+class Board
+{
+  // board should be filled by the bootGame() method in Game upon launch
+  // list of items already exists as Umple auto generates a list of items
+/**
+*draws the board  
+**/
+public void draw(){
+  // draws the Board including the players and items
+}
+/**
+* Turns every square on the board invisible so players can get a better grasp of their respective positions.
+**/
+public void gridOff(){
+
+}
+/**
+* Turns the grid back on so players can see what spaces they can traverse to.(grid is on by default) 
+**/
+public void girdOn(){
+
+}
+  * -> * Item;
+  * -> * Estate;
+}
+
+class Item
+{
+String name; 
+String image;
+int x; // represents the row index of the tile the item occupies in the Board's internal collection (collection[x][y]) 
+int y; // represents the column index of the tile the item occupies in the Board's internal collection (collection[x][y]) 
+}
+
+class Character
+{
+  public void move( int newX,int newY ){
+    super.x = newX;
+    super.y = newY;
+  }
+  isA Item;
+  * -> * Board;
+}
+
+class Weapon
+{
+  isA Item;
+  * -> * Board;
+}
+
+class Wall
+{
+  isA Item;
+}
+
+class Estate
+{
+  String name;
+  Set<Item> entrances = new HashSet<>();
+  * -> * Item;
+}
+
+class Entrance
+{
+  String name;
+}
+
+
+class Card
+{
+}
+
+class Worksheet
+{
+}
+
+//$?[End_of_model]$?
+
+namespace -;
+
+
+class Game
+{
+  position 58 59 109 41;
+  position.association Game__Player 110,23 0,2;
+  position.association Card__Game 110,11 0,18;
+  position.association Board__Game 24,41 63,0;
+}
+
+class Player
+{ 
+  position 500 138 109 41;
+  position.association Player__Worksheet 85,0 0,11;
+  position.association Card__Player 46,0 44,41;
+  position.association Character__Player 49,41 70,0;
+  position.association Estate__Player 0,33 69,0;
+}
+
+class Board
+{
+  position 28 213 109 41;
+  position.association Board__Weapon 98,41 7,0;
+  position.association Board__Character 78,41 35,0;
+  position.association Board__Item 110,25 0,15;
+  position.association Board__Estate 110,21 0,7;
+  position.association Board__Game 55,0 57,41;
+}
+
+class Item
+{
+  position 538 387 109 41;
+}
+
+class Character
+{
+  position 320 499 109 41;
+  position.association Character__Player 44,0 53,41;
+  position.association Board__Character 36,0 36,41;
+}
+
+class Weapon
+{
+  position 538 501 109 41;
+  position.association Board__Weapon 23,0 84,41;
+}
+
+class Wall
+{
+  position 719 500 109 41;
+}
+
+class Estate
+{
+  position 331 219 109 41.3594;
+  position.association Estate__Player 79,0 0,20;
+}
+
+class Card
+{
+  position 499 23 109 41;
+  position.association Card__Player 59,41 9,0;
+  position.association Card__Game 0,21 110,8;
+}
+
+class Worksheet
+{
+  position 773 88 109 41;
+}
+class Entrance
+{
+  Position  360 219 109 41.3594;
+}
+
+
