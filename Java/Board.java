@@ -1,0 +1,297 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
+
+
+import java.util.*;
+
+// line 119 "model.ump"
+// line 261 "model.ump"
+public class Board
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Board Associations
+  private List<Item> items;
+  private List<Estate> estates;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Board()
+  {
+    items = new ArrayList<Item>();
+    estates = new ArrayList<Estate>();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+  /* Code from template association_GetMany */
+  public Item getItem(int index)
+  {
+    Item aItem = items.get(index);
+    return aItem;
+  }
+
+  public List<Item> getItems()
+  {
+    List<Item> newItems = Collections.unmodifiableList(items);
+    return newItems;
+  }
+
+  public int numberOfItems()
+  {
+    int number = items.size();
+    return number;
+  }
+
+  public boolean hasItems()
+  {
+    boolean has = items.size() > 0;
+    return has;
+  }
+
+  public int indexOfItem(Item aItem)
+  {
+    int index = items.indexOf(aItem);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Estate getEstate(int index)
+  {
+    Estate aEstate = estates.get(index);
+    return aEstate;
+  }
+
+  public List<Estate> getEstates()
+  {
+    List<Estate> newEstates = Collections.unmodifiableList(estates);
+    return newEstates;
+  }
+
+  public int numberOfEstates()
+  {
+    int number = estates.size();
+    return number;
+  }
+
+  public boolean hasEstates()
+  {
+    boolean has = estates.size() > 0;
+    return has;
+  }
+
+  public int indexOfEstate(Estate aEstate)
+  {
+    int index = estates.indexOf(aEstate);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfItems()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addItem(Item aItem)
+  {
+    boolean wasAdded = false;
+    if (items.contains(aItem)) { return false; }
+    items.add(aItem);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeItem(Item aItem)
+  {
+    boolean wasRemoved = false;
+    if (items.contains(aItem))
+    {
+      items.remove(aItem);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addItemAt(Item aItem, int index)
+  {  
+    boolean wasAdded = false;
+    if(addItem(aItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfItems()) { index = numberOfItems() - 1; }
+      items.remove(aItem);
+      items.add(index, aItem);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveItemAt(Item aItem, int index)
+  {
+    boolean wasAdded = false;
+    if(items.contains(aItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfItems()) { index = numberOfItems() - 1; }
+      items.remove(aItem);
+      items.add(index, aItem);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addItemAt(aItem, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfEstates()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addEstate(Estate aEstate)
+  {
+    boolean wasAdded = false;
+    if (estates.contains(aEstate)) { return false; }
+    estates.add(aEstate);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeEstate(Estate aEstate)
+  {
+    boolean wasRemoved = false;
+    if (estates.contains(aEstate))
+    {
+      estates.remove(aEstate);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addEstateAt(Estate aEstate, int index)
+  {  
+    boolean wasAdded = false;
+    if(addEstate(aEstate))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEstates()) { index = numberOfEstates() - 1; }
+      estates.remove(aEstate);
+      estates.add(index, aEstate);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveEstateAt(Estate aEstate, int index)
+  {
+    boolean wasAdded = false;
+    if(estates.contains(aEstate))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEstates()) { index = numberOfEstates() - 1; }
+      estates.remove(aEstate);
+      estates.add(index, aEstate);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addEstateAt(aEstate, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    items.clear();
+    estates.clear();
+  }
+
+
+  /**
+   * List<List<Tile>> board = new ArrayList<>();
+   * board should be filled by the bootGame() method in Game upon launch
+   * list of items already exists as Umple auto generates a list of items
+   * 
+   * draws the board  
+   * 
+   */
+  // line 128 "model.ump"
+   public void draw(){
+    // draws the Board including the players and items
+  }
+
+
+  /**
+   * 
+   * Turns every border on the board invisible so players can get a better grasp of their respective positions.
+   * 
+   */
+  // line 134 "model.ump"
+   public void gridOff(){
+    
+  }
+
+
+  /**
+   * 
+   * Turns the grid back on so players can see what spaces they can traverse to.(grid is on by default) 
+   * 
+   */
+  // line 139 "model.ump"
+   public void gridOn(){
+    
+  }
+
+
+  /**
+   * 
+   * makes sure that the value in board at x and y is not occupied by a wall or grayspace or player
+   * 
+   */
+  // line 144 "model.ump"
+   public boolean isSafeMove(int x, int y){
+    return false; //implement
+  }
+
+
+  /**
+   * getter
+   */
+  // line 148 "model.ump"
+   public Tile getTile(int x, int y){
+    return board.get(x).get(y);
+  }
+
+
+  /**
+   * setter
+   */
+  // line 153 "model.ump"
+   public void setTile(int x, int y, Tile t){
+    board.get(y).set(x, t);
+  }
+
+
+  /**
+   * clear tile
+   */
+  // line 157 "model.ump"
+   public void clearTile(int x, int y){
+    board.get(y).remove(x);
+  }
+
+
+  /**
+   * estate checker
+   */
+  // line 161 "model.ump"
+   public Estate checkEstate(int x, int y){
+    return null; //should pass the input coordinates to Estate to check
+  }
+
+}
