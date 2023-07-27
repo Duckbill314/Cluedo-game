@@ -247,6 +247,13 @@ public class Board
    public void gridOff(){
     
   }
+  /**
+   * adder
+   * UNIMPLEMENTED ADDER IN UMPLE
+   */
+   public void add(List<Tile> toAdd){
+    board.add(toAdd);
+  }
 
 
   /**
