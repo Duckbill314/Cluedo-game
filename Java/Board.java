@@ -255,6 +255,34 @@ public class Board
     board.add(toAdd);
   }
 
+  public void setEntrance(){
+    for(Estate e : estates){
+      switch(e.getName()){
+        case "Haunted House":   
+            e.addItemsToThisEstate(board.get(6).get(3).getStored()); 
+            e.addItemsToThisEstate(board.get(5).get(6).getStored());
+        break;
+        case "Manic Manor":
+            e.addItemsToThisEstate(board.get(17).get(6).getStored()); 
+            e.addItemsToThisEstate(board.get(20).get(5).getStored());
+        break;
+        case "Visitation Villa":
+            e.addItemsToThisEstate(board.get(9).get(12).getStored()); 
+            e.addItemsToThisEstate(board.get(11).get(13).getStored());
+            e.addItemsToThisEstate(board.get(12).get(10).getStored()); 
+            e.addItemsToThisEstate(board.get(14).get(11).getStored());
+        break;
+        case "Calamity Castle":
+            e.addItemsToThisEstate(board.get(3).get(17).getStored()); 
+            e.addItemsToThisEstate(board.get(6).get(18).getStored());
+        break;
+        case "Peril Palace":
+            e.addItemsToThisEstate(board.get(17).get(20).getStored()); 
+            e.addItemsToThisEstate(board.get(18).get(17).getStored());
+        break;
+      }
+    }
+  }
 
   /**
    * 
