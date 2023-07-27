@@ -292,7 +292,7 @@ public class Board
    */
   // line 153 "model.ump"
    public void setTile(int x, int y, Tile t){
-    board.get(y).set(x, t);
+    board.get(x).set(y, t);
   }
 
 
@@ -301,7 +301,7 @@ public class Board
    */
   // line 157 "model.ump"
    public void clearTile(int x, int y){
-    board.get(y).remove(x);
+    board.get(x).remove(y);
   }
 
 
