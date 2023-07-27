@@ -17,6 +17,7 @@ public class Board
   private List<Item> items;
   private List<Estate> estates;
 
+  List<List<Tile>> board = new ArrayList<>();
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -25,6 +26,7 @@ public class Board
   {
     items = new ArrayList<Item>();
     estates = new ArrayList<Estate>();
+    //
   }
 
   //------------------------
