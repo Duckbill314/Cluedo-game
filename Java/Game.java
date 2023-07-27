@@ -17,9 +17,10 @@ public class Game {
     //------------------------
     // MEMBER VARIABLES
     //------------------------
-
+    Board board = new Board();
     //Game Associations
     private final List<Player> players;
+    private List<Player> cards;
 
     //------------------------
     // CONSTRUCTOR
@@ -28,6 +29,7 @@ public class Game {
     public Game() {
         bootGame();
         players = new ArrayList<>();
+        cards = new ArrayList<>();
     }
 
     //------------------------
@@ -53,7 +55,42 @@ public class Game {
     public int indexOfPlayer(Player aPlayer) {
         return players.indexOf(aPlayer);
     }
+     
+        /* Code from template association_GetMany */
 
+    public Card getCard(int index)
+
+    {
+        Card aCard = cards.get(index);
+        return aCard;
+    } 
+
+    public List<Card> getCards()
+
+    {
+        List<Card> newCards = Collections.unmodifiableList(cards);
+        return newCards;
+    }
+
+    public int numberOfCards()
+    {
+        int number = cards.size();
+        return number;
+    }
+
+    public boolean hasCards()
+
+    {
+        boolean has = cards.size() > 0;
+        return has;
+    }
+
+    public int indexOfCard(Card aCard)
+    {
+        int index = cards.indexOf(aCard);
+        return index;
+    }
+    
     /* Code from template association_MinimumNumberOfMethod */
     public static int minimumNumberOfPlayers = 0;
 
@@ -111,9 +148,90 @@ public class Game {
         }
         return wasAdded;
     }
+    /* Code from template association_MinimumNumberOfMethod */
+
+    public static int minimumNumberOfCards()
+
+    {
+        return 0;
+    }
+
+    /* Code from template association_AddUnidirectionalMany */
+
+    public boolean addCard(Card aCard)
+
+    {
+        boolean wasAdded = false;
+        if (cards.contains(aCard)) { return false; }
+        cards.add(aCard);
+        wasAdded = true;
+        return wasAdded;
+    }
+
+
+    public boolean removeCard(Card aCard)
+
+    {
+        boolean wasRemoved = false;
+        if (cards.contains(aCard))
+
+        {
+            cards.remove(aCard);
+            wasRemoved = true;
+        }
+        return wasRemoved;
+    }
+
+    /* Code from template association_AddIndexControlFunctions */
+
+    public boolean addCardAt(Card aCard, int index)
+
+    { 
+        boolean wasAdded = false;
+        if(addCard(aCard))
+
+        {
+
+            if(index < 0 ) { index = 0; }
+
+            if(index > numberOfCards()) { index = numberOfCards() - 1; }
+
+            cards.remove(aCard);
+
+            cards.add(index, aCard);
+
+            wasAdded = true;
+
+        }
+        return wasAdded;
+    }
+
+
+    public boolean addOrMoveCardAt(Card aCard, int index)
+
+    {
+        boolean wasAdded = false;
+        if(cards.contains(aCard))
+
+        {
+            if(index < 0 ) { index = 0; }
+            if(index > numberOfCards()) { index = numberOfCards() - 1; }
+            cards.remove(aCard);
+            cards.add(index, aCard);
+            wasAdded = true;
+        }
+
+        else
+
+        {
+            wasAdded = addCardAt(aCard, index);
+        }
+        return wasAdded;
+    }
 
     public void delete() {
         players.clear();
+        cards.clear();
     }
 
 
@@ -129,8 +247,45 @@ public class Game {
      * If the game is fully 'booted' return gameManager() (also int), else return zero to account for errors in generation.
      */
     // line 29 "model.ump"
-    private void bootGame() {
-        Board board = new Board();
+    public void bootGame() {
+     //filling the board with empty tiles
+        for(int i = 0;i<24;i++){
+            List<Tile> row = new ArrayList<>();
+            for(int j = 0;j<24;j++){
+                row.add(new Tile());
+            }
+            mainBoard.add(row);
+        }
+        //filling those tiles in the board with items
+        try {
+            File file = new File("board.txt");
+            Scanner scanner = new Scanner(file);
+            int countX = 0;
+            int countY = 0;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine(); 
+                for (char c : line.toCharArray()) {
+                    Tile currentTile = mainBoard.getTile(countX, countY);
+                    switch(c){
+                        case 'X' : currentTile.setStored(new Wall("Wall","X",countX,countY));
+                            break;
+                        case 'G' : currentTile.setStored(new Wall("Grayspace","G",countX,countY));
+                            break;
+                        case 'E' : currentTile.setStored(new Entrance("Entrance"," ",countX,countY));
+                            break;
+                    }
+                    countX++;
+                }
+                countX=0;
+                countY++;
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + "board.txt");
+            e.printStackTrace();
+        }
+        // makeing the cards
+        makeCards();    
     }
 
 
@@ -163,7 +318,6 @@ public class Game {
      */
     // line 60 "model.ump"
     private void takePlayerInput(Player p) {
-
     }
 
 
@@ -200,7 +354,18 @@ public class Game {
      */
     // line 80 "model.ump"
     private void makeCards() {
-
+      try {
+            File file = new File("cards.txt");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNext()) {
+                String cardName = scanner.next();
+                cards.add(new Card(false, null, cardName));
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + "cards.txt");
+            e.printStackTrace();
+        }
     }
 
 
