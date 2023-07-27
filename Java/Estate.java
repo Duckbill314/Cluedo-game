@@ -17,7 +17,7 @@ public class Estate
   private String name;
   private List<Character> playersInside;
   private List<Weapon> weaponsInside;
-  private List<Entrance> entrancesToThisEstate;
+  private List<Item> itemsToThisEstate;
 
   //------------------------
   // CONSTRUCTOR
@@ -28,9 +28,9 @@ public class Estate
     name = aName;
     playersInside = new ArrayList<Character>();
     weaponsInside = new ArrayList<Weapon>();
-    entrancesToThisEstate = new ArrayList<Entrance>();
+    itemsToThisEstate = new ArrayList<Item>();
   }
-
+  
   //------------------------
   // INTERFACE
   //------------------------
@@ -71,18 +71,17 @@ public class Estate
     return wasRemoved;
   }
   /* Code from template attribute_SetMany */
-  public boolean addEntrancesToThisEstate(Entrance aEntrancesToThisEstate)
+  public boolean addItemsToThisEstate(Item aItemsToThisEstate)
   {
     boolean wasAdded = false;
-    wasAdded = entrancesToThisEstate.add(aEntrancesToThisEstate);
-    aEntrancesToThisEstate.setEstate(this);
+    wasAdded = itemsToThisEstate.add(aItemsToThisEstate);
     return wasAdded;
   }
 
-  public boolean removeEntrancesToThisEstate(Entrance aEntrancesToThisEstate)
+  public boolean removeItemsToThisEstate(Item aItemsToThisEstate)
   {
     boolean wasRemoved = false;
-    wasRemoved = entrancesToThisEstate.remove(aEntrancesToThisEstate);
+    wasRemoved = itemsToThisEstate.remove(aItemsToThisEstate);
     return wasRemoved;
   }
 
@@ -151,33 +150,33 @@ public class Estate
     return index;
   }
   /* Code from template attribute_GetMany */
-  public Entrance getEntrancesToThisEstate(int index)
+  public Item getItemsToThisEstate(int index)
   {
-    Entrance aEntrancesToThisEstate = entrancesToThisEstate.get(index);
-    return aEntrancesToThisEstate;
+    Item aItemsToThisEstate = itemsToThisEstate.get(index);
+    return aItemsToThisEstate;
   }
 
-  public Entrance[] getEntrancesToThisEstate()
+  public Item[] getItemsToThisEstate()
   {
-    Entrance[] newEntrancesToThisEstate = entrancesToThisEstate.toArray(new Entrance[entrancesToThisEstate.size()]);
-    return newEntrancesToThisEstate;
+    Item[] newItemsToThisEstate = itemsToThisEstate.toArray(new Item[itemsToThisEstate.size()]);
+    return newItemsToThisEstate;
   }
 
-  public int numberOfEntrancesToThisEstate()
+  public int numberOfItemsToThisEstate()
   {
-    int number = entrancesToThisEstate.size();
+    int number = itemsToThisEstate.size();
     return number;
   }
 
-  public boolean hasEntrancesToThisEstate()
+  public boolean hasItemsToThisEstate()
   {
-    boolean has = entrancesToThisEstate.size() > 0;
+    boolean has = itemsToThisEstate.size() > 0;
     return has;
   }
 
-  public int indexOfEntrancesToThisEstate(Entrance aEntrancesToThisEstate)
+  public int indexOfitemsToThisEstate(Item aitemsToThisEstate)
   {
-    int index = entrancesToThisEstate.indexOf(aEntrancesToThisEstate);
+    int index = itemsToThisEstate.indexOf(aitemsToThisEstate);
     return index;
   }
 
@@ -187,11 +186,11 @@ public class Estate
 
   /**
    * 
-   * Check that at the given coordinates there is or is not an entrance Item
+   * Check that at the given coordinates there is or is not an item Item
    * 
    */
   // line 206 "model.ump"
-   public boolean onEntrance(int x, int y){
+   public boolean onItem(int x, int y){
     return false;
   }
 
