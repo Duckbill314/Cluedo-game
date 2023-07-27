@@ -16,16 +16,18 @@ public class Card
   private boolean isMurder;
   private Player owner;
   private String name;
+  private String type;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Card(boolean aIsMurder, Player aOwner, String aName)
+  public Card(boolean aIsMurder, Player aOwner, String aName,String aType)
   {
     isMurder = aIsMurder;
     owner = aOwner;
     name = aName;
+    type = aType;
   }
 
   //------------------------
@@ -75,6 +77,11 @@ public class Card
   public String getName()
   {
     return name;
+  }
+
+   public String getType()
+  {
+    return type;
   }
 
   public void delete()
