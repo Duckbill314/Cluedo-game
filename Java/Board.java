@@ -12,7 +12,10 @@ public class Board
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+  
+  private final int ROWS = 24;
+  private final int COLS = 24;
+  
   //Board Associations
   private List<Item> items;
   private List<Estate> estates;
@@ -225,6 +228,13 @@ public class Board
   // line 128 "model.ump"
    public void draw(){
     // draws the Board including the players and items
+     for (int row = 0; row < ROWS; row++) {
+        for (int col = 0; col < COLS; col++) {
+            System.out.print("|");
+            board.get(col).get(row).draw();
+        }
+        System.out.println("|");
+    }
   }
 
 
