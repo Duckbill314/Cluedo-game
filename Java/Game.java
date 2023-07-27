@@ -333,10 +333,16 @@ public class Game {
         
         assignCharacters(names);
         
+       String first = "";
         for (Player p : players){
         System.out.println(p.getName() + " will be playing as "+p.getCharacter().getName());
+        if(p.getCharacter().getName().equals("Lucilla")){
+        first = p.getName();
         }
-        System.out.println("\nDo you want to start the game? (yes/no): ");
+        }
+        System.out.println();
+        System.out.println("Lucilla will be starting first, please pass the tablet to "+ first+".\n");
+        System.out.println("\nBegin the your first round? (yes/no): ");
         startGameInput = scanner.nextLine();
         System.out.print('\u000C');
         
