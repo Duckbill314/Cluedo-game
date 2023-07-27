@@ -191,7 +191,7 @@ public class Estate
    */
   // line 206 "model.ump"
    public boolean onEntrance(int x, int y){
-    
+    return false;
   }
 
 
