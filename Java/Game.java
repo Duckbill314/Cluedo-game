@@ -373,11 +373,11 @@ public class Game {
     private void gameManager() {
           while(true){
             System.out.print('\u000C');
-            mainBoard.draw();
+            board.draw();
             Scanner scanner = new Scanner(System.in);
             while(true){
                 System.out.print('\u000C');
-                mainBoard.draw();
+                board.draw();
                 System.out.print("Waiting for player to role dice... (roll): ");
                 String input = scanner.nextLine();
                 if (input.equalsIgnoreCase("roll")) {
@@ -423,6 +423,8 @@ public class Game {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } 
+
+              
             switch (currentTurn) {
                 case Lucilla:
                     takePlayerInput(players.get(0));
@@ -464,6 +466,67 @@ public class Game {
      */
     // line 60 "model.ump"
     private void takePlayerInput(Player p) {
+        boolean invalidInput = false;
+        while(diceTotal != 0){
+        System.out.print('\u000C');
+        board.draw();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("You have a total of "+diceTotal+" moves remaining. You are playing as "+p.getCharacter().getName()+" ("+p.getCharacter().getDisplayIcon()+").");
+        if(invalidInput){
+         System.out.println("Your input was not one of the four possible actions, please try again!");
+        invalidInput = false;
+        }
+        System.out.print("\nWhat direction will you move (left,right,up,down) : ");
+        String direction = scanner.nextLine();
+        // handling direction move
+               
+        switch(direction){
+        case "left" : 
+            if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())){
+              //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX()-1, p.getCharacter().getY(), current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setX(p.getCharacter().getX()-1);
+            }
+        break;
+        case "right" :
+            if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())){
+              //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX()+1, p.getCharacter().getY(), current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setX(p.getCharacter().getX()+1);
+            }
+        break;
+        case "down" :
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)){
+              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()+1, current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setY(p.getCharacter().getY()+1);
+            }
+        break;
+        case "up" :
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)){
+              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()-1, current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setY(p.getCharacter().getY()-1);
+            }
+        break;
+        default : 
+            invalidInput = true;
+            diceTotal++;
+        }
+        diceTotal--;
+        }
     }
 
 
