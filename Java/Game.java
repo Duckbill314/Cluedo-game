@@ -405,8 +405,28 @@ public class Game {
      * assigns each player a character randomly (must be called after makeCards())
      */
     // line 85 "model.ump"
-    private void assignCharacters() {
-
+    private void assignCharacters(List<String> names) {
+      switch (names.size()){
+            case 1 : 
+                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
+                break;
+            case 2 :
+                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
+                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
+                break;
+            case 3 :
+                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
+                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
+                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
+                break;
+            case 4 :
+                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
+                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
+                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
+                players.add(new Player(new Character("Percy","P",22,11),new Worksheet(),names.get(3),true));
+                break;
+                default : System.out.println("Fail");
+        }
     }
 
 
