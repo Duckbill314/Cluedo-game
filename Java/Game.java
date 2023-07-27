@@ -23,8 +23,8 @@ public class Game {
     private int diceTotal = 0;
     Board board = new Board();
     //Game Associations
-    private final List<Player> players =  = new ArrayList<>();
-    private final List<Card> cards =  = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
+    private final List<Card> cards = new ArrayList<>();
 
     //------------------------
     // CONSTRUCTOR
