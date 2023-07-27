@@ -314,7 +314,37 @@ public class Game {
             }
         }
   
-        System.out.println("Starting the game with " + numPlayers + " players.");
+      //get player names
+        List<String> names = new ArrayList<>();
+        while (numPlayers != names.size()) {
+            System.out.print("Player "+(names.size()+1)+" please enter your name : ");
+            String name = scanner.nextLine();
+            System. out. print('\u000C');
+            if (name.length()>15) {       
+                System.out.println("Sorry, your name can't exceed 15 characters");
+            }else{
+            names.add(name);
+            }
+        }
+        // making the players
+        System.out.println("Allocating roles for " + numPlayers + " players.");
+        System.out.println();
+        
+        
+        assignCharacters(names);
+        
+        for (Player p : players){
+        System.out.println(p.getName() + " will be playing as "+p.getCharacter().getName());
+        }
+        System.out.println("\nDo you want to start the game? (yes/no): ");
+        startGameInput = scanner.nextLine();
+        System.out.print('\u000C');
+        
+        if (!startGameInput.equalsIgnoreCase("yes")) {
+            System.out.println("Game aborted. Goodbye!");
+            scanner.close();
+            endGame();
+        }
         scanner.close();
         // makeing the cards
         makeCards();    
@@ -386,18 +416,29 @@ public class Game {
      */
     // line 80 "model.ump"
     private void makeCards() {
-      try {
+           try {
             File file = new File("cards.txt");
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext()) {
-                String cardName = scanner.next();
-                cards.add(new Card(false, null, cardName));
+                String cardName = scanner.nextLine();
+                String type = scanner.nextLine();
+                cards.add(new Card(false, null, cardName,type));
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + "cards.txt");
             e.printStackTrace();
         }
+        List<String> typesPickedForMurder = new ArrayList<>();
+        System.out.println();
+          while( typesPickedForMurder.size()!=3 ){
+            Random random = new Random();
+            int randomIndex = random.nextInt(cards.size());
+            if(!typesPickedForMurder.contains(cards.get(randomIndex).getType())){
+            cards.get(randomIndex).setIsMurder(true);
+            typesPickedForMurder.add(cards.get(randomIndex).getType());
+            }
+          }
     }
 
 
