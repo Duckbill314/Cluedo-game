@@ -653,26 +653,58 @@ public class Game {
      */
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
-      switch (names.size()){
-            case 1 : 
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                break;
-            case 2 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
-                break;
-            case 3 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
-                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
-                break;
-            case 4 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
-                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
-                players.add(new Player(new Character("Percy","P",22,11),new Worksheet(),names.get(3),true));
-                break;
-                default : System.out.println("Fail");
+      switch(direction){
+        case "left" : 
+            if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())==1){
+              //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX()-1, p.getCharacter().getY(), current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setX(p.getCharacter().getX()-1);
+            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
+            diceTotal++;
+            }
+        break;
+        case "right" :
+            if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())==1){
+              //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX()+1, p.getCharacter().getY(), current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setX(p.getCharacter().getX()+1);
+            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
+            diceTotal++;
+            }
+        break;
+        case "down" :
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)==1){
+              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()+1, current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setY(p.getCharacter().getY()+1);
+            }else if (board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
+            diceTotal++;
+            }
+        break;
+        case "up" :
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==1){
+              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
+              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+              
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()-1, current);
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+              p.getCharacter().setY(p.getCharacter().getY()-1);
+            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
+            diceTotal++;
+            }
+        break;
+        default : 
+            invalidInput = true;
+            diceTotal++;
         }
     }
 
