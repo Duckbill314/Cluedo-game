@@ -11,7 +11,7 @@ public class Entrance extends Item
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+   Estate estate;
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -19,6 +19,14 @@ public class Entrance extends Item
   public Entrance(String aName, String aDisplayIcon, int aX, int aY)
   {
     super(aName, aDisplayIcon, aX, aY);
+  }
+
+  public Estate getEstate(){
+   return estate;  
+  }
+  
+  public void setEstate(Estate e){
+   estate = e;
   }
 
   //------------------------
