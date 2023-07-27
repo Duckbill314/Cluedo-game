@@ -21,8 +21,8 @@ public class Game {
     //------------------------
     Board board = new Board();
     //Game Associations
-    private final List<Player> players;
-    private List<Card> cards;
+    private final List<Player> players =  = new ArrayList<>();
+    private final List<Card> cards =  = new ArrayList<>();
 
     //------------------------
     // CONSTRUCTOR
@@ -30,8 +30,8 @@ public class Game {
 
     public Game() {
         bootGame();
-        players = new ArrayList<>();
-        cards = new ArrayList<>();
+        //players = new ArrayList<>();
+        //cards = new ArrayList<>();
     }
 
     //------------------------
