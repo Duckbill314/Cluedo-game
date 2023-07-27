@@ -286,6 +286,36 @@ public class Game {
             System.err.println("File not found: " + "board.txt");
             e.printStackTrace();
         }
+         System.out.println("Welcome to Hobby Detectives!");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you want to start the game? (yes/no): ");
+        String startGameInput = scanner.nextLine();
+        System. out. print('\u000C');
+        if (!startGameInput.equalsIgnoreCase("yes")) {
+            System.out.println("Game aborted. Goodbye!");
+            scanner.close();
+            endGame();
+            }
+        
+        //get the number of players
+        int numPlayers = 0;
+        while (numPlayers < 1) {
+            System.out.print("Enter the number of players (1-4): ");
+            try {
+                numPlayers = Integer.parseInt(scanner.nextLine());
+                System. out. print('\u000C');
+                if (numPlayers < 1 || numPlayers > 4) {
+                    System.out.println("Invalid number of players. Please enter a number between 1 and 4.");
+                    numPlayers = 0;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        }
+  
+        System.out.println("Starting the game with " + numPlayers + " players.");
+        scanner.close();
         // makeing the cards
         makeCards();    
     }
