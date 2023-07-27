@@ -20,6 +20,7 @@ public class Game {
     // MEMBER VARIABLES
     //------------------------
     private TurnOrder currentTurn = TurnOrder.Lucilla;
+    private int diceTotal = 0;
     Board board = new Board();
     //Game Associations
     private final List<Player> players =  = new ArrayList<>();
@@ -369,8 +370,78 @@ public class Game {
      * Is the central hub for method calling and contains the main loop.
      */
     // line 45 "model.ump"
-    private int gameManager() {
-        return 0;
+    private void gameManager() {
+          while(true){
+            System.out.print('\u000C');
+            mainBoard.draw();
+            Scanner scanner = new Scanner(System.in);
+            while(true){
+                System.out.print('\u000C');
+                mainBoard.draw();
+                System.out.print("Waiting for player to role dice... (roll): ");
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("roll")) {
+                    System.out.println("Rolling ");
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    } 
+                    System.out.print(". ");
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    } 
+                    System.out.print(". ");
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    } 
+                    System.out.print(". ");
+                    break;
+                }
+            }
+            int dice1 = rollDice();
+            int dice2 = rollDice();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } 
+            System.out.println("\nROLLED "+dice1);
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } 
+            System.out.println("ROLLED "+dice2);
+            diceTotal = dice1+dice2;
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } 
+            switch (currentTurn) {
+                case Lucilla:
+                    takePlayerInput(players.get(0));
+                    currentTurn = TurnOrder.Bert;
+                    break;
+                case Bert:
+                    takePlayerInput(players.get(1));
+                    currentTurn = TurnOrder.Malina;
+                    break;
+                case Malina:
+                    takePlayerInput(players.get(2));
+                    currentTurn = TurnOrder.Percy;
+                    break;
+                case Percy:
+                    takePlayerInput(players.get(3));
+                    currentTurn = TurnOrder.Lucilla;
+                    break;
+            }
+        }
     }
 
 
@@ -530,7 +601,7 @@ public class Game {
      */
     // line 90 "model.ump"
     private void endGame() {
-
+      new Game();
     }
 
 
