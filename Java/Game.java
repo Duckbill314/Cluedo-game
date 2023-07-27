@@ -20,7 +20,7 @@ public class Game {
     Board board = new Board();
     //Game Associations
     private final List<Player> players;
-    private List<Player> cards;
+    private List<Card> cards;
 
     //------------------------
     // CONSTRUCTOR
@@ -240,7 +240,7 @@ public class Game {
      * private turnOrder currentTurn = turnOrder.Lucilla;
      * private int diceTotal = 0;
      * the number of move turns the player has left
-     * private Board mainBoard = new Board();
+     * private Board board = new Board();
      * <p>
      * Calls to, and initializes, fields and values that require generation upon a game's creation.
      * Finally, begin the game loop by calling gameManager().
@@ -254,7 +254,7 @@ public class Game {
             for(int j = 0;j<24;j++){
                 row.add(new Tile());
             }
-            mainBoard.add(row);
+            board.add(row);
         }
         //filling those tiles in the board with items
         try {
@@ -265,7 +265,7 @@ public class Game {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine(); 
                 for (char c : line.toCharArray()) {
-                    Tile currentTile = mainBoard.getTile(countX, countY);
+                    Tile currentTile = board.getTile(countX, countY);
                     switch(c){
                         case 'X' : currentTile.setStored(new Wall("Wall","X",countX,countY));
                             break;
