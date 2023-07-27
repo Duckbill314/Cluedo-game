@@ -354,6 +354,12 @@ public class Game {
             endGame();
         }
         scanner.close();
+        board.draw(); 
+        //draw the characters on the board
+        for(Player p : players){
+        Tile t = board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
+        t.setStored(p.getCharacter());
+        }
         // makeing the cards
         makeCards();    
         System.out.println();
