@@ -368,6 +368,8 @@ public class Game {
             System.out.println("murder card : "+c.getName()+" "+c.getType());
             }  
           }
+         gameManager();
+          endGame();
     }
 
 
@@ -425,7 +427,7 @@ public class Game {
             System.out.println("ROLLED "+dice2);
             diceTotal = dice1+dice2;
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } 
