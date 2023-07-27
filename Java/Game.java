@@ -288,6 +288,16 @@ public class Game {
             System.err.println("File not found: " + "board.txt");
             e.printStackTrace();
         }
+        //adding the estates
+        
+        board.addEstate(new Estate("Haunted House"));
+        board.addEstate(new Estate("Manic Manor"));
+        board.addEstate(new Estate("Visitation Villa"));
+        board.addEstate(new Estate("Calamity Castle"));
+        board.addEstate(new Estate("Peril Palace"));
+        
+        board.setEntrance();
+        
          System.out.println("Welcome to Hobby Detectives!");
         Scanner scanner = new Scanner(System.in);
 
