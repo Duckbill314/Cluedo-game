@@ -439,6 +439,47 @@ public class Game {
             typesPickedForMurder.add(cards.get(randomIndex).getType());
             }
           }
+        // list of remaining cards that are not the murder cards
+ List<Card> remainingCards = new ArrayList<>();
+          for(Card c : cards){
+             if(!c.getIsMurder()){
+              remainingCards.add(c);
+             }
+          }
+        //assigning those cards to players randomly
+         
+           while( !remainingCards.isEmpty() ){
+            List<Player> playerHolder = new ArrayList<>();
+            for(Player p : players){
+               playerHolder.add(p); 
+            }
+            while ( !playerHolder.isEmpty() ){
+               Random random = new Random();
+               int randomPlayer = random.nextInt(playerHolder.size());
+               
+               Player currentPlayer = playerHolder.get(randomPlayer);
+               playerHolder.remove(randomPlayer);
+               
+               if(remainingCards.size() == 0){
+               break; 
+               }
+               random = new Random();
+               int randomCard = random.nextInt(remainingCards.size());
+               
+               Card currentCard = remainingCards.get(randomCard);
+               remainingCards.remove(randomCard);
+               
+               currentPlayer.addCard(currentCard);
+               currentCard.setOwner(currentPlayer);
+            }   
+           }
+           
+           System.out.println();
+          for(Card c : cards){
+            if(!c.getIsMurder()){  
+            System.out.println(c.getName()+" "+c.getType()+" is owned by "+c.getOwner().getCharacter().getName());
+            }  
+          }
     }
 
 
