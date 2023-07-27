@@ -75,6 +75,7 @@ public class Estate
   {
     boolean wasAdded = false;
     wasAdded = entrancesToThisEstate.add(aEntrancesToThisEstate);
+    aEntrancesToThisEstate.setEstate(this);
     return wasAdded;
   }
 
