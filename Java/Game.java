@@ -15,10 +15,11 @@ public class Game {
     //------------------------
 
     public enum TurnOrder {Lucilla, Bert, Malina, Percy}
-
+  
     //------------------------
     // MEMBER VARIABLES
     //------------------------
+    private TurnOrder currentTurn = TurnOrder.Lucilla;
     Board board = new Board();
     //Game Associations
     private final List<Player> players =  = new ArrayList<>();
