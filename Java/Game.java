@@ -348,6 +348,12 @@ public class Game {
         scanner.close();
         // makeing the cards
         makeCards();    
+        System.out.println();
+          for(Card c : cards){
+            if(c.getIsMurder()){
+            System.out.println("murder card : "+c.getName()+" "+c.getType());
+            }  
+          }
     }
 
 
