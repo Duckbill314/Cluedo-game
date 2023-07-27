@@ -301,17 +301,17 @@ public class Board
    * 
    */
   // line 144 "model.ump"
-   public boolean isSafeMove(int x, int y){
+   public int isSafeMove(int x, int y){
     Tile target = getTile(x,y);
     if(target.getStored()==null){//means it's free spalce
-      return true;
+      return 1;
     }else if(target.getStored().getName().equals("Entrance")){//means it's entrance
        // target.getStored().setEstateName(target.);
-        return true;     
+        return 2;     
     }else if (target.getStored().getName().equals("Used")){//means player already used it
-      return false;
+      return 0;
     }
-    return false;
+    return 0;
   }
 
 
