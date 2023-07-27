@@ -45,18 +45,11 @@ public class Tile
   {}
 
   // line 214 "model.ump"
-   public void draw(){
+  public void draw(){
     if(stored == null){
-       System.out.print(??? ???);
+       System.out.print(" ");
        }else{
-       System.out.print(Item.getDisplayIcon());
+       System.out.print(stored.getDisplayIcon());
      }
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "stored" + "=" + (getStored() != null ? !getStored().equals(this)  ? getStored().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
