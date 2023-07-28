@@ -15,7 +15,7 @@ public class Game {
     //------------------------
 
     public enum TurnOrder {Lucilla, Bert, Malina, Percy}
-  
+
     //------------------------
     // MEMBER VARIABLES
     //------------------------
@@ -59,42 +59,29 @@ public class Game {
     public int indexOfPlayer(Player aPlayer) {
         return players.indexOf(aPlayer);
     }
-     
-        /* Code from template association_GetMany */
 
-    public Card getCard(int index)
+    /* Code from template association_GetMany */
 
-    {
-        Card aCard = cards.get(index);
-        return aCard;
-    } 
-
-    public List<Card> getCards()
-
-    {
-        List<Card> newCards = Collections.unmodifiableList(cards);
-        return newCards;
+    public Card getCard(int index) {
+        return cards.get(index);
     }
 
-    public int numberOfCards()
-    {
-        int number = cards.size();
-        return number;
+    public List<Card> getCards() {
+        return Collections.unmodifiableList(cards);
     }
 
-    public boolean hasCards()
-
-    {
-        boolean has = cards.size() > 0;
-        return has;
+    public int numberOfCards() {
+        return cards.size();
     }
 
-    public int indexOfCard(Card aCard)
-    {
-        int index = cards.indexOf(aCard);
-        return index;
+    public boolean hasCards() {
+        return cards.size() > 0;
     }
-    
+
+    public int indexOfCard(Card aCard) {
+        return cards.indexOf(aCard);
+    }
+
     /* Code from template association_MinimumNumberOfMethod */
     public static int minimumNumberOfPlayers = 0;
 
@@ -154,32 +141,26 @@ public class Game {
     }
     /* Code from template association_MinimumNumberOfMethod */
 
-    public static int minimumNumberOfCards()
-
-    {
+    public static int minimumNumberOfCards() {
         return 0;
     }
 
     /* Code from template association_AddUnidirectionalMany */
 
-    public boolean addCard(Card aCard)
-
-    {
+    public boolean addCard(Card aCard) {
         boolean wasAdded = false;
-        if (cards.contains(aCard)) { return false; }
+        if (cards.contains(aCard)) {
+            return false;
+        }
         cards.add(aCard);
         wasAdded = true;
         return wasAdded;
     }
 
 
-    public boolean removeCard(Card aCard)
-
-    {
+    public boolean removeCard(Card aCard) {
         boolean wasRemoved = false;
-        if (cards.contains(aCard))
-
-        {
+        if (cards.contains(aCard)) {
             cards.remove(aCard);
             wasRemoved = true;
         }
@@ -188,17 +169,17 @@ public class Game {
 
     /* Code from template association_AddIndexControlFunctions */
 
-    public boolean addCardAt(Card aCard, int index)
-
-    { 
+    public boolean addCardAt(Card aCard, int index) {
         boolean wasAdded = false;
-        if(addCard(aCard))
+        if (addCard(aCard)) {
 
-        {
+            if (index < 0) {
+                index = 0;
+            }
 
-            if(index < 0 ) { index = 0; }
-
-            if(index > numberOfCards()) { index = numberOfCards() - 1; }
+            if (index > numberOfCards()) {
+                index = numberOfCards() - 1;
+            }
 
             cards.remove(aCard);
 
@@ -211,23 +192,19 @@ public class Game {
     }
 
 
-    public boolean addOrMoveCardAt(Card aCard, int index)
-
-    {
+    public boolean addOrMoveCardAt(Card aCard, int index) {
         boolean wasAdded = false;
-        if(cards.contains(aCard))
-
-        {
-            if(index < 0 ) { index = 0; }
-            if(index > numberOfCards()) { index = numberOfCards() - 1; }
+        if (cards.contains(aCard)) {
+            if (index < 0) {
+                index = 0;
+            }
+            if (index > numberOfCards()) {
+                index = numberOfCards() - 1;
+            }
             cards.remove(aCard);
             cards.add(index, aCard);
             wasAdded = true;
-        }
-
-        else
-
-        {
+        } else {
             wasAdded = addCardAt(aCard, index);
         }
         return wasAdded;
@@ -252,10 +229,10 @@ public class Game {
      */
     // line 29 "model.ump"
     public void bootGame() {
-     //filling the board with empty tiles
-        for(int i = 0;i<24;i++){
+        //filling the board with empty tiles
+        for (int i = 0; i < 24; i++) {
             List<Tile> row = new ArrayList<>();
-            for(int j = 0;j<24;j++){
+            for (int j = 0; j < 24; j++) {
                 row.add(new Tile());
             }
             board.add(row);
@@ -267,20 +244,23 @@ public class Game {
             int countX = 0;
             int countY = 0;
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine(); 
+                String line = scanner.nextLine();
                 for (char c : line.toCharArray()) {
                     Tile currentTile = board.getTile(countX, countY);
-                    switch(c){
-                        case 'X' : currentTile.setStored(new Wall("Wall","X",countX,countY));
+                    switch (c) {
+                        case 'X':
+                            currentTile.setStored(new Wall("Wall", "X", countX, countY));
                             break;
-                        case 'G' : currentTile.setStored(new Wall("Grayspace","G",countX,countY));
+                        case 'G':
+                            currentTile.setStored(new Wall("Grayspace", "G", countX, countY));
                             break;
-                        case 'E' : currentTile.setStored(new Entrance("Entrance"," ",countX,countY));
+                        case 'E':
+                            currentTile.setStored(new Entrance("Entrance", " ", countX, countY));
                             break;
                     }
                     countX++;
                 }
-                countX=0;
+                countX = 0;
                 countY++;
             }
             scanner.close();
@@ -289,34 +269,34 @@ public class Game {
             e.printStackTrace();
         }
         //adding the estates
-        
+
         board.addEstate(new Estate("Haunted House"));
         board.addEstate(new Estate("Manic Manor"));
         board.addEstate(new Estate("Visitation Villa"));
         board.addEstate(new Estate("Calamity Castle"));
         board.addEstate(new Estate("Peril Palace"));
-        
+
         board.setEntrance();
-        
-         System.out.println("Welcome to Hobby Detectives!");
+
+        System.out.println("Welcome to Hobby Detectives!");
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Do you want to start the game? (yes/no): ");
         String startGameInput = scanner.nextLine();
-        System. out. print('\u000C');
+        System.out.print('\u000C');
         if (!startGameInput.equalsIgnoreCase("yes")) {
             System.out.println("Game aborted. Goodbye!");
             scanner.close();
             endGame();
-            }
-        
+        }
+
         //get the number of players
         int numPlayers = 0;
         while (numPlayers < 1) {
             System.out.print("Enter the number of players (1-4): ");
             try {
                 numPlayers = Integer.parseInt(scanner.nextLine());
-                System. out. print('\u000C');
+                System.out.print('\u000C');
                 if (numPlayers < 1 || numPlayers > 4) {
                     System.out.println("Invalid number of players. Please enter a number between 1 and 4.");
                     numPlayers = 0;
@@ -325,61 +305,61 @@ public class Game {
                 System.out.println("Invalid input. Please enter a number.");
             }
         }
-  
-      //get player names
+
+        //get player names
         List<String> names = new ArrayList<>();
         while (numPlayers != names.size()) {
-            System.out.print("Player "+(names.size()+1)+" please enter your name : ");
+            System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
             String name = scanner.nextLine();
-            System. out. print('\u000C');
-            if (name.length()>15) {       
+            System.out.print('\u000C');
+            if (name.length() > 15) {
                 System.out.println("Sorry, your name can't exceed 15 characters");
-            }else{
-            names.add(name);
+            } else {
+                names.add(name);
             }
         }
         // making the players
         System.out.println("Allocating roles for " + numPlayers + " players.");
         System.out.println();
-        
-        
+
+
         assignCharacters(names);
-        
-       String first = "";
-        for (Player p : players){
-        System.out.println(p.getName() + " will be playing as "+p.getCharacter().getName());
-        if(p.getCharacter().getName().equals("Lucilla")){
-        first = p.getName();
-        }
+
+        String first = "";
+        for (Player p : players) {
+            System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
+            if (p.getCharacter().getName().equals("Lucilla")) {
+                first = p.getName();
+            }
         }
         System.out.println();
-        System.out.println("Lucilla will be starting first, please pass the tablet to "+ first+".\n");
+        System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
         System.out.println("\nBegin the your first round? (yes/no): ");
         startGameInput = scanner.nextLine();
         System.out.print('\u000C');
-        
+
         if (!startGameInput.equalsIgnoreCase("yes")) {
             System.out.println("Game aborted. Goodbye!");
             scanner.close();
             endGame();
         }
         scanner.close();
-        board.draw(); 
+        board.draw();
         //draw the characters on the board
-        for(Player p : players){
-        Tile t = board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
-        t.setStored(p.getCharacter());
+        for (Player p : players) {
+            Tile t = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+            t.setStored(p.getCharacter());
         }
         // makeing the cards
-        makeCards();    
+        makeCards();
         System.out.println();
-          for(Card c : cards){
-            if(c.getIsMurder()){
-            System.out.println("murder card : "+c.getName()+" "+c.getType());
-            }  
-          }
-         gameManager();
-          endGame();
+        for (Card c : cards) {
+            if (c.getIsMurder()) {
+                System.out.println("murder card : " + c.getName() + " " + c.getType());
+            }
+        }
+        gameManager();
+        endGame();
     }
 
 
@@ -389,11 +369,11 @@ public class Game {
      */
     // line 45 "model.ump"
     private void gameManager() {
-          while(true){
+        while (true) {
             System.out.print('\u000C');
             board.draw();
             Scanner scanner = new Scanner(System.in);
-            while(true){
+            while (true) {
                 System.out.print('\u000C');
                 board.draw();
                 System.out.print("Waiting for player to role dice... (roll): ");
@@ -404,19 +384,19 @@ public class Game {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                    } 
+                    }
                     System.out.print(". ");
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                    } 
+                    }
                     System.out.print(". ");
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                    } 
+                    }
                     System.out.print(". ");
                     break;
                 }
@@ -427,22 +407,22 @@ public class Game {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            } 
-            System.out.println("\nROLLED "+dice1);
+            }
+            System.out.println("\nROLLED " + dice1);
             try {
                 Thread.sleep(600);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            } 
-            System.out.println("ROLLED "+dice2);
-            diceTotal = dice1+dice2;
+            }
+            System.out.println("ROLLED " + dice2);
+            diceTotal = dice1 + dice2;
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            } 
+            }
 
-              
+
             switch (currentTurn) {
                 case Lucilla:
                     takePlayerInput(players.get(0));
@@ -485,89 +465,89 @@ public class Game {
     // line 60 "model.ump"
     private void takePlayerInput(Player p) {
         boolean invalidInput = false;
-        while(diceTotal != 0){
-        System.out.print('\u000C');
-        board.draw();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("You have a total of "+diceTotal+" moves remaining. You are playing as "+p.getCharacter().getName()+" ("+p.getCharacter().getDisplayIcon()+").");
-        if(invalidInput){
-         System.out.println("Your input was not one of the four possible actions, please try again!");
-        invalidInput = false;
-        }
-        System.out.print("\nWhat direction will you move (left,right,up,down) : ");
-        String direction = scanner.nextLine();
-        // handling direction move
-               
-        switch(direction){
-        case "left" : 
-            if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())==1){
-              //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
-              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
-              
-              board.setTile(p.getCharacter().getX()-1, p.getCharacter().getY(), current);
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
-              p.getCharacter().setX(p.getCharacter().getX()-1);
-            }else if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())==0){
-            diceTotal++;
-            }else{//entered estate
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
-              Estate enteringEstate = board.checkEstate(p.getCharacter().getX()-1, p.getCharacter().getY());
-              enteringEstate.addPlayersInside(p.getCharacter());
-            } 
-        break;
-        case "right" :
-            if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())==1){
-              //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
-              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
-              
-              board.setTile(p.getCharacter().getX()+1, p.getCharacter().getY(), current);
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
-              p.getCharacter().setX(p.getCharacter().getX()+1);
-            }else if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())==0){
-            diceTotal++;
-            }else{//entered estate
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
-              Estate enteringEstate = board.checkEstate(p.getCharacter().getX()+1, p.getCharacter().getY());
-              enteringEstate.addPlayersInside(p.getCharacter());
-            } 
-        break;
-        case "down" :
-            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)==1){
-              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
-              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
-              
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()+1, current);
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
-              p.getCharacter().setY(p.getCharacter().getY()+1);
-            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)==0){
-            diceTotal++;
-            }else{//entered estate
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
-              Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY()+1);
-              enteringEstate.addPlayersInside(p.getCharacter());
-            } 
-        break;
-        case "up" :
-            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==1){
-              //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
-              Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
-              
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY()-1, current);
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
-              p.getCharacter().setY(p.getCharacter().getY()-1);
-            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
-            diceTotal++;
-            }else{//entered estate
-              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
-              Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY()-1);
-              enteringEstate.addPlayersInside(p.getCharacter());
-            } 
-        break;
-        default : 
-            invalidInput = true;
-            diceTotal++;
-        }
-        diceTotal--;
+        while (diceTotal != 0) {
+            System.out.print('\u000C');
+            board.draw();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("You have a total of " + diceTotal + " moves remaining. You are playing as " + p.getCharacter().getName() + " (" + p.getCharacter().getDisplayIcon() + ").");
+            if (invalidInput) {
+                System.out.println("Your input was not one of the four possible actions, please try again!");
+                invalidInput = false;
+            }
+            System.out.print("\nWhat direction will you move (left,right,up,down) : ");
+            String direction = scanner.nextLine();
+            // handling direction move
+
+            switch (direction) {
+                case "left":
+                    if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 1) {
+                        //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
+                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+
+                        board.setTile(p.getCharacter().getX() - 1, p.getCharacter().getY(), current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                        p.getCharacter().setX(p.getCharacter().getX() - 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 0) {
+                        diceTotal++;
+                    } else {//entered estate
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() - 1, p.getCharacter().getY());
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                    break;
+                case "right":
+                    if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 1) {
+                        //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
+                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+
+                        board.setTile(p.getCharacter().getX() + 1, p.getCharacter().getY(), current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                        p.getCharacter().setX(p.getCharacter().getX() + 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 0) {
+                        diceTotal++;
+                    } else {//entered estate
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() + 1, p.getCharacter().getY());
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                    break;
+                case "down":
+                    if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 1) {
+                        //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
+                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() + 1, current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                        p.getCharacter().setY(p.getCharacter().getY() + 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 0) {
+                        diceTotal++;
+                    } else {//entered estate
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() + 1);
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                    break;
+                case "up":
+                    if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 1) {
+                        //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
+                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() - 1, current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                        p.getCharacter().setY(p.getCharacter().getY() - 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 0) {
+                        diceTotal++;
+                    } else {//entered estate
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() - 1);
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                    break;
+                default:
+                    invalidInput = true;
+                    diceTotal++;
+            }
+            diceTotal--;
         }
     }
 
@@ -605,13 +585,13 @@ public class Game {
      */
     // line 80 "model.ump"
     private void makeCards() {
-           try {
+        try {
             File file = new File("cards.txt");
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext()) {
                 String cardName = scanner.nextLine();
                 String type = scanner.nextLine();
-                cards.add(new Card(false, null, cardName,type));
+                cards.add(new Card(false, null, cardName, type));
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -620,55 +600,55 @@ public class Game {
         }
         List<String> typesPickedForMurder = new ArrayList<>();
         System.out.println();
-          while( typesPickedForMurder.size()!=3 ){
+        while (typesPickedForMurder.size() != 3) {
             Random random = new Random();
             int randomIndex = random.nextInt(cards.size());
-            if(!typesPickedForMurder.contains(cards.get(randomIndex).getType())){
-            cards.get(randomIndex).setIsMurder(true);
-            typesPickedForMurder.add(cards.get(randomIndex).getType());
+            if (!typesPickedForMurder.contains(cards.get(randomIndex).getType())) {
+                cards.get(randomIndex).setIsMurder(true);
+                typesPickedForMurder.add(cards.get(randomIndex).getType());
             }
-          }
+        }
         // list of remaining cards that are not the murder cards
- List<Card> remainingCards = new ArrayList<>();
-          for(Card c : cards){
-             if(!c.getIsMurder()){
-              remainingCards.add(c);
-             }
-          }
-        //assigning those cards to players randomly
-         
-           while( !remainingCards.isEmpty() ){
-            List<Player> playerHolder = new ArrayList<>();
-            for(Player p : players){
-               playerHolder.add(p); 
+        List<Card> remainingCards = new ArrayList<>();
+        for (Card c : cards) {
+            if (!c.getIsMurder()) {
+                remainingCards.add(c);
             }
-            while ( !playerHolder.isEmpty() ){
-               Random random = new Random();
-               int randomPlayer = random.nextInt(playerHolder.size());
-               
-               Player currentPlayer = playerHolder.get(randomPlayer);
-               playerHolder.remove(randomPlayer);
-               
-               if(remainingCards.size() == 0){
-               break; 
-               }
-               random = new Random();
-               int randomCard = random.nextInt(remainingCards.size());
-               
-               Card currentCard = remainingCards.get(randomCard);
-               remainingCards.remove(randomCard);
-               
-               currentPlayer.addCard(currentCard);
-               currentCard.setOwner(currentPlayer);
-            }   
-           }
-           
-           System.out.println();
-          for(Card c : cards){
-            if(!c.getIsMurder()){  
-            System.out.println(c.getName()+" "+c.getType()+" is owned by "+c.getOwner().getCharacter().getName());
-            }  
-          }
+        }
+        //assigning those cards to players randomly
+
+        while (!remainingCards.isEmpty()) {
+            List<Player> playerHolder = new ArrayList<>();
+            for (Player p : players) {
+                playerHolder.add(p);
+            }
+            while (!playerHolder.isEmpty()) {
+                Random random = new Random();
+                int randomPlayer = random.nextInt(playerHolder.size());
+
+                Player currentPlayer = playerHolder.get(randomPlayer);
+                playerHolder.remove(randomPlayer);
+
+                if (remainingCards.size() == 0) {
+                    break;
+                }
+                random = new Random();
+                int randomCard = random.nextInt(remainingCards.size());
+
+                Card currentCard = remainingCards.get(randomCard);
+                remainingCards.remove(randomCard);
+
+                currentPlayer.addCard(currentCard);
+                currentCard.setOwner(currentPlayer);
+            }
+        }
+
+        System.out.println();
+        for (Card c : cards) {
+            if (!c.getIsMurder()) {
+                System.out.println(c.getName() + " " + c.getType() + " is owned by " + c.getOwner().getCharacter().getName());
+            }
+        }
     }
 
 
@@ -677,26 +657,27 @@ public class Game {
      */
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
-      switch (names.size()){
-            case 1 : 
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
+        switch (names.size()) {
+            case 1:
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
                 break;
-            case 2 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
+            case 2:
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
+                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
                 break;
-            case 3 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
-                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
+            case 3:
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
+                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
+                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(2), true));
                 break;
-            case 4 :
-                players.add(new Player(new Character("Lucilla","L",11,1),new Worksheet(),names.get(0),true));
-                players.add(new Player(new Character("Bert","B",1,9),new Worksheet(),names.get(1),true));
-                players.add(new Player(new Character("Malina","M",9,22),new Worksheet(),names.get(2),true));
-                players.add(new Player(new Character("Percy","P",22,11),new Worksheet(),names.get(3),true));
+            case 4:
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
+                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
+                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(2), true));
+                players.add(new Player(new Character("Percy", "P", 22, 11), new Worksheet(), names.get(3), true));
                 break;
-                default : System.out.println("Fail");
+            default:
+                System.out.println("Fail");
         }
     }
 
@@ -706,7 +687,7 @@ public class Game {
      */
     // line 90 "model.ump"
     private void endGame() {
-      new Game();
+        new Game();
     }
 
 
