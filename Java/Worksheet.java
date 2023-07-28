@@ -12,7 +12,9 @@ public class Worksheet
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+  
+  private List<Card> shownCards;
+  
   //Worksheet Associations
   private List<Card> cards;
 
@@ -23,6 +25,7 @@ public class Worksheet
   public Worksheet()
   {
     cards = new ArrayList<Card>();
+    shownCards = new ArrayList<Card>();
   }
 
   //------------------------
@@ -69,6 +72,15 @@ public class Worksheet
     boolean wasAdded = false;
     if (cards.contains(aCard)) { return false; }
     cards.add(aCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+  
+  public boolean addShownCard(Card aCard)
+  {
+    boolean wasAdded = false;
+    if (cards.contains(aCard)) { return false; }
+    shownCards.add(aCard);
     wasAdded = true;
     return wasAdded;
   }
@@ -121,7 +133,6 @@ public class Worksheet
     cards.clear();
   }
 
-
   /**
    * 
    * prints the worksheet
@@ -129,7 +140,22 @@ public class Worksheet
    */
   // line 235 "model.ump"
    public void printWorksheet(){
-    
+   System.out.println("\n/======MY CARDS======/");
+   System.out.println("My hand contains : \n");
+   for(Card c : cards) {
+    System.out.println(c.getType() +" Card '"+c.getName()+"'.");  
+   }
+   System.out.println("/===================/\n");  
+   System.out.println("/====SHOWN CARDS====/");
+   System.out.println("I have seen these cards : \n");
+   if(!shownCards.isEmpty()){
+   for(Card c : shownCards) {
+    System.out.println(c.getType() +" Card '"+c.getName()+"'. ");  
+   }
+   }else{
+   System.out.println("I have not been shown any cards yet."); 
+   }
+   System.out.println("/===================/\n");  
   }
 
 }
