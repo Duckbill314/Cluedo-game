@@ -347,7 +347,13 @@ public class Board
    */
   // line 161 "model.ump"
    public Estate checkEstate(int x, int y){
-    return null; //should pass the input coordinates to Estate to check
+    rTile t = board.get(x).get(y);
+    for(Estate e : estates){
+    if(e.getItemsToThisEstate().contains(t.getStored())){
+      return e;   
+    }
+    }
+    return null;
   }
 
 }
