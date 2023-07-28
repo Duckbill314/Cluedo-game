@@ -662,10 +662,9 @@ public class Game {
             }
         }
 
-        System.out.println();
-        for (Card c : cards) {
-            if (!c.getIsMurder()) {
-                System.out.println(c.getName() + " " + c.getType() + " is owned by " + c.getOwner().getCharacter().getName());
+       for(Player p : players){
+            for(Card c : p.getCards()){
+                p.getWorksheet().addCard(c);
             }
         }
     }
