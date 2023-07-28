@@ -156,10 +156,9 @@ public class Estate
     return aItemsToThisEstate;
   }
 
-  public Item[] getItemsToThisEstate()
+ public List<Item> getItemsToThisEstate()
   {
-    Item[] newItemsToThisEstate = itemsToThisEstate.toArray(new Item[itemsToThisEstate.size()]);
-    return newItemsToThisEstate;
+    return itemsToThisEstate;
   }
 
   public int numberOfItemsToThisEstate()
