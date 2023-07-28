@@ -277,40 +277,59 @@ public class Game {
         board.addEstate(new Estate("Peril Palace"));
 
         board.setEntrance();
-
+        System.out.print('\u000C');
         System.out.println("Welcome to Hobby Detectives!");
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Do you want to start the game? (yes/no): ");
+        System.out.println("Do you want to start the game?");
+        System.out.println();
+        
+        System.out.println("Enter 1 for yes.");
+        System.out.println("Enter 2 for no.");
+
+        
         String startGameInput = scanner.nextLine();
         System.out.print('\u000C');
-        if (!startGameInput.equalsIgnoreCase("yes")) {
+        if (!startGameInput.equalsIgnoreCase("1")) {
             System.out.println("Game aborted. Goodbye!");
             scanner.close();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
             endGame();
         }
-
+        
         //get the number of players
         int numPlayers = 0;
-        while (numPlayers < 1) {
-            System.out.print("Enter the number of players (1-4): ");
-            try {
-                numPlayers = Integer.parseInt(scanner.nextLine());
-                System.out.print('\u000C');
-                if (numPlayers < 1 || numPlayers > 4) {
-                    System.out.println("Invalid number of players. Please enter a number between 1 and 4.");
-                    numPlayers = 0;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+        
+            System.out.print("Please select the number of players.\n");System.out.println();  
+            System.out.println("Enter 1 to play with three players and a bot.");
+            System.out.println("Enter 2 to play with four players.");
+            startGameInput = scanner.nextLine();
+            if (!startGameInput.equalsIgnoreCase("1")) {
+                  numPlayers = 4;
+            }else{
+                  numPlayers = 3;
             }
-        }
-
+            
         //get player names
+        System.out.print('\u000C');
         List<String> names = new ArrayList<>();
         while (numPlayers != names.size()) {
+            System.out.println("Setting up game.\n");
+            for(String n : names){
+              System.out.println(n);
+            }
+            System.out.println();
             System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
             String name = scanner.nextLine();
+             try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
             System.out.print('\u000C');
             if (name.length() > 15) {
                 System.out.println("Sorry, your name can't exceed 15 characters");
