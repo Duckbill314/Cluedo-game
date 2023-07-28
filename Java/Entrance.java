@@ -27,7 +27,6 @@ public class Entrance extends Item
   
   public void setEstate(Estate e){
    estate = e;
-   estate.addEntrancesToThisEstate(this);
   }
 
   //------------------------
