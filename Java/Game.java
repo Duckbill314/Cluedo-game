@@ -500,44 +500,68 @@ public class Game {
                
         switch(direction){
         case "left" : 
-            if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())){
+            if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())==1){
               //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
               Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
               
               board.setTile(p.getCharacter().getX()-1, p.getCharacter().getY(), current);
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
               p.getCharacter().setX(p.getCharacter().getX()-1);
-            }
+            }else if(board.isSafeMove(p.getCharacter().getX()-1,p.getCharacter().getY())==0){
+            diceTotal++;
+            }else{//entered estate
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+              Estate enteringEstate = board.checkEstate(p.getCharacter().getX()-1, p.getCharacter().getY());
+              enteringEstate.addPlayersInside(p.getCharacter());
+            } 
         break;
         case "right" :
-            if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())){
+            if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())==1){
               //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
               Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
               
               board.setTile(p.getCharacter().getX()+1, p.getCharacter().getY(), current);
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
               p.getCharacter().setX(p.getCharacter().getX()+1);
-            }
+            }else if(board.isSafeMove(p.getCharacter().getX()+1,p.getCharacter().getY())==0){
+            diceTotal++;
+            }else{//entered estate
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+              Estate enteringEstate = board.checkEstate(p.getCharacter().getX()+1, p.getCharacter().getY());
+              enteringEstate.addPlayersInside(p.getCharacter());
+            } 
         break;
         case "down" :
-            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)){
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)==1){
               //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
               Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
               
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY()+1, current);
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
               p.getCharacter().setY(p.getCharacter().getY()+1);
-            }
+            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()+1)==0){
+            diceTotal++;
+            }else{//entered estate
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+              Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY()+1);
+              enteringEstate.addPlayersInside(p.getCharacter());
+            } 
         break;
         case "up" :
-            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)){
+            if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==1){
               //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
               Tile current =  board.getTile(p.getCharacter().getX(),p.getCharacter().getY());
               
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY()-1, current);
               board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
               p.getCharacter().setY(p.getCharacter().getY()-1);
-            }
+            }else if(board.isSafeMove(p.getCharacter().getX(),p.getCharacter().getY()-1)==0){
+            diceTotal++;
+            }else{//entered estate
+              board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+              Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY()-1);
+              enteringEstate.addPlayersInside(p.getCharacter());
+            } 
         break;
         default : 
             invalidInput = true;
