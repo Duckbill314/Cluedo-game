@@ -406,7 +406,7 @@ Player turn = players.get(0);
         Scanner scanner = new Scanner(System.in);
         while (true) {
            boolean diceRolled = false; 
-            while(diceTotal != 0 || !diceRolled){
+            while(diceRolled&&!input.equals("2")){
             System.out.print('\u000C');
             board.draw();
             //work sheet print
