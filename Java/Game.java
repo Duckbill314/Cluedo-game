@@ -705,6 +705,7 @@ Player turn = players.get(0);
 
         while(!characterSelected){
             System.out.print('\u000C');
+            System.out.println("WARNING, by guessing you forfit any remaning moves you have. Your round will end once you guess.\n");
             System.out.println("Estate : "+p.getCharacter().getEstate().getName());
             System.out.println("\nSelect a Character to guess.\n");
 
