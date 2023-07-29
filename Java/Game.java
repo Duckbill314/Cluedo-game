@@ -802,6 +802,7 @@ Player turn = players.get(0);
                                 while(!input.equals("1")){
                                     System.out.print('\u000C');
                                     System.out.println(players.get(playerId).getName()+" revealed the "+cardName+" card was in their hand.\n");
+                                    p.getWorksheet().addShownCard(c);
                                      System.out.println("Please pass the tablet back to "+p.getName());
                                      System.out.println("\nEnter 1 to continue.");
                                     input = scanner.nextLine();  
