@@ -15,6 +15,7 @@ public class Board
   
   private final int ROWS = 24;
   private final int COLS = 24;
+  private String BORDER = "|";
   
   //Board Associations
   private List<Item> items;
@@ -230,10 +231,10 @@ public class Board
     // draws the Board including the players and items
      for (int row = 0; row < ROWS; row++) {
         for (int col = 0; col < COLS; col++) {
-            System.out.print("|");
+            System.out.print(BORDER);
             board.get(col).get(row).draw();
         }
-        System.out.println("|");
+        System.out.println(BORDER);
     }
   }
 
@@ -245,7 +246,7 @@ public class Board
    */
   // line 134 "model.ump"
    public void gridOff(){
-    
+    BORDER = " ";
   }
   /**
    * adder
@@ -291,7 +292,11 @@ public class Board
    */
   // line 139 "model.ump"
    public void gridOn(){
-    
+    if(BORDER.equals("|")){
+       gridOff();
+       }else{
+       BORDER = "|";
+       }
   }
 
 
