@@ -483,22 +483,31 @@ public class Game {
      */
     // line 60 "model.ump"
     private void takePlayerInput(Player p) {
-        boolean invalidInput = false;
-        while (diceTotal != 0) {
+     boolean invalidInput = false;
+        String direction = "";
+        while (diceTotal != 0 && !direction.equals("5")) {
             System.out.print('\u000C');
             board.draw();
+            p.getWorksheet().printWorksheet();
+            displayLocations();
             Scanner scanner = new Scanner(System.in);
-            System.out.println("You have a total of " + diceTotal + " moves remaining. You are playing as " + p.getCharacter().getName() + " (" + p.getCharacter().getDisplayIcon() + ").");
+            System.out.println("You have " + diceTotal + " moves remaining. You are playing as " + p.getCharacter().getName() + " (" + p.getCharacter().getDisplayIcon() + ").\n");
+            System.out.println("What direction will you move?\n");
+            
+            System.out.println("Enter 1 to move left.");
+            System.out.println("Enter 2 to move right.");
+            System.out.println("Enter 3 to move down.");
+            System.out.println("Enter 4 to move up.\n");
+            System.out.println("Enter 5 to return to the previous menu.");
             if (invalidInput) {
-                System.out.println("Your input was not one of the four possible actions, please try again!");
-                invalidInput = false;
+                System.out.println("\nYour input was not one of the possible actions, please try again!");
+                invalidInput = false; // confusing, but it's resetting invalidInput. When the input was made invalidInput was set to true, so it needs to be reset
             }
-            System.out.print("\nWhat direction will you move (left,right,up,down) : ");
-            String direction = scanner.nextLine();
+            direction = scanner.nextLine();            
             // handling direction move
 
             switch (direction) {
-                case "left":
+                case "1"://left
                     if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 1) {
                         //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
                         Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
@@ -514,7 +523,7 @@ public class Game {
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
                     break;
-                case "right":
+                case "2"://right
                     if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 1) {
                         //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
                         Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
@@ -530,7 +539,7 @@ public class Game {
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
                     break;
-                case "down":
+                case "3"://down
                     if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 1) {
                         //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
                         Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
@@ -546,7 +555,7 @@ public class Game {
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
                     break;
-                case "up":
+                case "4"://up
                     if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 1) {
                         //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
                         Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
@@ -561,7 +570,7 @@ public class Game {
                         Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() - 1);
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
-                    break;
+                    break;               
                 default:
                     invalidInput = true;
                     diceTotal++;
