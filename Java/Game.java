@@ -492,10 +492,10 @@ Player turn = players.get(0);
            
            input = scanner.nextLine();
             
-           if(input.equals("1")){
+           if(input.equals("1")&&turn.getCharacter().getEstate()!=null){
             guess(turn);
            }
-           if(input.equals("2")){
+           if(input.equals("2")&&turn.getCharacter().getEstate()!=null){
             int i = solve(turn);
                         if (i == 1){
                             System.out.print('\u000C');
@@ -705,7 +705,7 @@ Player turn = players.get(0);
 
         while(!characterSelected){
             System.out.print('\u000C');
-            System.out.println("WARNING, by guessing you forfit any remaning moves you have. Your round will end once you guess.\n");
+            System.out.println("WARNING, by guessing you forfit any remaning moves you have. Your turn will end once you guess.\n");
             System.out.println("Estate : "+p.getCharacter().getEstate().getName());
             System.out.println("\nSelect a Character to guess.\n");
 
