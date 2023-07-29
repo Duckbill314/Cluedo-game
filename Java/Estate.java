@@ -47,6 +47,7 @@ public class Estate
   {
     boolean wasAdded = false;
     wasAdded = playersInside.add(aPlayersInside);
+     aPlayersInside.setEstate(this);
     return wasAdded;
   }
 
