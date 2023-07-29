@@ -388,16 +388,43 @@ public class Game {
      */
     // line 45 "model.ump"
     private void gameManager() {
+Player turn = players.get(0);
+        String input = "0";
+        Scanner scanner = new Scanner(System.in);
         while (true) {
+           boolean diceRolled = false; 
+            while(diceTotal != 0 || !diceRolled){
             System.out.print('\u000C');
             board.draw();
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                System.out.print('\u000C');
-                board.draw();
-                System.out.print("Waiting for player to role dice... (roll): ");
-                String input = scanner.nextLine();
-                if (input.equalsIgnoreCase("roll")) {
+            //work sheet print
+            turn.getWorksheet().printWorksheet();
+            displayLocations();
+            
+           //normal movement or action
+           if(input.equals("1")&&diceRolled || input.equals("0")&&diceRolled){
+            
+            System.out.println("You have "+diceTotal+" moves remaining!");
+            System.out.println("Do you want to move your character or do an action?");
+            System.out.println();
+        
+           System.out.println("Enter 1 to open the movement menu");
+           System.out.println("Enter 2 to do an action.");
+           
+           input = scanner.nextLine();
+           if(input.equals("1")){
+            takePlayerInput(turn);   
+            input = "0";
+           }
+           if(!input.equals("0")){
+            System.out.print('\u000C');
+            board.draw();
+            //work sheet print
+            turn.getWorksheet().printWorksheet();
+            displayLocations();
+           }
+           }
+            
+           if(input.equals("1")&&!diceRolled){//roll dice since dice has not been roled yet
                     System.out.println("Rolling ");
                     try {
                         Thread.sleep(300);
@@ -417,9 +444,6 @@ public class Game {
                         Thread.currentThread().interrupt();
                     }
                     System.out.print(". ");
-                    break;
-                }
-            }
             int dice1 = rollDice();
             int dice2 = rollDice();
             try {
@@ -440,26 +464,83 @@ public class Game {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            diceRolled = true;
+           } 
+           
+           if(input.equals("2")){//open action menu
 
-
+           System.out.println("What action do you want to do?");
+           System.out.println();
+        
+           System.out.println("Enter 1 to make a guess.");
+           System.out.println("Enter 2 to make a solve attempt.");
+           System.out.println("Enter 3 to toggle grid on / grid off.");
+           System.out.println("Enter 4 to return to the previous menu.");
+           
+           input = scanner.nextLine();
+            
+           if(input.equals("1")){
+            guess(turn);
+           }
+           if(input.equals("2")){
+            solve(turn);
+           }
+           if(input.equals("3")){
+            board.gridOn();
+           }
+           if(input.equals("4")){
+            input = "0";
+           }else{
+            input = "2"; 
+           }
+           
+           }else if(!diceRolled){//default role dice or action assuming dice have not been rolled yet
+           System.out.println("Do you want to roll your dice or do an action?");
+           System.out.println();
+        
+           System.out.println("Enter 1 to roll your dice.");
+           System.out.println("Enter 2 to do an action.");
+           
+           input = scanner.nextLine();
+           }
+    
+           }
+           
             switch (currentTurn) {
                 case Lucilla:
-                    takePlayerInput(players.get(0));
+                   
                     currentTurn = TurnOrder.Bert;
+                    turn = players.get(1);
                     break;
                 case Bert:
-                    takePlayerInput(players.get(1));
+                  
+                   
                     currentTurn = TurnOrder.Malina;
+                    turn = players.get(2);
                     break;
                 case Malina:
-                    takePlayerInput(players.get(2));
+                  
+                   
                     currentTurn = TurnOrder.Percy;
+                    turn = players.get(3);
                     break;
                 case Percy:
-                    takePlayerInput(players.get(3));
+                   
+                    
                     currentTurn = TurnOrder.Lucilla;
+                    turn = players.get(0);
                     break;
-            }
+            }  
+            
+            while(!input.equals("1")){
+                System.out.print('\u000C');
+                board.draw();
+                System.out.println("Turn is over! It is now "+ turn.getName()+"'s turn.\n");
+                System.out.println("Begin "+turn.getName()+"'s turn?\n");
+                System.out.println("Enter 1 for yes.");
+                input = scanner.nextLine();
+                }
+            input = "0";       
         }
     }
 
