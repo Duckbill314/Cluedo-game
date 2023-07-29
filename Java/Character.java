@@ -13,7 +13,7 @@ public class Character extends Item
   //------------------------
 
   //Character Attributes
-  private String estateName;
+  private Estate estate;
 
   //------------------------
   // CONSTRUCTOR
@@ -22,17 +22,17 @@ public class Character extends Item
   public Character(String aName, String aDisplayIcon, int aX, int aY)
   {
     super(aName, aDisplayIcon, aX, aY);
-    estateName = null;
+    estate = null;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setEstateName(String aEstateName)
+  public boolean setEstate(String aEstate)
   {
     boolean wasSet = false;
-    estateName = aEstateName;
+    estate = aEstate;
     wasSet = true;
     return wasSet;
   }
@@ -40,20 +40,13 @@ public class Character extends Item
   /**
    * name of the estate the  Character is in, null for not in estate
    */
-  public String getEstateName()
+  public String getEstate()
   {
-    return estateName;
+    return estate;
   }
 
   public void delete()
   {
     super.delete();
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "estateName" + ":" + getEstateName()+ "]";
   }
 }
