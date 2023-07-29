@@ -680,7 +680,7 @@ Player turn = players.get(0);
      */
     // line 66 "model.ump"
     private int guess(Player p) {
-        //guess UI
+     //guess UI
 
         String input = "";
         boolean characterSelected = false;
@@ -688,104 +688,128 @@ Player turn = players.get(0);
         String character = "";
         String weapon = "";
         Scanner scanner = new Scanner(System.in);
-        
-            while(!characterSelected){
-                System.out.print('\u000C');
-                System.out.println("Estate : "+p.getCharacter().getEstate().getName());
-                System.out.println("\nSelect a Character to guess.\n");
 
-                System.out.println("Enter 1 to select Lucilla."); 
-                System.out.println("Enter 2 to select Bert.");  
-                System.out.println("Enter 3 to select Malina.");  
-                System.out.println("Enter 4 to select Percy."); 
+        while(!characterSelected){
+            System.out.print('\u000C');
+            System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+            System.out.println("\nSelect a Character to guess.\n");
 
-                System.out.println("\nEnter 5 to cancel this guess."); 
-                input = scanner.nextLine();  
+            System.out.println("Enter 1 to select Lucilla."); 
+            System.out.println("Enter 2 to select Bert.");  
+            System.out.println("Enter 3 to select Malina.");  
+            System.out.println("Enter 4 to select Percy."); 
 
-                switch(input){
-                    case "1": character = "Lucilla";
-                        break;
-                    case "2": character = "Bert";
-                        break;
-                    case "3": character = "Malina";
-                        break;
-                    case "4": character = "Percy";
-                        break;
-                    case "5": return 2;        
-                }
-                if(!character.equals("")){
-                    characterSelected = true;
-                }
+            System.out.println("\nEnter 5 to cancel this guess."); 
+            input = scanner.nextLine();  
+
+            switch(input){
+                case "1": character = "Lucilla";
+                    break;
+                case "2": character = "Bert";
+                    break;
+                case "3": character = "Malina";
+                    break;
+                case "4": character = "Percy";
+                    break;
+                case "5": return 2;        
             }
-            while(!weaponSelected){
-                System.out.print('\u000C');
-                System.out.println("Estate : "+p.getCharacter().getEstate().getName());
-                System.out.println("Character : "+character);
-                System.out.println("\nSelect a Weapon to guess.\n");
-
-                System.out.println("Enter 1 to select Broom."); 
-                System.out.println("Enter 2 to select Scissors.");  
-                System.out.println("Enter 3 to select Knife.");  
-                System.out.println("Enter 4 to select Shovel."); 
-                System.out.println("Enter 5 to select iPad."); 
-
-                System.out.println("\nEnter 6 to cancel this guess."); 
-                input = scanner.nextLine();  
-
-                switch(input){
-                    case "1": weapon = "Broom";
-                        break;
-                    case "2": weapon = "Scissors";
-                        break;
-                    case "3": weapon = "Knife";
-                        break;
-                    case "4": weapon = "Shovel";
-                        break;
-                    case "5": weapon = "iPad";
-                        break;
-                    case "6": return 2;
-                }
-                if(!weapon.equals("")){
-                    weaponSelected = true;
-                }
+            if(!character.equals("")){
+                characterSelected = true;
             }
-            input = "0";
-            while(!input.equals("1")||!input.equals("2")){
-             System.out.print('\u000C');
-             System.out.println("Estate : "+p.getCharacter().getEstate().getName());
-             System.out.println("Character : "+character);
-             System.out.println("Weapon : "+weapon);
-             System.out.println("\nGuess : "+character+" commited the murder in the "+p.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
-             System.out.println("place guess?\n");  
+        }
+        while(!weaponSelected){
+            System.out.print('\u000C');
+            System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+            System.out.println("Character : "+character);
+            System.out.println("\nSelect a Weapon to guess.\n");
+
+            System.out.println("Enter 1 to select Broom."); 
+            System.out.println("Enter 2 to select Scissors.");  
+            System.out.println("Enter 3 to select Knife.");  
+            System.out.println("Enter 4 to select Shovel."); 
+            System.out.println("Enter 5 to select iPad."); 
+
+            System.out.println("\nEnter 6 to cancel this guess."); 
+            input = scanner.nextLine();  
+
+            switch(input){
+                case "1": weapon = "Broom";
+                    break;
+                case "2": weapon = "Scissors";
+                    break;
+                case "3": weapon = "Knife";
+                    break;
+                case "4": weapon = "Shovel";
+                    break;
+                case "5": weapon = "iPad";
+                    break;
+                case "6": return 2;
+            }
+            if(!weapon.equals("")){
+                weaponSelected = true;
+            }
+        }
+        input = "0";
+        while(!input.equals("1")||!input.equals("2")){
+            System.out.print('\u000C');
+            System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+            System.out.println("Character : "+character);
+            System.out.println("Weapon : "+weapon);
+            System.out.println("\nGuess : "+character+" commited the murder in the "+p.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
+            System.out.println("place guess?\n");  
             System.out.println("Enter 1 for yes.");
             System.out.println("Enter 2 to cancel this guess.");
             input = scanner.nextLine();
             switch(input){
-                    case "1": 
-                        // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
-                        int turn = 0;
-                        for(int i = 0; i<players.size();i++){
-                           if(players.get(i).equals(p)){
-                             turn = i;
+                case "1": 
+                    // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
+                    int turn = 0;
+                    input = "0";
+                    boolean gotMatch = false;
+                    String cardName = "";
+                    for(int i = 0; i<players.size();i++){
+                        if(players.get(i).getCharacter().getName().equals(p.getCharacter().getName())){
+                            turn = i;
+                        }
+                    }
+                    // then we need to pass this guess onto the refute method for the next 3 players
+                    // but only if the next player actually has a card in the guess
+                    for(int i = 0; i<3; i++){
+                        int playerId = i+turn+1;   
+                        if(playerId > 3){
+                            playerId = playerId-4;
+                        }
+
+                        for(Card c : players.get(playerId).getCards()){                     
+                            if(c.getName().equals(weapon)||c.getName().equals(character)||c.getName().equals(p.getCharacter().getEstate().getName())){                                                                  
+                                cardName = refute(players.get(playerId),p,character,weapon);
+                                input = "0";
+                                while(!input.equals("1")){
+                                    System.out.print('\u000C');
+                                    System.out.println(players.get(playerId).getName()+" revealed the "+cardName+" card was in their hand.\n");
+                                     System.out.println("Please pass the tablet back to "+p.getName());
+                                     System.out.println("\nEnter 1 to continue.");
+                                    input = scanner.nextLine();  
+                                }
+                                return 1;
                             }
                         }
-                        // then we need to pass this guess onto the refute method for the next 3 players
-                        
-                        for(int i = 0; i<3; i++){
-                         int playerId = i+turn;   
-                         if(playerId > 3){
-                         playerId = playerId-4;
-                         }
-                         refute(players.get(playerId),character,weapon);
-                        }
-                        
-                        
-                    
-                        break;
-                    case "2": return 2;
+                              
+                    }
+                    System.out.print('\u000C');
+                        input = "0";
+                        while(!input.equals("1")){
+                                    System.out.print('\u000C');
+                                    System.out.println("No other player is holding any of those cards.");
+                                     System.out.println("\nEnter 1 to continue.");
+                                    input = scanner.nextLine();  
+                        }  
+                    return 0;
+                case "2": 
+                    return 2;
             }
-           }
-            return 0;
+        }
+        return 0;
     }
 
 
