@@ -501,7 +501,7 @@ Player turn = players.get(0);
                             System.out.print('\u000C');
                             System.out.println(turn.getName()+" guessed correctly!");
                             System.out.println(turn.getName()+" Wins the game!");
-                            System.out.println(turn.getName()+"\ngame will restart in 30 seconds");
+                            System.out.println("\ngame will restart in 30 seconds");
                             try {
                                 Thread.sleep(30000);
                             } catch (InterruptedException e) {
@@ -777,6 +777,32 @@ Player turn = players.get(0);
             input = scanner.nextLine();
             switch(input){
                 case "1": 
+                    // if win (only works on final guesses)
+                    boolean win = true;
+                    for(Card c: cards){
+                    if(c.getIsMurder()){
+                      switch(c.getType()){
+                      case "estate":  
+                          if(!c.getName().equals(p.getCharacter().getEstate().getName())){
+                            win = false;
+                          }
+                          break;
+                      case "character": 
+                          if(!c.getName().equals(character)){
+                            win = false;
+                          }
+                           break;
+                      case "weapon": 
+                          if(!c.getName().equals(weapon)){
+                            win = false;
+                          }
+                           break;
+                      }
+                    }
+                    }
+                    if(win){
+                    return 1;
+                    }
                     // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
                     int turn = 0;
                     input = "0";
