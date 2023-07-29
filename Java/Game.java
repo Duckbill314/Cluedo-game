@@ -338,12 +338,12 @@ public class Game {
             }
         }
         // making the players
+        assignCharacters(names);
+        while(true){
         System.out.println("Allocating roles for " + numPlayers + " players.");
         System.out.println();
 
-
-        assignCharacters(names);
-
+        
         String first = "";
         for (Player p : players) {
             System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
@@ -353,14 +353,16 @@ public class Game {
         }
         System.out.println();
         System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
-        System.out.println("\nBegin the your first round? (yes/no): ");
-        startGameInput = scanner.nextLine();
-        System.out.print('\u000C');
+        System.out.println("\nBegin the your first round?");
+        System.out.println();
+        
+        System.out.println("Enter 1 for yes.");
 
-        if (!startGameInput.equalsIgnoreCase("yes")) {
-            System.out.println("Game aborted. Goodbye!");
-            scanner.close();
-            endGame();
+        String input = scanner.nextLine();
+        if(input.equals("1")){
+        break;
+        }
+        System.out.print('\u000C');
         }
         scanner.close();
         board.draw();
