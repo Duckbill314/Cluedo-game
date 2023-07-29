@@ -381,7 +381,18 @@ public class Game {
         endGame();
     }
 
-
+    public void displayLocations(){
+     //locational infomation
+            System.out.println("Locational data : \n");
+            for(Player p : players){
+              String s = " is on the main board,";
+              if(p.getCharacter().getEstate()!=null){
+              s = " is in "+p.getCharacter().getEstate().getName()+",";
+              }
+              System.out.print(p.getCharacter().getName()+s);
+            }
+            System.out.println("\n");
+    }   
     /**
      * Contains the primary gameLoop mechanics. Fails and returns 0 if error is detected, 1 if the game concludes successfully
      * Is the central hub for method calling and contains the main loop.
