@@ -29,7 +29,7 @@ public class Character extends Item
   // INTERFACE
   //------------------------
 
-  public boolean setEstate(String aEstate)
+  public boolean setEstate(Estate aEstate)
   {
     boolean wasSet = false;
     estate = aEstate;
@@ -40,7 +40,7 @@ public class Character extends Item
   /**
    * name of the estate the  Character is in, null for not in estate
    */
-  public String getEstate()
+  public Estate getEstate()
   {
     return estate;
   }
