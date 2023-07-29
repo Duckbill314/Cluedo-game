@@ -680,7 +680,112 @@ Player turn = players.get(0);
      */
     // line 66 "model.ump"
     private int guess(Player p) {
-        return 0;
+        //guess UI
+
+        String input = "";
+        boolean characterSelected = false;
+        boolean weaponSelected = false;
+        String character = "";
+        String weapon = "";
+        Scanner scanner = new Scanner(System.in);
+        
+            while(!characterSelected){
+                System.out.print('\u000C');
+                System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+                System.out.println("\nSelect a Character to guess.\n");
+
+                System.out.println("Enter 1 to select Lucilla."); 
+                System.out.println("Enter 2 to select Bert.");  
+                System.out.println("Enter 3 to select Malina.");  
+                System.out.println("Enter 4 to select Percy."); 
+
+                System.out.println("\nEnter 5 to cancel this guess."); 
+                input = scanner.nextLine();  
+
+                switch(input){
+                    case "1": character = "Lucilla";
+                        break;
+                    case "2": character = "Bert";
+                        break;
+                    case "3": character = "Malina";
+                        break;
+                    case "4": character = "Percy";
+                        break;
+                    case "5": return 2;        
+                }
+                if(!character.equals("")){
+                    characterSelected = true;
+                }
+            }
+            while(!weaponSelected){
+                System.out.print('\u000C');
+                System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+                System.out.println("Character : "+character);
+                System.out.println("\nSelect a Weapon to guess.\n");
+
+                System.out.println("Enter 1 to select Broom."); 
+                System.out.println("Enter 2 to select Scissors.");  
+                System.out.println("Enter 3 to select Knife.");  
+                System.out.println("Enter 4 to select Shovel."); 
+                System.out.println("Enter 5 to select iPad."); 
+
+                System.out.println("\nEnter 6 to cancel this guess."); 
+                input = scanner.nextLine();  
+
+                switch(input){
+                    case "1": weapon = "Broom";
+                        break;
+                    case "2": weapon = "Scissors";
+                        break;
+                    case "3": weapon = "Knife";
+                        break;
+                    case "4": weapon = "Shovel";
+                        break;
+                    case "5": weapon = "iPad";
+                        break;
+                    case "6": return 2;
+                }
+                if(!weapon.equals("")){
+                    weaponSelected = true;
+                }
+            }
+            input = "0";
+            while(!input.equals("1")||!input.equals("2")){
+             System.out.print('\u000C');
+             System.out.println("Estate : "+p.getCharacter().getEstate().getName());
+             System.out.println("Character : "+character);
+             System.out.println("Weapon : "+weapon);
+             System.out.println("\nGuess : "+character+" commited the murder in the "+p.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
+             System.out.println("place guess?\n");  
+            System.out.println("Enter 1 for yes.");
+            System.out.println("Enter 2 to cancel this guess.");
+            input = scanner.nextLine();
+            switch(input){
+                    case "1": 
+                        // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
+                        int turn = 0;
+                        for(int i = 0; i<players.size();i++){
+                           if(players.get(i).equals(p)){
+                             turn = i;
+                            }
+                        }
+                        // then we need to pass this guess onto the refute method for the next 3 players
+                        
+                        for(int i = 0; i<3; i++){
+                         int playerId = i+turn;   
+                         if(playerId > 3){
+                         playerId = playerId-4;
+                         }
+                         refute(players.get(playerId),character,weapon);
+                        }
+                        
+                        
+                    
+                        break;
+                    case "2": return 2;
+            }
+           }
+            return 0;
     }
 
 
