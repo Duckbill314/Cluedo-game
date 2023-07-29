@@ -793,8 +793,42 @@ Player turn = players.get(0);
      * placeholder for refute method
      */
     // line 70 "model.ump"
-    private int refute(Player p) {
-        return 0;
+private String refute(Player p,Player guesser,String character,String weapon) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "0";
+
+        while(!input.equals("1")){
+            System.out.print('\u000C');
+            System.out.println(p.getName()+" has called a guess!\n");
+            //System.out.println("The guess was : "+character+" commited the murder in the "+p.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
+            System.out.println("Pass the tablet to "+p.getName()+ " so they can refute\n");
+            System.out.println("Enter 1 to start your refute.");
+            input = scanner.nextLine();
+        }
+        input = "0";
+        System.out.print('\u000C');
+        p.getWorksheet().printWorksheet();
+        System.out.println("The guess was : "+character+" commited the murder in the "+guesser.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
+        int count = 1;
+        List<String> refuteableCards = new ArrayList<>();
+        for(Card c : p.getCards()){
+        if(c.getName().equals(weapon)||c.getName().equals(character)||c.getName().equals(guesser.getCharacter().getEstate().getName())){
+          
+          System.out.println("Enter "+count+" to refute with "+c.getName()+".");
+          refuteableCards.add(c.getName());
+          count++;
+        }        
+        }
+        boolean enteredValidNumber = false;
+        while(!enteredValidNumber){
+          input = scanner.nextLine();
+          for(int i = 0;i<refuteableCards.size();i++){
+            if(i+1 == Integer.parseInt(input)){
+              enteredValidNumber = true;
+            }
+           }  
+        }
+        return refuteableCards.get(Integer.parseInt(input)-1);
     }
 
 
