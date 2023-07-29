@@ -496,7 +496,21 @@ Player turn = players.get(0);
             guess(turn);
            }
            if(input.equals("2")){
-            solve(turn);
+            int i = solve(turn);
+                        if (i == 1){
+                            System.out.print('\u000C');
+                            System.out.println(turn.getName()+" guessed correctly!");
+                            System.out.println(turn.getName()+" Wins the game!");
+                            System.out.println(turn.getName()+"\ngame will restart in 30 seconds");
+                            try {
+                                Thread.sleep(30000);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                            endGame();
+                        }else if(i == 0){
+                            turn.setIsEligible(false);
+                        }  
            }
            if(input.equals("3")){
             board.gridOn();
