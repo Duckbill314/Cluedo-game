@@ -25,6 +25,7 @@ public class Game {
     //Game Associations
     private final List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
+    private  List<Tile> usedTiles = new ArrayList<>();
 
     //------------------------
     // CONSTRUCTOR
@@ -558,7 +559,9 @@ Player turn = players.get(0);
                     turn = players.get(0);
                     break;
             }  
-            
+             for(Tile t : usedTiles){
+              t.setStored(null);
+            }
             while(!input.equals("1")){
                 System.out.print('\u000C');
                 board.draw();
@@ -642,11 +645,14 @@ Player turn = players.get(0);
                         }
                     }
                     else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 1) {
-                        //Tile old = board.getTile(p.getCharacter().getX()-1,p.getCharacter().getY());
-                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
-
-                        board.setTile(p.getCharacter().getX() - 1, p.getCharacter().getY(), current);
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                       Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        
+                        Tile playerTile = new Tile();
+                        playerTile.setStored(p.getCharacter());
+                        board.setTile(p.getCharacter().getX()-1, p.getCharacter().getY(), playerTile);
                         p.getCharacter().setX(p.getCharacter().getX() - 1);
                     } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 0) {
                         diceTotal++;
@@ -683,11 +689,14 @@ Player turn = players.get(0);
                         }
                     }
                     else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 1) {
-                        //Tile old = board.getTile(p.getCharacter().getX()+1,p.getCharacter().getY());
-                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
-
-                        board.setTile(p.getCharacter().getX() + 1, p.getCharacter().getY(), current);
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                       Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        
+                        Tile playerTile = new Tile();
+                        playerTile.setStored(p.getCharacter());
+                        board.setTile(p.getCharacter().getX()+1, p.getCharacter().getY(), playerTile);
                         p.getCharacter().setX(p.getCharacter().getX() + 1);
                     } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 0) {
                         diceTotal++;
@@ -723,11 +732,15 @@ Player turn = players.get(0);
                         }
                     }
                     else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 1) {
-                        //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()+1);
-                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
-
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() + 1, current);
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                        Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        
+                        Tile playerTile = new Tile();
+                        playerTile.setStored(p.getCharacter());
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY()+ 1, playerTile);
+                        
                         p.getCharacter().setY(p.getCharacter().getY() + 1);
                     } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 0) {
                         diceTotal++;
@@ -764,11 +777,15 @@ Player turn = players.get(0);
                         }
                     } 
                      else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 1) {
-                        //Tile old = board.getTile(p.getCharacter().getX(),p.getCharacter().getY()-1);
-                        Tile current = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
-
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() - 1, current);
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());
+                       Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        
+                        Tile playerTile = new Tile();
+                        playerTile.setStored(p.getCharacter());
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY()-1, playerTile);
+                        
                         p.getCharacter().setY(p.getCharacter().getY() - 1);
                     } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 0) {
                         diceTotal++;
