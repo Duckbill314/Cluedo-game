@@ -625,7 +625,7 @@ Player turn = players.get(0);
                             Item exit = p.getCharacter().getEstate().getPathsOut().get("1");
                             int X = exit.getX();
                             int Y = exit.getY();
-                            if(board.getTile(X,Y).getStored()==null){
+                            if(board.isSafeMove(X,Y) == 1){
 
                                 p.getCharacter().setX(X);
                                 p.getCharacter().setY(Y);
@@ -669,7 +669,7 @@ Player turn = players.get(0);
                             Item exit = p.getCharacter().getEstate().getPathsOut().get("2");
                             int X = exit.getX();
                             int Y = exit.getY();
-                            if(board.getTile(X,Y).getStored()==null){
+                            if(board.isSafeMove(X,Y) == 1){
 
                                 p.getCharacter().setX(X);
                                 p.getCharacter().setY(Y);
@@ -712,7 +712,7 @@ Player turn = players.get(0);
                             Item exit = p.getCharacter().getEstate().getPathsOut().get("3");
                             int X = exit.getX();
                             int Y = exit.getY();
-                            if(board.getTile(X,Y).getStored()==null){
+                            if(board.isSafeMove(X,Y) == 1){
 
                                 p.getCharacter().setX(X);
                                 p.getCharacter().setY(Y);
@@ -757,7 +757,7 @@ Player turn = players.get(0);
                             Item exit = p.getCharacter().getEstate().getPathsOut().get("4");
                             int X = exit.getX();
                             int Y = exit.getY();
-                            if(board.getTile(X,Y).getStored()==null){
+                            if(board.isSafeMove(X,Y) == 1){
 
                                 p.getCharacter().setX(X);
                                 p.getCharacter().setY(Y);
