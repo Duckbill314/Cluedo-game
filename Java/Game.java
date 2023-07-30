@@ -905,8 +905,9 @@ Player turn = players.get(0);
             System.out.println("Enter 2 to cancel this guess.");
             input = scanner.nextLine();
             switch(input){
-                diceTotal = 0;
+               
                 case "1": 
+                    diceTotal = 0;
                     // if win (only works on final guesses)
                     boolean win = true;
                     for(Card c: cards){
