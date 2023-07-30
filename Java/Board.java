@@ -262,24 +262,48 @@ public class Board
         case "Haunted House":   
             e.addItemsToThisEstate(board.get(6).get(3).getStored()); 
             e.addItemsToThisEstate(board.get(5).get(6).getStored());
+            e.addPaths("2",new Item(null,null,7,3)); // valid exit points
+            e.addPaths("3",new Item(null,null,5,7));
+            
+            e.addPaths("1",new Item(null,null,0,0)); // invalid exit points
+            e.addPaths("4",new Item(null,null,0,0));
         break;
         case "Manic Manor":
             e.addItemsToThisEstate(board.get(17).get(6).getStored()); 
             e.addItemsToThisEstate(board.get(20).get(5).getStored());
+            e.addPaths("1",new Item(null,null,16,5)); // valid exit points
+            e.addPaths("3",new Item(null,null,20,7));
+            
+            e.addPaths("2",new Item(null,null,0,0)); // invalid exit points
+            e.addPaths("4",new Item(null,null,0,0));
         break;
         case "Visitation Villa":
             e.addItemsToThisEstate(board.get(9).get(12).getStored()); 
             e.addItemsToThisEstate(board.get(11).get(13).getStored());
             e.addItemsToThisEstate(board.get(12).get(10).getStored()); 
             e.addItemsToThisEstate(board.get(14).get(11).getStored());
+            e.addPaths("1",new Item(null,null,8,12)); // valid exit points
+            e.addPaths("2",new Item(null,null,15,11));       
+            e.addPaths("3",new Item(null,null,11,14));
+            e.addPaths("4",new Item(null,null,12,9));
         break;
         case "Calamity Castle":
             e.addItemsToThisEstate(board.get(3).get(17).getStored()); 
             e.addItemsToThisEstate(board.get(6).get(18).getStored());
+            e.addPaths("2",new Item(null,null,7,18)); // valid exit points
+            e.addPaths("4",new Item(null,null,3,16));
+            
+            e.addPaths("1",new Item(null,null,0,0)); // invalid exit points
+            e.addPaths("3",new Item(null,null,0,0));
         break;
         case "Peril Palace":
             e.addItemsToThisEstate(board.get(17).get(20).getStored()); 
             e.addItemsToThisEstate(board.get(18).get(17).getStored());
+            e.addPaths("1",new Item(null,null,16,20)); // valid exit points
+            e.addPaths("4",new Item(null,null,18,16));
+            
+            e.addPaths("2",new Item(null,null,0,0)); // invalid exit points
+            e.addPaths("3",new Item(null,null,0,0));
         break;
       }
     }
