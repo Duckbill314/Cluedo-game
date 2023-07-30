@@ -963,7 +963,7 @@ Player turn = players.get(0);
                                      System.out.println("\nEnter 1 to continue.");
                                     input = scanner.nextLine();  
                                 }
-                                return 1;
+                                return 0;
                             }
                         }
                               
