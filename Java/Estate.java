@@ -29,6 +29,7 @@ public class Estate
     playersInside = new ArrayList<Character>();
     weaponsInside = new ArrayList<Weapon>();
     itemsToThisEstate = new ArrayList<Item>();
+    pathsOut = new HashMap<String,Item>();
   }
   
   //------------------------
