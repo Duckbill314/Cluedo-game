@@ -18,7 +18,7 @@ public class Estate
   private List<Character> playersInside;
   private List<Weapon> weaponsInside;
   private List<Item> itemsToThisEstate;
-
+  private Map<String,Item> pathsOut;
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -64,7 +64,10 @@ public class Estate
     wasAdded = weaponsInside.add(aWeaponsInside);
     return wasAdded;
   }
-
+  public void addPaths(String s,Item i)
+  {
+      pathsOut.put(s,i);
+  }
   public boolean removeWeaponsInside(Weapon aWeaponsInside)
   {
     boolean wasRemoved = false;
@@ -85,7 +88,10 @@ public class Estate
     wasRemoved = itemsToThisEstate.remove(aItemsToThisEstate);
     return wasRemoved;
   }
-
+  public Map<String,Item> getPathsOut()
+  {
+    return pathsOut;
+  }
   public String getName()
   {
     return name;
