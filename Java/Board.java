@@ -269,8 +269,8 @@ public class Board
             e.addPaths("4",new Item(null,null,0,0));
         break;
         case "Manic Manor":
-            e.addItemsToThisEstate(board.get(17).get(6).getStored()); 
-            e.addItemsToThisEstate(board.get(20).get(5).getStored());
+            e.addItemsToThisEstate(board.get(17).get(5).getStored()); 
+            e.addItemsToThisEstate(board.get(20).get(6).getStored());
             e.addPaths("1",new Item(null,null,16,5)); // valid exit points
             e.addPaths("3",new Item(null,null,20,7));
             
