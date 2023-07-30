@@ -982,7 +982,7 @@ private String refute(Player p,Player guesser,String character,String weapon) {
 
         while(!input.equals("1")){
             System.out.print('\u000C');
-            System.out.println(p.getName()+" has called a guess!\n");
+            System.out.println(guesser.getName()+" has called a guess!\n");
             //System.out.println("The guess was : "+character+" commited the murder in the "+p.getCharacter().getEstate().getName()+" with the "+weapon.toLowerCase()+".\n");
             System.out.println("Pass the tablet to "+p.getName()+ " so they can refute\n");
             System.out.println("Enter 1 to start your refute.");
