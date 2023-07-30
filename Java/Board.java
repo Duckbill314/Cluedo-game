@@ -331,6 +331,11 @@ public class Board
    */
   // line 144 "model.ump"
    public int isSafeMove(int x, int y){
+     try{
+          board.get(x).get(y);
+        } catch(Exception outOfBounds){
+         return 0;   // out of bounds       
+        }
     Tile target = getTile(x,y);
     if(target.getStored()==null){//means it's free spalce
       return 1;
