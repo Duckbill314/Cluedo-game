@@ -406,7 +406,7 @@ Player turn = players.get(0);
         Scanner scanner = new Scanner(System.in);
         while (true) {
            boolean diceRolled = false; 
-            while(diceRolled&&!input.equals("2")){
+            while(diceTotal != 0 || !diceRolled){
             System.out.print('\u000C');
             board.draw();
             //work sheet print
@@ -414,7 +414,7 @@ Player turn = players.get(0);
             displayLocations();
             
            //normal movement or action
-           if(input.equals("1")&&diceRolled || input.equals("0")&&diceRolled){
+           if(diceRolled&&!input.equals("2")){
             
             System.out.println("You have "+diceTotal+" moves remaining!");
             System.out.println("Do you want to move your character or do an action?");
@@ -875,6 +875,7 @@ Player turn = players.get(0);
             System.out.println("Enter 2 to cancel this guess.");
             input = scanner.nextLine();
             switch(input){
+                diceTotal = 0;
                 case "1": 
                     // if win (only works on final guesses)
                     boolean win = true;
