@@ -657,7 +657,10 @@ Player turn = players.get(0);
                     } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 0) {
                         diceTotal++;
                     } else {//entered estate
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                         Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);                       
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
                         Estate enteringEstate = board.checkEstate(p.getCharacter().getX() - 1, p.getCharacter().getY());
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
@@ -701,7 +704,10 @@ Player turn = players.get(0);
                     } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 0) {
                         diceTotal++;
                     } else {//entered estate
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                        Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);                       
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
                         Estate enteringEstate = board.checkEstate(p.getCharacter().getX() + 1, p.getCharacter().getY());
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
@@ -745,7 +751,10 @@ Player turn = players.get(0);
                     } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 0) {
                         diceTotal++;
                     } else {//entered estate
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                         Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);                       
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
                         Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() + 1);
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
@@ -790,7 +799,10 @@ Player turn = players.get(0);
                     } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 0) {
                         diceTotal++;
                     } else {//entered estate
-                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), new Tile());//remove player from the board
+                       Tile current = new Tile();
+                        current.setStored(new Item("Used","+",p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedTiles.add(current);                       
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
                         Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() - 1);
                         enteringEstate.addPlayersInside(p.getCharacter());
                     }
