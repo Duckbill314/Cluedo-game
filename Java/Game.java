@@ -406,6 +406,7 @@ Player turn = players.get(0);
         String input = "0";
         Scanner scanner = new Scanner(System.in);
         while (true) {
+             if(turn.getIsEligible()){
            boolean diceRolled = false; 
             while(diceTotal != 0 || !diceRolled){
             System.out.print('\u000C');
@@ -533,7 +534,7 @@ Player turn = players.get(0);
            }
     
            }
-           
+             }
             switch (currentTurn) {
                 case Lucilla:
                    
