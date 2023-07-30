@@ -1003,7 +1003,7 @@ private String refute(Player p,Player guesser,String character,String weapon) {
      */
     // line 74 "model.ump"
     private int solve(Player p) {
-        return 0;
+        return guess(p);
     }
 
 
