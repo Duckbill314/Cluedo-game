@@ -117,7 +117,7 @@ class Player
 
 class Board
 {
-  //List<List<Tile>> board = new ArrayList<>(); 
+  //List<List<gameTile>> board = new ArrayList<>();
   // board should be filled by the bootGame() method in Game upon launch
   // list of items already exists as Umple auto generates a list of items
   /**
@@ -143,12 +143,12 @@ class Board
     return false; //implement 
   }
   //getter
-  public Tile getTile(int x, int y) {
+  public gameTile getTile(int x, int y) {
     return board.get(x).get(y);
   }
 
   //setter
-  public void setTile(int x, int y, Tile t) {
+  public void setTile(int x, int y, gameTile t) {
     board.get(y).set(x, t);
   }
   //clear tile
@@ -206,7 +206,7 @@ public boolean onEntrance(int x, int y){
  }
 
 
- class Tile 
+ class gameTile
  { 
    Item stored = null;  
    public draw(){  

@@ -1,5 +1,3 @@
- 
-
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
 
@@ -7,7 +5,7 @@
 
 // line 210 "model.ump"
 // line 322 "model.ump"
-public class Tile
+public class gameTile extends Tile
 {
 
   //------------------------
@@ -21,7 +19,7 @@ public class Tile
   // CONSTRUCTOR
   //------------------------
 
-  public Tile()
+  public gameTile()
   {
     stored = null;
   }
@@ -30,9 +28,12 @@ public class Tile
   // INTERFACE
   //------------------------
 
-  public void setStored(Item aStored)
-  {  
+  public boolean setStored(Item aStored)
+  {
+    boolean wasSet = false;
     stored = aStored;
+    wasSet = true;
+    return wasSet;
   }
 
   public Item getStored()
@@ -44,12 +45,11 @@ public class Tile
   {}
 
   // line 214 "model.ump"
-   public void draw(){
+  public void draw(){
     if(stored == null){
        System.out.print(" ");
        }else{
        System.out.print(stored.getDisplayIcon());
      }
   }
-
 }

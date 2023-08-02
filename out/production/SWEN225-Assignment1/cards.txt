@@ -1,0 +1,28 @@
+Lucilla
+character
+Bert
+character
+Malina
+character
+Percy
+character
+Broom
+weapon
+Scissors
+weapon
+Knife
+weapon
+Shovel
+weapon
+iPad
+weapon
+Haunted House
+estate
+Manic Manor
+estate
+Visitation Villa
+estate
+Calamity Castle
+estate
+Peril Palace
+estate
