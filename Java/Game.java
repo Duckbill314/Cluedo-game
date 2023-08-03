@@ -34,182 +34,124 @@ public class Game {
     public Game() {
         board.draw();
 
+        System.out.print('\u000C');
+        System.out.println("Welcome to Hobby Detectives!");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to start the game?");
+        System.out.println();
+
+        System.out.println("Enter 1 for yes.");
+        System.out.println("Enter 2 for no.");
+
+
+        String startGameInput = scanner.nextLine();
+        System.out.print('\u000C');
+        if (!startGameInput.equalsIgnoreCase("1")) {
+            System.out.println("Game aborted. Goodbye!");
+            scanner.close();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            endGame();
+        }
+
+        //get the number of players
+        int numPlayers = 0;
+
+        System.out.print("Please select the number of players.\n");
+        System.out.println();
+        System.out.println("Enter 1 to play with three players and a bot.");
+        System.out.println("Enter 2 to play with four players.");
+        startGameInput = scanner.nextLine();
+        if (!startGameInput.equalsIgnoreCase("1")) {
+            numPlayers = 4;
+        } else {
+            numPlayers = 3;
+        }
+
+        //get player names
+        System.out.print('\u000C');
+        List<String> names = new ArrayList<>();
+        while (numPlayers != names.size()) {
+            System.out.println("Setting up game.\n");
+            for (String n : names) {
+                System.out.println(n);
+            }
+            System.out.println();
+            System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
+            String name = scanner.nextLine();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.print('\u000C');
+            if (name.length() > 15) {
+                System.out.println("Sorry, your name can't exceed 15 characters");
+            } else {
+                names.add(name);
+            }
+        }
+        // making the players
+        assignCharacters(names);
+        while (true) {
+            System.out.println("Allocating roles for " + numPlayers + " players.");
+            System.out.println();
+
+
+            String first = "";
+            for (Player p : players) {
+                System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
+                if (p.getCharacter().getName().equals("Lucilla")) {
+                    first = p.getName();
+                }
+            }
+            System.out.println();
+            System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
+            System.out.println("\nBegin the your first round?");
+            System.out.println();
+
+            System.out.println("Enter 1 for yes.");
+
+            String input = scanner.nextLine();
+            if (input.equals("1")) {
+                break;
+            }
+            System.out.print('\u000C');
+        }
+        scanner.close();
+        board.draw();
+        //draw the characters on the board
+        for (Player p : players) {
+            Tile t = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
+            if (t instanceof gameTile tile){
+                tile.setStored(p.getCharacter());
+            }
+        }
+        // making the cards
+        makeCards();
+        System.out.println();
+        for (Card c : cards) {
+            if (c.getIsMurder()) {
+                System.out.println("murder card : " + c.getName() + " " + c.getType());
+            }
+        }
+        gameManager();
+        endGame();
 
 
 
-
-    }
-
-
-
-    public Player getPlayer(int index) {
-        return players.get(index);
-    }
-
-    public List<Player> getPlayers() {
-        return Collections.unmodifiableList(players);
     }
 
     public int numberOfPlayers() {
         return players.size();
     }
 
-    public boolean hasPlayers() {
-        return players.size() > 0;
-    }
-
-    public int indexOfPlayer(Player aPlayer) {
-        return players.indexOf(aPlayer);
-    }
-
-    /* Code from template association_GetMany */
-
-    public Card getCard(int index) {
-        return cards.get(index);
-    }
-
-    public List<Card> getCards() {
-        return Collections.unmodifiableList(cards);
-    }
-
     public int numberOfCards() {
         return cards.size();
-    }
-
-    public boolean hasCards() {
-        return cards.size() > 0;
-    }
-
-    public int indexOfCard(Card aCard) {
-        return cards.indexOf(aCard);
-    }
-
-    /* Code from template association_MinimumNumberOfMethod */
-    public static int minimumNumberOfPlayers = 0;
-
-    /* Code from template association_AddUnidirectionalMany */
-    public boolean addPlayer(Player aPlayer) {
-        boolean wasAdded = false;
-        if (players.contains(aPlayer)) {
-            return false;
-        }
-        players.add(aPlayer);
-        wasAdded = true;
-        return wasAdded;
-    }
-
-    public boolean removePlayer(Player aPlayer) {
-        boolean wasRemoved = false;
-        if (players.contains(aPlayer)) {
-            players.remove(aPlayer);
-            wasRemoved = true;
-        }
-        return wasRemoved;
-    }
-
-    /* Code from template association_AddIndexControlFunctions */
-    public boolean addPlayerAt(Player aPlayer, int index) {
-        boolean wasAdded = false;
-        if (addPlayer(aPlayer)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfPlayers()) {
-                index = numberOfPlayers() - 1;
-            }
-            players.remove(aPlayer);
-            players.add(index, aPlayer);
-            wasAdded = true;
-        }
-        return wasAdded;
-    }
-
-    public boolean addOrMovePlayerAt(Player aPlayer, int index) {
-        boolean wasAdded = false;
-        if (players.contains(aPlayer)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfPlayers()) {
-                index = numberOfPlayers() - 1;
-            }
-            players.remove(aPlayer);
-            players.add(index, aPlayer);
-            wasAdded = true;
-        } else {
-            wasAdded = addPlayerAt(aPlayer, index);
-        }
-        return wasAdded;
-    }
-    /* Code from template association_MinimumNumberOfMethod */
-
-    public static int minimumNumberOfCards() {
-        return 0;
-    }
-
-    /* Code from template association_AddUnidirectionalMany */
-
-    public boolean addCard(Card aCard) {
-        boolean wasAdded = false;
-        if (cards.contains(aCard)) {
-            return false;
-        }
-        cards.add(aCard);
-        wasAdded = true;
-        return wasAdded;
-    }
-
-
-    public boolean removeCard(Card aCard) {
-        boolean wasRemoved = false;
-        if (cards.contains(aCard)) {
-            cards.remove(aCard);
-            wasRemoved = true;
-        }
-        return wasRemoved;
-    }
-
-    /* Code from template association_AddIndexControlFunctions */
-
-    public boolean addCardAt(Card aCard, int index) {
-        boolean wasAdded = false;
-        if (addCard(aCard)) {
-
-            if (index < 0) {
-                index = 0;
-            }
-
-            if (index > numberOfCards()) {
-                index = numberOfCards() - 1;
-            }
-
-            cards.remove(aCard);
-
-            cards.add(index, aCard);
-
-            wasAdded = true;
-
-        }
-        return wasAdded;
-    }
-
-
-    public boolean addOrMoveCardAt(Card aCard, int index) {
-        boolean wasAdded = false;
-        if (cards.contains(aCard)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfCards()) {
-                index = numberOfCards() - 1;
-            }
-            cards.remove(aCard);
-            cards.add(index, aCard);
-            wasAdded = true;
-        } else {
-            wasAdded = addCardAt(aCard, index);
-        }
-        return wasAdded;
     }
 
     public void delete() {
@@ -404,180 +346,180 @@ public class Game {
      * Is the central hub for method calling and contains the main loop.
      */
     // line 45 "model.ump"
-//    private void gameManager() {
-//        Player turn = players.get(0);
-//        String input = "0";
-//        Scanner scanner = new Scanner(System.in);
-//        while (true) {
-//            if (turn.getIsEligible()) {
-//                boolean diceRolled = false;
-//                while (diceTotal != 0 || !diceRolled) {
-//                    System.out.print('\u000C');
-//                    board.draw();
-//                    //work sheet print
-//                    turn.getWorksheet().printWorksheet();
-//                    displayLocations();
-//
-//                    //normal movement or action
-//                    if (diceRolled && !input.equals("2")) {
-//
-//                        System.out.println("You have " + diceTotal + " moves remaining!");
-//                        System.out.println("Do you want to move your character or do an action?");
-//                        System.out.println();
-//
-//                        System.out.println("Enter 1 to open the movement menu");
-//                        System.out.println("Enter 2 to do an action.");
-//
-//                        input = scanner.nextLine();
-//                        if (input.equals("1")) {
-//                            takePlayerInput(turn);
-//                            input = "0";
-//                        }
-//                        if (!input.equals("0")) {
-//                            System.out.print('\u000C');
-//                            board.draw();
-//                            //work sheet print
-//                            turn.getWorksheet().printWorksheet();
-//                            displayLocations();
-//                        }
-//                    }
-//
-//                    if (input.equals("1") && !diceRolled) {//roll dice since dice has not been roled yet
-//                        System.out.println("Rolling ");
-//                        try {
-//                            Thread.sleep(300);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        System.out.print(". ");
-//                        try {
-//                            Thread.sleep(300);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        System.out.print(". ");
-//                        try {
-//                            Thread.sleep(300);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        System.out.print(". ");
-//                        int dice1 = rollDice();
-//                        int dice2 = rollDice();
-//                        try {
-//                            Thread.sleep(300);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        System.out.println("\nROLLED " + dice1);
-//                        try {
-//                            Thread.sleep(600);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        System.out.println("ROLLED " + dice2);
-//                        diceTotal = dice1 + dice2;
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            Thread.currentThread().interrupt();
-//                        }
-//                        diceRolled = true;
-//                    }
-//
-//                    if (input.equals("2")) {//open action menu
-//
-//                        System.out.println("What action do you want to do?");
-//                        System.out.println();
-//
-//                        System.out.println("Enter 1 to make a guess.");
-//                        System.out.println("Enter 2 to make a solve attempt.");
-//                        System.out.println("Enter 3 to toggle grid on / grid off.");
-//                        System.out.println("Enter 4 to return to the previous menu.");
-//
-//                        input = scanner.nextLine();
-//
-//                        if (input.equals("1") && turn.getCharacter().getEstate() != null) {
-//                            guess(turn);
-//                        }
-//                        if (input.equals("2") && turn.getCharacter().getEstate() != null) {
-//                            int i = solve(turn);
-//                            if (i == 1) {
-//                                System.out.print('\u000C');
-//                                System.out.println(turn.getName() + " guessed correctly!");
-//                                System.out.println(turn.getName() + " Wins the game!");
-//                                System.out.println("\ngame will restart in 30 seconds");
-//                                try {
-//                                    Thread.sleep(30000);
-//                                } catch (InterruptedException e) {
-//                                    Thread.currentThread().interrupt();
-//                                }
-//                                endGame();
-//                            } else if (i == 0) {
-//                                turn.setIsEligible(false);
-//                            }
-//                        }
-//                        if (input.equals("3")) {
-//                            board.gridOn();
-//                        }
-//                        if (input.equals("4")) {
-//                            input = "0";
-//                        } else {
-//                            input = "2";
-//                        }
-//
-//                    } else if (!diceRolled) {//default role dice or action assuming dice have not been rolled yet
-//                        System.out.println("Do you want to roll your dice or do an action?");
-//                        System.out.println();
-//
-//                        System.out.println("Enter 1 to roll your dice.");
-//                        System.out.println("Enter 2 to do an action.");
-//
-//                        input = scanner.nextLine();
-//                    }
-//
-//                }
-//            }
-//            switch (currentTurn) {
-//                case Lucilla:
-//
-//                    currentTurn = TurnOrder.Bert;
-//                    turn = players.get(1);
-//                    break;
-//                case Bert:
-//
-//
-//                    currentTurn = TurnOrder.Malina;
-//                    turn = players.get(2);
-//                    break;
-//                case Malina:
-//
-//
-//                    currentTurn = TurnOrder.Percy;
-//                    turn = players.get(3);
-//                    break;
-//                case Percy:
-//
-//
-//                    currentTurn = TurnOrder.Lucilla;
-//                    turn = players.get(0);
-//                    break;
-//            }
-//            for (gameTile t : usedGameTiles) {
-//                t.setStored(null);
-//            }
-//            while (!input.equals("1")) {
-//                System.out.print('\u000C');
-//                board.draw();
-//                System.out.println("Turn is over! It is now " + turn.getName() + "'s turn.\n");
-//                System.out.println("Begin " + turn.getName() + "'s turn?\n");
-//                System.out.println("Enter 1 for yes.");
-//                input = scanner.nextLine();
-//            }
-//            input = "0";
-//        }
-//    }
-//
+    private void gameManager() {
+        Player turn = players.get(0);
+        String input = "0";
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            if (turn.getIsEligible()) {
+                boolean diceRolled = false;
+                while (diceTotal != 0 || !diceRolled) {
+                    System.out.print('\u000C');
+                    board.draw();
+                    //work sheet print
+                    turn.getWorksheet().printWorksheet();
+                    displayLocations();
+
+                    //normal movement or action
+                    if (diceRolled && !input.equals("2")) {
+
+                        System.out.println("You have " + diceTotal + " moves remaining!");
+                        System.out.println("Do you want to move your character or do an action?");
+                        System.out.println();
+
+                        System.out.println("Enter 1 to open the movement menu");
+                        System.out.println("Enter 2 to do an action.");
+
+                        input = scanner.nextLine();
+                        if (input.equals("1")) {
+                            takePlayerInput(turn);
+                            input = "0";
+                        }
+                        if (!input.equals("0")) {
+                            System.out.print('\u000C');
+                            board.draw();
+                            //work sheet print
+                            turn.getWorksheet().printWorksheet();
+                            displayLocations();
+                        }
+                    }
+
+                    if (input.equals("1") && !diceRolled) {//roll dice since dice has not been roled yet
+                        System.out.println("Rolling ");
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.print(". ");
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.print(". ");
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.print(". ");
+                        int dice1 = rollDice();
+                        int dice2 = rollDice();
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.println("\nROLLED " + dice1);
+                        try {
+                            Thread.sleep(600);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        System.out.println("ROLLED " + dice2);
+                        diceTotal = dice1 + dice2;
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        diceRolled = true;
+                    }
+
+                    if (input.equals("2")) {//open action menu
+
+                        System.out.println("What action do you want to do?");
+                        System.out.println();
+
+                        System.out.println("Enter 1 to make a guess.");
+                        System.out.println("Enter 2 to make a solve attempt.");
+                        System.out.println("Enter 3 to toggle grid on / grid off.");
+                        System.out.println("Enter 4 to return to the previous menu.");
+
+                        input = scanner.nextLine();
+
+                        if (input.equals("1") && turn.getCharacter().getEstate() != null) {
+                            guess(turn);
+                        }
+                        if (input.equals("2") && turn.getCharacter().getEstate() != null) {
+                            int i = solve(turn);
+                            if (i == 1) {
+                                System.out.print('\u000C');
+                                System.out.println(turn.getName() + " guessed correctly!");
+                                System.out.println(turn.getName() + " Wins the game!");
+                                System.out.println("\ngame will restart in 30 seconds");
+                                try {
+                                    Thread.sleep(30000);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                                endGame();
+                            } else if (i == 0) {
+                                turn.setIsEligible(false);
+                            }
+                        }
+                        if (input.equals("3")) {
+                            board.gridOn();
+                        }
+                        if (input.equals("4")) {
+                            input = "0";
+                        } else {
+                            input = "2";
+                        }
+
+                    } else if (!diceRolled) {//default role dice or action assuming dice have not been rolled yet
+                        System.out.println("Do you want to roll your dice or do an action?");
+                        System.out.println();
+
+                        System.out.println("Enter 1 to roll your dice.");
+                        System.out.println("Enter 2 to do an action.");
+
+                        input = scanner.nextLine();
+                    }
+
+                }
+            }
+            switch (currentTurn) {
+                case Lucilla:
+
+                    currentTurn = TurnOrder.Bert;
+                    turn = players.get(1);
+                    break;
+                case Bert:
+
+
+                    currentTurn = TurnOrder.Malina;
+                    turn = players.get(2);
+                    break;
+                case Malina:
+
+
+                    currentTurn = TurnOrder.Percy;
+                    turn = players.get(3);
+                    break;
+                case Percy:
+
+
+                    currentTurn = TurnOrder.Lucilla;
+                    turn = players.get(0);
+                    break;
+            }
+            for (gameTile t : usedGameTiles) {
+                t.setStored(null);
+            }
+            while (!input.equals("1")) {
+                System.out.print('\u000C');
+                board.draw();
+                System.out.println("Turn is over! It is now " + turn.getName() + "'s turn.\n");
+                System.out.println("Begin " + turn.getName() + "'s turn?\n");
+                System.out.println("Enter 1 for yes.");
+                input = scanner.nextLine();
+            }
+            input = "0";
+        }
+    }
+
 
     /**
      * Method to randomly return a number 1-6
@@ -596,224 +538,179 @@ public class Game {
      * also needs to handle "roll" for rolling the dice (update diceTotal to the return value of rollDice())
      * needs to handle "grid on" "grid off" and capital versions of all commands + errors like invalid inputs.
      */
-    // line 60 "model.ump"
-//    private void takePlayerInput(Player p) {
-//        boolean invalidInput = false;
-//        String direction = "";
-//        while (diceTotal != 0 && !direction.equals("5")) {
-//            System.out.print('\u000C');
-//            board.draw();
-//            p.getWorksheet().printWorksheet();
-//            displayLocations();
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println("You have " + diceTotal + " moves remaining. You are playing as " + p.getCharacter().getName() + " (" + p.getCharacter().getDisplayIcon() + ").\n");
-//            System.out.println("What direction will you move?\n");
-//
-//            System.out.println("Enter 1 to move left.");
-//            System.out.println("Enter 2 to move right.");
-//            System.out.println("Enter 3 to move down.");
-//            System.out.println("Enter 4 to move up.\n");
-//            System.out.println("Enter 5 to return to the previous menu.");
-//            if (invalidInput) {
-//                System.out.println("\nYour input was not one of the possible actions, please try again!");
-//                invalidInput = false; // confusing, but it's resetting invalidInput. When the input was made invalidInput was set to true, so it needs to be reset
-//            }
-//            direction = scanner.nextLine();
-//            // handling direction move
-//
-//            switch (direction) {
-//                case "1"://left
-//                    if (p.getCharacter().getEstate() != null) {
-//                        if (p.getCharacter().getEstate().getPathsOut().get("1").getX() != 0) {
-//
-//                            Item exit = p.getCharacter().getEstate().getPathsOut().get("1");
-//                            int X = exit.getX();
-//                            int Y = exit.getY();
-//                            if (board.isSafeMove(X, Y) == 1) {
-//
-//                                p.getCharacter().setX(X);
-//                                p.getCharacter().setY(Y);
-//
-//                                gameTile t = new gameTile();
-//                                t.setStored(p.getCharacter());
-//
-//                                board.setTile(X, Y, t);
-//                                p.getCharacter().setEstate(null);
-//                            } else {
-//                                diceTotal++;
-//                                break;
-//                            }
-//                        } else {
-//                            diceTotal++;
-//                            break;
-//                        }
-//                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 1) {
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//
-//                        gameTile playerGameTile = new gameTile();
-//                        playerGameTile.setStored(p.getCharacter());
-//                        board.setTile(p.getCharacter().getX() - 1, p.getCharacter().getY(), playerGameTile);
-//                        p.getCharacter().setX(p.getCharacter().getX() - 1);
-//                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) == 0) {
-//                        diceTotal++;
-//                    } else {//entered estate
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() - 1, p.getCharacter().getY());
-//                        enteringEstate.addPlayersInside(p.getCharacter());
-//                    }
-//                    break;
-//                case "2"://right
-//                    if (p.getCharacter().getEstate() != null) {
-//                        if (p.getCharacter().getEstate().getPathsOut().get("2").getX() != 0) {
-//
-//                            Item exit = p.getCharacter().getEstate().getPathsOut().get("2");
-//                            int X = exit.getX();
-//                            int Y = exit.getY();
-//                            if (board.isSafeMove(X, Y) == 1) {
-//
-//                                p.getCharacter().setX(X);
-//                                p.getCharacter().setY(Y);
-//
-//                                gameTile t = new gameTile();
-//                                t.setStored(p.getCharacter());
-//
-//                                board.setTile(X, Y, t);
-//                                p.getCharacter().setEstate(null);
-//                            } else {
-//                                diceTotal++;
-//                                break;
-//                            }
-//                        } else {
-//                            diceTotal++;
-//                            break;
-//                        }
-//                    } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 1) {
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//
-//                        gameTile playerGameTile = new gameTile();
-//                        playerGameTile.setStored(p.getCharacter());
-//                        board.setTile(p.getCharacter().getX() + 1, p.getCharacter().getY(), playerGameTile);
-//                        p.getCharacter().setX(p.getCharacter().getX() + 1);
-//                    } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY()) == 0) {
-//                        diceTotal++;
-//                    } else {//entered estate
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() + 1, p.getCharacter().getY());
-//                        enteringEstate.addPlayersInside(p.getCharacter());
-//                    }
-//                    break;
-//                case "3"://down
-//                    if (p.getCharacter().getEstate() != null) {
-//                        if (p.getCharacter().getEstate().getPathsOut().get("3").getX() != 0) {
-//                            Item exit = p.getCharacter().getEstate().getPathsOut().get("3");
-//                            int X = exit.getX();
-//                            int Y = exit.getY();
-//                            if (board.isSafeMove(X, Y) == 1) {
-//
-//                                p.getCharacter().setX(X);
-//                                p.getCharacter().setY(Y);
-//
-//                                gameTile t = new gameTile();
-//                                t.setStored(p.getCharacter());
-//
-//                                board.setTile(X, Y, t);
-//                                p.getCharacter().setEstate(null);
-//                            } else {
-//                                diceTotal++;
-//                                break;
-//                            }
-//                        } else {
-//                            diceTotal++;
-//                            break;
-//                        }
-//                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 1) {
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//
-//                        gameTile playerGameTile = new gameTile();
-//                        playerGameTile.setStored(p.getCharacter());
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() + 1, playerGameTile);
-//
-//                        p.getCharacter().setY(p.getCharacter().getY() + 1);
-//                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1) == 0) {
-//                        diceTotal++;
-//                    } else {//entered estate
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() + 1);
-//                        enteringEstate.addPlayersInside(p.getCharacter());
-//                    }
-//                    break;
-//                case "4"://up
-//                    if (p.getCharacter().getEstate() != null) {
-//                        if (p.getCharacter().getEstate().getPathsOut().get("4").getX() != 0) {
-//
-//                            Item exit = p.getCharacter().getEstate().getPathsOut().get("4");
-//                            int X = exit.getX();
-//                            int Y = exit.getY();
-//                            if (board.isSafeMove(X, Y) == 1) {
-//
-//                                p.getCharacter().setX(X);
-//                                p.getCharacter().setY(Y);
-//
-//                                gameTile t = new gameTile();
-//                                t.setStored(p.getCharacter());
-//
-//                                board.setTile(X, Y, t);
-//                                p.getCharacter().setEstate(null);
-//                            } else {
-//                                diceTotal++;
-//                                break;
-//                            }
-//                        } else {
-//                            diceTotal++;
-//                            break;
-//                        }
-//                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 1) {
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//
-//                        gameTile playerGameTile = new gameTile();
-//                        playerGameTile.setStored(p.getCharacter());
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() - 1, playerGameTile);
-//
-//                        p.getCharacter().setY(p.getCharacter().getY() - 1);
-//                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1) == 0) {
-//                        diceTotal++;
-//                    } else {//entered estate
-//                        gameTile current = new gameTile();
-//                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
-//                        usedGameTiles.add(current);
-//                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
-//                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() - 1);
-//                        enteringEstate.addPlayersInside(p.getCharacter());
-//                    }
-//                    break;
-//                default:
-//                    invalidInput = true;
-//                    diceTotal++;
-//            }
-//            diceTotal--;
-//        }
-//    }
+    private void takePlayerInput(Player p) {
+        boolean invalidInput = false;
+        String direction = "";
+        while (diceTotal != 0 && !direction.equals("5")) {
+            System.out.print('\u000C');
+            board.draw();
+            p.getWorksheet().printWorksheet();
+            displayLocations();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("You have " + diceTotal + " moves remaining. You are playing as " + p.getCharacter().getName() + " (" + p.getCharacter().getDisplayIcon() + ").\n");
+            System.out.println("What direction will you move?\n");
+
+            System.out.println("Enter 1 to move left.");
+            System.out.println("Enter 2 to move right.");
+            System.out.println("Enter 3 to move down.");
+            System.out.println("Enter 4 to move up.\n");
+            System.out.println("Enter 5 to return to the previous menu.");
+            if (invalidInput) {
+                System.out.println("\nYour input was not one of the possible actions, please try again!");
+                invalidInput = false; // confusing, but it's resetting invalidInput. When the input was made invalidInput was set to true, so it needs to be reset
+            }
+            direction = scanner.nextLine();
+            // handling direction move
+
+            switch (direction) {
+                case "1" -> {//left
+                    if (p.getCharacter().getEstate() != null) {
+                        if (p.getCharacter().getEstate().getPathsOut().get("1").getX() != 0) {
+                            Item exit = p.getCharacter().getEstate().getPathsOut().get("1");
+                            moveToGameTile(p, exit);
+                        } else {
+                            diceTotal++;
+                        }
+                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY())) {
+                        gameTile playerGameTile = move(p);
+                        board.setTile(p.getCharacter().getX() - 1, p.getCharacter().getY(), playerGameTile);
+                        p.getCharacter().setX(p.getCharacter().getX() - 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY())) {
+                        diceTotal++;
+                    } else {//entered estate
+                        gameTile current = new gameTile();
+                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedGameTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() - 1, p.getCharacter().getY());
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                }
+                case "2" -> {//right
+                    if (p.getCharacter().getEstate() != null) {
+                        if (p.getCharacter().getEstate().getPathsOut().get("2").getX() != 0) {
+
+                            Item exit = p.getCharacter().getEstate().getPathsOut().get("2");
+                            int X = exit.getX();
+                            int Y = exit.getY();
+                            if (board.isSafeMove(X, Y)) {
+
+                                p.getCharacter().setX(X);
+                                p.getCharacter().setY(Y);
+
+                                gameTile t = new gameTile();
+                                t.setStored(p.getCharacter());
+
+                                board.setTile(X, Y, t);
+                                p.getCharacter().setEstate(null);
+                            } else {
+                                diceTotal++;
+                            }
+                        } else {
+                            diceTotal++;
+                        }
+                    } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY())) {
+                        gameTile playerGameTile = move(p);
+                        board.setTile(p.getCharacter().getX() + 1, p.getCharacter().getY(), playerGameTile);
+                        p.getCharacter().setX(p.getCharacter().getX() + 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX() + 1, p.getCharacter().getY())) {
+                        diceTotal++;
+                    } else {//entered estate
+                        gameTile current = new gameTile();
+                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedGameTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX() + 1, p.getCharacter().getY());
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                }
+                case "3" -> {//down
+                    if (p.getCharacter().getEstate() != null) {
+                        if (p.getCharacter().getEstate().getPathsOut().get("3").getX() != 0) {
+                            Item exit = p.getCharacter().getEstate().getPathsOut().get("3");
+                            moveToGameTile(p, exit);
+                        } else {
+                            diceTotal++;
+                        }
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1)) {
+                        gameTile playerGameTile = move(p);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() + 1, playerGameTile);
+
+                        p.getCharacter().setY(p.getCharacter().getY() + 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() + 1)) {
+                        diceTotal++;
+                    } else {//entered estate
+                        gameTile current = new gameTile();
+                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedGameTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() + 1);
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                }
+                case "4" -> {//up
+                    if (p.getCharacter().getEstate() != null) {
+                        if (p.getCharacter().getEstate().getPathsOut().get("4").getX() != 0) {
+
+                            Item exit = p.getCharacter().getEstate().getPathsOut().get("4");
+                            moveToGameTile(p, exit);
+                        } else {
+                            diceTotal++;
+                        }
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1)) {
+                        move(p);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY() - 1, playerGameTile);
+
+                        p.getCharacter().setY(p.getCharacter().getY() - 1);
+                    } else if (board.isSafeMove(p.getCharacter().getX(), p.getCharacter().getY() - 1)) {
+                        diceTotal++;
+                    } else {//entered estate
+                        gameTile current = new gameTile();
+                        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
+                        usedGameTiles.add(current);
+                        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+                        Estate enteringEstate = board.checkEstate(p.getCharacter().getX(), p.getCharacter().getY() - 1);
+                        enteringEstate.addPlayersInside(p.getCharacter());
+                    }
+                }
+                default -> {
+                    invalidInput = true;
+                    diceTotal++;
+                }
+            }
+            diceTotal--;
+        }
+    }
+
+    private gameTile move(Player p) {
+        gameTile current = new gameTile();
+        current.setStored(new Item("Used", "+", p.getCharacter().getX(), p.getCharacter().getY()));
+        usedGameTiles.add(current);
+        board.setTile(p.getCharacter().getX(), p.getCharacter().getY(), current);
+
+        gameTile playerGameTile = new gameTile();
+        playerGameTile.setStored(p.getCharacter());
+        return playerGameTile;
+    }
+
+    private void moveToGameTile(Player p, Item exit) {
+        int X = exit.getX();
+        int Y = exit.getY();
+        if (board.isSafeMove(X, Y)) {
+
+            p.getCharacter().setX(X);
+            p.getCharacter().setY(Y);
+
+            gameTile t = new gameTile();
+            t.setStored(p.getCharacter());
+
+            board.setTile(X, Y, t);
+            p.getCharacter().setEstate(null);
+        } else {
+            diceTotal++;
+            return;
+        }
+    }
 
 
     /**

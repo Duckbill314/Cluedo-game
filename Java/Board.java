@@ -20,7 +20,7 @@ public class Board {
         buildGreyArea(11, 17);
         buildGreyArea(17, 11);
 
-        buildEntrance();
+        buildEntrances();
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -75,9 +75,10 @@ public class Board {
         }
     }
 
-    private void buildEntrance() {
+    private void buildEntrances() {
         board[3][6] = new entranceTile();
         board[6][5] = new entranceTile();
+        buildEntrance("Haunted House", (entranceTile) board[3][6], (entranceTile) board[6][5]);
 
         board[5][17] = new entranceTile();
         board[6][20] = new entranceTile();
@@ -92,6 +93,23 @@ public class Board {
 
         board[20][17] = new entranceTile();
         board[17][18] = new entranceTile();
+    }
+
+
+    private void buildEntrance(String name, entranceTile left, entranceTile right) {
+        List<entranceTile> entranceTiles = new ArrayList<>();
+        entranceTiles.add(left);
+        entranceTiles.add(right);
+        new Estate(name, entranceTiles);
+    }
+
+    private void buildRectangleEntrance(String name, entranceTile left, entranceTile right, entranceTile up, entranceTile down) {
+        List<entranceTile> entranceTiles = new ArrayList<>();
+        entranceTiles.add(left);
+        entranceTiles.add(right);
+        entranceTiles.add(up);
+        entranceTiles.add(down);
+        new Estate(name, entranceTiles);
     }
 
     /**
@@ -121,8 +139,16 @@ public class Board {
         return board[x][y];
     }
 
+    public void setTile(int x, int y, Tile t) {
+        board[x][y] = t;
+    }
+
     public void deleteBoard() {
         board = new Tile[ROWS][COLS];
+    }
+
+    public boolean isSafeMove(int x, int y){
+        return board[x][y] instanceof gameTile;
     }
 
     /**
