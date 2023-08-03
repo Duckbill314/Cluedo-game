@@ -33,7 +33,15 @@ public class Card
   //------------------------
   // INTERFACE
   //------------------------
-  
+
+  public void setOwner(Player aOwner) {
+    owner = aOwner;
+  }
+
+  public void setIsMurder(boolean aIsMurder) {
+    isMurder = aIsMurder;
+  }
+
   /**
    * is this card one of the three murder cards?
    */
