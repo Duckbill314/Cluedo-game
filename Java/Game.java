@@ -127,8 +127,8 @@ public class Game {
         //draw the characters on the board
         for (Player p : players) {
             Tile t = board.getTile(p.getCharacter().getX(), p.getCharacter().getY());
-            if (t instanceof gameTile tile){
-                tile.setStored(p.getCharacter());
+            if (t instanceof gameTile) {
+                ((gameTile) t).setStored(p.getCharacter());
             }
         }
         // making the cards
