@@ -1,8 +1,18 @@
 public class entranceTile extends Tile {
 
     public Estate estate;
+    public boolean empty = false;
 
-    entranceTile() {
+    entranceTile(){}
+
+    entranceTile(String s) {
+        if (s.equals("EMPTY")){
+            empty = true;
+        }
+    }
+
+    public boolean isEmpty(){
+        return empty;
     }
 
     entranceTile(Estate estate) {

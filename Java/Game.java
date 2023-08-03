@@ -564,18 +564,19 @@ public class Game {
 
             switch (direction) {
                 case "1" -> {//left
-                    if (p.getCharacter().getEstate() != null) {
-                        if (p.getCharacter().getEstate().getPathsOut().get("1").getX() != 0) {
-                            Item exit = p.getCharacter().getEstate().getPathsOut().get("1");
+                    Estate currentEstate = p.getCharacter().getEstate();
+                    if (currentEstate != null) {
+                        if (!currentEstate.left.isEmpty()) {
+                            entranceTile exit = currentEstate.getPathsOut().get("1");
                             moveToGameTile(p, exit);
                         } else {
                             diceTotal++;
                         }
-                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY())) {
+                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) != 0) {
                         gameTile playerGameTile = move(p);
                         board.setTile(p.getCharacter().getX() - 1, p.getCharacter().getY(), playerGameTile);
                         p.getCharacter().setX(p.getCharacter().getX() - 1);
-                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY())) {
+                    } else if (board.isSafeMove(p.getCharacter().getX() - 1, p.getCharacter().getY()) != 0) {
                         diceTotal++;
                     } else {//entered estate
                         gameTile current = new gameTile();
@@ -693,7 +694,7 @@ public class Game {
         return playerGameTile;
     }
 
-    private void moveToGameTile(Player p, Item exit) {
+    private void moveToGameTile(Player p, entranceTile exit) {
         int X = exit.getX();
         int Y = exit.getY();
         if (board.isSafeMove(X, Y)) {
