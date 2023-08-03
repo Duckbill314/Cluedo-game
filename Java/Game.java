@@ -148,13 +148,6 @@ public class Game {
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
         switch (names.size()) {
-            case 1:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
-                break;
-            case 2:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
-                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
-                break;
             case 3:
                 players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
                 players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
@@ -724,11 +717,11 @@ public class Game {
         if (board.isSafeMove(newY, newX)) {
             GameTile next = (GameTile)board.getTile(newY, newX);
             next.setStored(character);
-            character.setX(newX);
-            character.setY(newY);
             GameTile current = (GameTile)board.getTile(character.getY(), character.getX());
             current.setStored(new Item("Used", "+", character.getX(), character.getY()));
             usedGameTiles.add(current);
+            character.setX(newX);
+            character.setY(newY);
             return 1;
         }
         return 0;
