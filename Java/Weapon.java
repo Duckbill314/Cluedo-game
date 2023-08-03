@@ -24,10 +24,4 @@ public class Weapon extends Item
   //------------------------
   // INTERFACE
   //------------------------
-
-  public void delete()
-  {
-    super.delete();
-  }
-
 }

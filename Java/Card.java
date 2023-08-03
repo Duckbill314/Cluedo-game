@@ -33,33 +33,9 @@ public class Card
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setIsMurder(boolean aIsMurder)
-  {
-    boolean wasSet = false;
-    isMurder = aIsMurder;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setOwner(Player aOwner)
-  {
-    boolean wasSet = false;
-    owner = aOwner;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setName(String aName)
-  {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
-  }
-
+  
   /**
-   * is this card one of the three     murder cards?
+   * is this card one of the three murder cards?
    */
   public boolean getIsMurder()
   {
@@ -84,15 +60,9 @@ public class Card
     return type;
   }
 
-  public void delete()
-  {}
-
-
   public String toString()
   {
-    return super.toString() + "["+
-            "isMurder" + ":" + getIsMurder()+ "," +
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "owner" + "=" + (getOwner() != null ? !getOwner().equals(this)  ? getOwner().toString().replaceAll("  ","    ") : "this" : "null");
+    String res = String.format("[name: %s | type: %s | owner: %s | murder: %s]", getName(), getType(), getOwner(), getIsMurder());
+    return res;
   }
 }

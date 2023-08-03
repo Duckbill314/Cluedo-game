@@ -44,9 +44,4 @@ public class Character extends Item
   {
     return estate;
   }
-
-  public void delete()
-  {
-    super.delete();
-  }
 }

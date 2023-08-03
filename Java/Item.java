@@ -34,22 +34,6 @@ public class Item
   // INTERFACE
   //------------------------
 
-  public boolean setName(String aName)
-  {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setDisplayIcon(String aDisplayIcon)
-  {
-    boolean wasSet = false;
-    displayIcon = aDisplayIcon;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setX(int aX)
   {
     boolean wasSet = false;
@@ -92,16 +76,10 @@ public class Item
     return y;
   }
 
-  public void delete()
-  {}
-
 
   public String toString()
   {
-    return super.toString() + "["+
-            "name" + ":" + getName()+ "," +
-            "displayIcon" + ":" + getDisplayIcon()+ "," +
-            "x" + ":" + getX()+ "," +
-            "y" + ":" + getY()+ "]";
+    String res = String.format("[name: %s | display icon: %s | x: %d | y: %d]", getName(), getDisplayIcon(), getX(), getY());
+    return res;
   }
 }

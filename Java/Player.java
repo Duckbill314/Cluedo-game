@@ -44,37 +44,6 @@ public class Player
     return wasAdded;
   }
 
-  public boolean removeCard(Card aCard)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = cards.remove(aCard);
-    return wasRemoved;
-  }
-
-  public boolean setCharacter(Character aCharacter)
-  {
-    boolean wasSet = false;
-    character = aCharacter;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setWorksheet(Worksheet aWorksheet)
-  {
-    boolean wasSet = false;
-    worksheet = aWorksheet;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setName(String aName)
-  {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setIsEligible(boolean aIsEligible)
   {
     boolean wasSet = false;
@@ -93,18 +62,6 @@ public class Player
   {
     Card[] newCards = cards.toArray(new Card[cards.size()]);
     return newCards;
-  }
-
-  public int numberOfCards()
-  {
-    int number = cards.size();
-    return number;
-  }
-
-  public boolean hasCards()
-  {
-    boolean has = cards.size() > 0;
-    return has;
   }
 
   public int indexOfCard(Card aCard)
@@ -144,14 +101,6 @@ public class Player
   {
     return isEligible;
   }
-  /* Code from template attribute_IsBoolean */
-  public boolean isIsEligible()
-  {
-    return isEligible;
-  }
-
-  public void delete()
-  {}
 
 
   /**
@@ -162,16 +111,20 @@ public class Player
    */
   // line 114 "model.ump"
    public void printHand(){
-    System.out.print("\n"); //output should be "playernames card's are 'cardname','cardname'" etc \n
+    System.out.print(String.format("%s's cards are:\n", getName()));
+    for (Card card : getCards()) {
+      System.out.println(card);
+    }
   }
 
 
   public String toString()
   {
-    return super.toString() + "["+
-            "character" + ":" + getCharacter()+ "," +
-            "name" + ":" + getName()+ "," +
-            "isEligible" + ":" + getIsEligible()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "worksheet" + "=" + (getWorksheet() != null ? !getWorksheet().equals(this)  ? getWorksheet().toString().replaceAll("  ","    ") : "this" : "null");
+    String res = String.format("[character: %s | player name: %s | is eligible: %s]", getCharacter(), getName(), getIsEligible());
+    if (getWorksheet() != null) {
+      res += getWorksheet();
+    }
+    return res;
+    //"worksheet: " + (getWorksheet() != null ? !getWorksheet().equals(this)  ? getWorksheet().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
