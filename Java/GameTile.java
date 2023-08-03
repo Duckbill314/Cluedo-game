@@ -1,8 +1,8 @@
-public class gameTile extends Tile
+public class GameTile extends Tile
 {
   private Item stored = null;
 
-  public gameTile(int yCoord, int xCoord)
+  public GameTile(int yCoord, int xCoord)
   {
     super(yCoord, xCoord);
   }

@@ -36,7 +36,7 @@ public class Board {
     private void buildGameSpace() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                board[i][j] = new gameTile(i, j);
+                board[i][j] = new GameTile(i, j);
             }
         }
     }
@@ -49,23 +49,23 @@ public class Board {
         //build column
         for (int i = y; i < y + 5; i++) {
             int j = x;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
             j = x + 4;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
         }
 
         //build row
         for (int j = x + 1; j < x + 4; j++) {
             int i = y;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
             i = y + 4;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
         }
 
         //add inside tiles to the estate
         for (int i = y + 1; i < y + 4; i++) {
             for (int j = x + 1; j < x + 4; j++) {
-                estate.addEstateTile((gameTile)board[i][j]);
+                estate.addEstateTile((GameTile)board[i][j]);
             }
         }
     }
@@ -74,23 +74,23 @@ public class Board {
         //build column
         for (int i = y; i < y + 4; i++) {
             int j = x;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
             j = x + 5;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
         }
 
         //build row
         for (int j = x + 1; j < x + 5; j++) {
             int i = y;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
             i = y + 3;
-            board[i][j] = new wallTile(i, j);
+            board[i][j] = new WallTile(i, j);
         }
 
         //add inside tiles to the estate
         for (int i = y + 1; i < y + 3; i++) {
             for (int j = x + 1; j < x + 5; j++) {
-                estate.addEstateTile((gameTile)board[i][j]);
+                estate.addEstateTile((GameTile)board[i][j]);
             }
         }
     }
@@ -105,8 +105,8 @@ public class Board {
     private void buildEntrances() {
         // Haunted House
         Estate estate = estates.get(0);
-        entranceTile entrance1 = new entranceTile(3, 6, estate, 3, 7);
-        entranceTile entrance2 = new entranceTile(6, 5, estate, 7, 5);
+        EntranceTile entrance1 = new EntranceTile(3, 6, estate, 3, 7);
+        EntranceTile entrance2 = new EntranceTile(6, 5, estate, 7, 5);
         board[3][6] = entrance1;
         board[6][5] = entrance2;
         estate.addEntrance(entrance1);
@@ -116,8 +116,8 @@ public class Board {
 
         // Calamity Castle
         estate = estates.get(1);
-        entrance1 = new entranceTile(17, 3, estate, 16, 3);
-        entrance2 = new entranceTile(18, 6, estate, 18, 7);
+        entrance1 = new EntranceTile(17, 3, estate, 16, 3);
+        entrance2 = new EntranceTile(18, 6, estate, 18, 7);
         board[17][3] = entrance1;
         board[18][6] = entrance2;
         estate.addEntrance(entrance1);
@@ -127,8 +127,8 @@ public class Board {
 
         // Manic Manor
         estate = estates.get(2);
-        entrance1 = new entranceTile(5, 17, estate, 5, 16);
-        entrance2 = new entranceTile(6, 20, estate, 7, 20);
+        entrance1 = new EntranceTile(5, 17, estate, 5, 16);
+        entrance2 = new EntranceTile(6, 20, estate, 7, 20);
         board[5][17] = entrance1;
         board[6][20] = entrance2;
         estate.addEntrance(entrance1);
@@ -138,8 +138,8 @@ public class Board {
 
         // Peril Palace
         estate = estates.get(3);
-        entrance1 = new entranceTile(17, 18, estate, 16, 18);
-        entrance2 = new entranceTile(20, 17, estate, 20, 16);
+        entrance1 = new EntranceTile(17, 18, estate, 16, 18);
+        entrance2 = new EntranceTile(20, 17, estate, 20, 16);
         board[17][18] = entrance1;
         board[20][17] = entrance2;
         estate.addEntrance(entrance1);
@@ -149,10 +149,10 @@ public class Board {
 
         // Visitation Villa
         estate = estates.get(4);
-        entrance1 = new entranceTile(10, 12, estate, 9, 12);
-        entrance2 = new entranceTile(11, 14, estate, 11, 15);
-        entranceTile entrance3 = new entranceTile(13, 11, estate, 14, 11);
-        entranceTile entrance4 = new entranceTile(12, 9, estate, 12, 8);
+        entrance1 = new EntranceTile(10, 12, estate, 9, 12);
+        entrance2 = new EntranceTile(11, 14, estate, 11, 15);
+        EntranceTile entrance3 = new EntranceTile(13, 11, estate, 14, 11);
+        EntranceTile entrance4 = new EntranceTile(12, 9, estate, 12, 8);
         board[10][12] = entrance1;
         board[11][14] = entrance2;
         board[13][11] = entrance3;
@@ -166,7 +166,7 @@ public class Board {
     private void buildGreyArea(int y, int x) {
         for (int i = y; i <= y + 1; i++) {
             for (int j = x; j <= x + 1; j++) {
-                board[i][j] = new wallTile(i, j);
+                board[i][j] = new WallTile(i, j);
             }
         }
     }
@@ -231,11 +231,11 @@ public class Board {
 
         Tile target = getTile(y, x);
 
-        if (!(target instanceof gameTile)) {
+        if (!(target instanceof GameTile)) {
             return false;
         }
 
-        if (((gameTile)target).getStored() != null) {
+        if (((GameTile)target).getStored() != null) {
             return false;
         }
         

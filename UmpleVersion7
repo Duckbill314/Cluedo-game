@@ -101,7 +101,7 @@ public void printHand(){
 
 class Board
 {
-//List<List<gameTile>> board = new ArrayList<>();
+//List<List<GameTile>> board = new ArrayList<>();
   // board should be filled by the bootGame() method in Game upon launch
   // list of items already exists as Umple auto generates a list of items
 /**
@@ -176,7 +176,7 @@ class Estate
 }
 
 /**
-  public class gameTile<T> {
+  public class GameTile<T> {
     private T stored;
     public void draw() 
     { 

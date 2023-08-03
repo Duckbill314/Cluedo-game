@@ -3,20 +3,20 @@ import java.util.*;
 public class Estate {
     private String name;
     private List<Item> items = new ArrayList<Item>();
-    private List<gameTile> estateTiles = new ArrayList<gameTile>();
-    private List<entranceTile> entranceTiles = new ArrayList<>();
+    private List<GameTile> estateTiles = new ArrayList<GameTile>();
+    private List<EntranceTile> EntranceTiles = new ArrayList<>();
 
     public Estate(String aName) {
         name = aName;
     }
 
     // Every estate will have four entrance tiles corresponding to the best fitting entrances of North, East, South, and West
-    public void addEntrance(entranceTile entrance) {
-        this.entranceTiles.add(entrance);
+    public void addEntrance(EntranceTile entrance) {
+        this.EntranceTiles.add(entrance);
     }
 
     // These tiles are purely for storing weapons and characters that end up inside of the estate
-    public void addEstateTile(gameTile estateTile) {
+    public void addEstateTile(GameTile estateTile) {
         this.estateTiles.add(estateTile);
     }
 
@@ -52,7 +52,7 @@ public class Estate {
         return this.items;
     }
 
-    public List<entranceTile> getEntranceTiles() {
-        return this.entranceTiles;
+    public List<EntranceTile> getEntranceTiles() {
+        return this.EntranceTiles;
     }
 }

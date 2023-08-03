@@ -13,7 +13,7 @@ public class Game {
     
     private final List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
-    private List<gameTile> usedGameTiles = new ArrayList<>();
+    private List<GameTile> usedGameTiles = new ArrayList<>();
 
     public Game() {
         board.draw();
@@ -111,8 +111,8 @@ public class Game {
         //draw the characters on the board
         for (Player p : players) {
             Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
-            if (t instanceof gameTile) {
-                ((gameTile) t).setStored(p.getCharacter());
+            if (t instanceof GameTile) {
+                ((GameTile) t).setStored(p.getCharacter());
             }
         }
         // making the cards
@@ -670,7 +670,7 @@ public class Game {
                     turn = players.get(0);
                     break;
             }
-            for (gameTile t : usedGameTiles) {
+            for (GameTile t : usedGameTiles) {
                 t.setStored(null);
             }
             while (!input.equals("1")) {
@@ -700,15 +700,15 @@ public class Game {
         estate.addItem(character);
         estate.updateContents();
         character.setEstate(estate);
-        gameTile current = (gameTile)board.getTile(character.getY(), character.getX());
+        GameTile current = (GameTile)board.getTile(character.getY(), character.getX());
         current.setStored(new Item("Used", "+", character.getX(), character.getY()));
         usedGameTiles.add(current);
         return 1;
     }
 
-    public int moveCharOutOfEstate(Character character, entranceTile exit) {
+    public int moveCharOutOfEstate(Character character, EntranceTile exit) {
         if (board.isSafeMove(exit.exitY, exit.exitX)) {
-            gameTile next = (gameTile)board.getTile(exit.exitY, exit.exitX);
+            GameTile next = (GameTile)board.getTile(exit.exitY, exit.exitX);
             next.setStored(character);
             character.setX(exit.exitX);
             character.setY(exit.exitY);
@@ -722,11 +722,11 @@ public class Game {
 
     private int moveChar(Character character, int newY, int newX) {
         if (board.isSafeMove(newY, newX)) {
-            gameTile next = (gameTile)board.getTile(newY, newX);
+            GameTile next = (GameTile)board.getTile(newY, newX);
             next.setStored(character);
             character.setX(newX);
             character.setY(newY);
-            gameTile current = (gameTile)board.getTile(character.getY(), character.getX());
+            GameTile current = (GameTile)board.getTile(character.getY(), character.getX());
             current.setStored(new Item("Used", "+", character.getX(), character.getY()));
             usedGameTiles.add(current);
             return 1;
@@ -741,8 +741,8 @@ public class Game {
         int newY = character.getY() - 1;
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
-        if (next instanceof entranceTile) {
-            return moveCharToEstate(character, ((entranceTile)next).estate);
+        if (next instanceof EntranceTile) {
+            return moveCharToEstate(character, ((EntranceTile)next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -754,8 +754,8 @@ public class Game {
         int newY = character.getY();
         int newX = character.getX() + 1;
         Tile next = board.getTile(newY, newX);
-        if (next instanceof entranceTile) {
-            return moveCharToEstate(character, ((entranceTile)next).estate);
+        if (next instanceof EntranceTile) {
+            return moveCharToEstate(character, ((EntranceTile)next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -767,8 +767,8 @@ public class Game {
         int newY = character.getY() + 1;
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
-        if (next instanceof entranceTile) {
-            return moveCharToEstate(character, ((entranceTile)next).estate);
+        if (next instanceof EntranceTile) {
+            return moveCharToEstate(character, ((EntranceTile)next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -780,8 +780,8 @@ public class Game {
         int newY = character.getY();
         int newX = character.getX() - 1;
         Tile next = board.getTile(newY, newX);
-        if (next instanceof entranceTile) {
-            return moveCharToEstate(character, ((entranceTile)next).estate);
+        if (next instanceof EntranceTile) {
+            return moveCharToEstate(character, ((EntranceTile)next).estate);
         }
         return moveChar(character, newY, newX);
     }
