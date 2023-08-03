@@ -1,26 +1,10 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
-
-
-
-// line 222 "model.ump"
-// line 300 "model.ump"
 public class Card
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Card Attributes
   private boolean isMurder;
   private Player owner;
   private String name;
   private String type;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Card(boolean aIsMurder, Player aOwner, String aName,String aType)
   {
@@ -29,10 +13,6 @@ public class Card
     name = aName;
     type = aType;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public void setOwner(Player aOwner) {
     owner = aOwner;

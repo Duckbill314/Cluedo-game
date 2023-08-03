@@ -1,29 +1,18 @@
 public class entranceTile extends Tile {
 
+    /**
+     * It's not enough to just have the coordinates of where the tile is...
+     * We need to have the coordinates of where we would want the player to be upon
+     * taking the exit (the tile adjacent to this), otherwise we would end up with
+     * movement inside the actual estate's tiles, which is super messy...
+     */
     public Estate estate;
-    public boolean empty = false;
-
-    entranceTile(){}
-
-    entranceTile(String s) {
-        if (s.equals("EMPTY")){
-            empty = true;
-        }
-    }
-
-    public boolean isEmpty(){
-        return empty;
-    }
-
-    entranceTile(Estate estate) {
-       this.estate = estate;
-    }
-
-    public void addEstate(Estate estate){
+    public int exitY;
+    public int exitX;
+    public entranceTile(int yCoord, int xCoord, Estate estate, int exitY, int exitX) {
+        super(yCoord, xCoord);
         this.estate = estate;
-    }
-
-    public void draw() {
-        System.out.print(" ");
+        this.exitY = exitY;
+        this.exitX = exitX;
     }
 }

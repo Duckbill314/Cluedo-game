@@ -1,32 +1,11 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
-
-
-
-// line 210 "model.ump"
-// line 322 "model.ump"
 public class gameTile extends Tile
 {
+  private Item stored = null;
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Tile Attributes
-  private Item stored;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public gameTile()
+  public gameTile(int yCoord, int xCoord)
   {
-    stored = null;
+    super(yCoord, xCoord);
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setStored(Item aStored)
   {
@@ -41,15 +20,15 @@ public class gameTile extends Tile
     return stored;
   }
 
-  public void delete()
-  {}
+  public void clearStored() {
+    stored = null;
+  }
 
-  // line 214 "model.ump"
-  public void draw(){
-    if(stored == null){
-       System.out.print(" ");
-       }else{
-       System.out.print(stored.getDisplayIcon());
-     }
+  public void draw() {
+    if(stored == null) {
+      System.out.print(getOutput());
+    } else {
+      System.out.print(stored.getDisplayIcon());
+    }
   }
 }

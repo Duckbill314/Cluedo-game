@@ -1,26 +1,10 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
-
-
-
-// line 167 "model.ump"
-// line 271 "model.ump"
 public class Item
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Item Attributes
   private String name;
   private String displayIcon;
   private int x;
   private int y;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+  private Estate estate; // for the sake of teleporting objects, it's easiest to just have an estate in the Item superclass
 
   public Item(String aName, String aDisplayIcon, int aX, int aY)
   {
@@ -28,11 +12,8 @@ public class Item
     displayIcon = aDisplayIcon;
     x = aX;
     y = aY;
+    estate = null;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setX(int aX)
   {
@@ -60,22 +41,28 @@ public class Item
     return displayIcon;
   }
 
-  /**
-   * represents the row index of the tile the item occupies in the Board's internal collection (collection[x][y])
-   */
   public int getX()
   {
     return x;
   }
 
-  /**
-   * represents the column index of the tile the item occupies in the Board's internal collection (collection[x][y])
-   */
   public int getY()
   {
     return y;
   }
 
+  public boolean setEstate(Estate aEstate)
+  {
+    boolean wasSet = false;
+    estate = aEstate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public Estate getEstate()
+  {
+    return estate;
+  }
 
   public String toString()
   {

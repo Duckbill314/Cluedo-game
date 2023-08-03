@@ -1,28 +1,11 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.32.1.6535.66c005ced modeling language!*/
-
-
 import java.util.*;
-
-// line 102 "model.ump"
-// line 252 "model.ump"
 public class Player
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Player Attributes
   private List<Card> cards;
   private Character character;
   private Worksheet worksheet;
   private String name;
   private boolean isEligible;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Player(Character aCharacter, Worksheet aWorksheet, String aName, boolean aIsEligible)
   {
@@ -33,10 +16,6 @@ public class Player
     isEligible = aIsEligible;
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Code from template attribute_SetMany */
   public boolean addCard(Card aCard)
   {
     boolean wasAdded = false;
@@ -51,7 +30,7 @@ public class Player
     wasSet = true;
     return wasSet;
   }
-  /* Code from template attribute_GetMany */
+
   public Card getCard(int index)
   {
     Card aCard = cards.get(index);
@@ -102,21 +81,12 @@ public class Player
     return isEligible;
   }
 
-
-  /**
-   * getters and setters for all values are auto generated
-   * 
-   * prints the cards in the players hand 
-   * 
-   */
-  // line 114 "model.ump"
    public void printHand(){
     System.out.print(String.format("%s's cards are:\n", getName()));
     for (Card card : getCards()) {
       System.out.println(card);
     }
   }
-
 
   public String toString()
   {
@@ -125,6 +95,5 @@ public class Player
       res += getWorksheet();
     }
     return res;
-    //"worksheet: " + (getWorksheet() != null ? !getWorksheet().equals(this)  ? getWorksheet().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }

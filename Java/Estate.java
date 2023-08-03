@@ -2,52 +2,57 @@ import java.util.*;
 
 public class Estate {
     private String name;
-    private List<Character> playersInside = new ArrayList<>();
-    private List<Weapon> weaponsInside = new ArrayList<>();
+    private List<Item> items = new ArrayList<Item>();
+    private List<gameTile> estateTiles = new ArrayList<gameTile>();
     private List<entranceTile> entranceTiles = new ArrayList<>();
-    private Map<String, entranceTile> pathsOut = new HashMap<>();
 
-    public entranceTile left = new entranceTile("EMPTY");
-    public entranceTile right = new entranceTile("EMPTY");
-    public entranceTile up = new entranceTile("EMPTY");
-    public entranceTile down = new entranceTile("EMPTY");
-
-    public Estate(String aName, List<entranceTile> entranceTiles) {
+    public Estate(String aName) {
         name = aName;
-        this.entranceTiles = entranceTiles;
     }
 
-    public Estate(String aName, entranceTile left, entranceTile right) {
-        name = aName;
-        this.left = left;
-        this.right = right;
+    // Every estate will have four entrance tiles corresponding to the best fitting entrances of North, East, South, and West
+    public void addEntrance(entranceTile entrance) {
+        this.entranceTiles.add(entrance);
     }
 
-    public Estate(String aName, entranceTile left, entranceTile right, entranceTile up, entranceTile down) {
-        name = aName;
-        this.left = left;
-        this.right = right;
-        this.up = up;
-        this.down = down;
-    }
-
-    public Map<String, entranceTile> getPathsOut() {
-        return pathsOut;
-    }
-
-    public String getName() {
-        return name;
+    // These tiles are purely for storing weapons and characters that end up inside of the estate
+    public void addEstateTile(gameTile estateTile) {
+        this.estateTiles.add(estateTile);
     }
 
     /**
-     * Check that at the given coordinates there is or is not an item
+     * This method couples the list of items inside the estate, to the estate's storage tiles.
+     * It is called any time the contents of the estate changes.
      */
-    public boolean onItem(int x, int y) {
-        return false;
+    public void updateContents() {
+        for (int i = 0; i < estateTiles.size(); i++) {
+            if (i < items.size()) {
+                estateTiles.get(i).setStored(items.get(i));
+            } else {
+                estateTiles.get(i).clearStored();
+            }
+        }
     }
 
-    public String toString() {
-        return super.toString() + "[" +
-                "name" + ":" + getName() + "]";
+    public void addItem(Item item) {
+        this.items.add(item);
+        updateContents();
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(this.items.indexOf((item)));
+        updateContents();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public List<Item> getItems() {
+        return this.items;
+    }
+
+    public List<entranceTile> getEntranceTiles() {
+        return this.entranceTiles;
     }
 }
