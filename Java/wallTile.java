@@ -1,12 +1,7 @@
 public class wallTile extends Tile
 {
-    private String output = "X";
-
-    public wallTile setG(){
-        output = "G";
-        return this;
+    public wallTile(int yCoord, int xCoord) {
+      super(yCoord, xCoord);
+      this.output = "X";
     }
-  public void draw(){
-       System.out.print(output);
-     }
-  }
+}
