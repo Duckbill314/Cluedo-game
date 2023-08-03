@@ -25,8 +25,9 @@ public class Entrance extends Item
    return estate;  
   }
   
-  public void setEstate(Estate e){
+  public boolean setEstate(Estate e){
    estate = e;
+      return false;
   }
 
   //------------------------
