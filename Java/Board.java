@@ -22,7 +22,7 @@ public class Board {
         buildSquareEstate(2, 17, estates.get(2));
         buildSquareEstate(17, 17, estates.get(3));
 
-        buildRectangleEstate(9, 10, estates.get(4));
+        buildRectangleEstate(10, 9, estates.get(4));
 
         buildEntrances();
 
