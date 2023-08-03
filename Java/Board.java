@@ -8,24 +8,37 @@ public class Board {
     Tile[][] board = new Tile[ROWS][COLS];
 
     public Board() {
-        buildSquareEstate(2,2);
-        buildSquareEstate(17,2);
-        buildSquareEstate(2,17);
-        buildSquareEstate(17,17);
+        buildSquareEstate(2, 2);
+        buildSquareEstate(17, 2);
+        buildSquareEstate(2, 17);
+        buildSquareEstate(17, 17);
 
+        buildRectangleEstate(9, 10);
+
+        buildGreyArea(5, 11);
+        buildGreyArea(11, 5);
+        buildGreyArea(11, 17);
+        buildGreyArea(17, 11);
 
         buildEntrance();
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                if(!(board[i][j] instanceof entranceTile || board[i][j] instanceof wallTile)) {
+                if (!(board[i][j] instanceof entranceTile || board[i][j] instanceof wallTile)) {
                     board[i][j] = new gameTile();
                 }
             }
         }
     }
 
-    private void buildSquareEstate(int y, int x){
+    private void buildGreyArea(int x ,int y){
+        for (int i = x; i <= x+1 ; i++) {
+            for (int j = y; j <= y+1 ; j++) {
+               board[i][j] = new wallTile().setG();
+            }
+        }
+    }
+    private void buildSquareEstate(int y, int x) {
         //build column
         for (int i = x; i < x + 5; i++) {
             int j = y;
@@ -43,12 +56,44 @@ public class Board {
         }
     }
 
-    private void buildEntrance(){
+    private void buildRectangleEstate(int y, int x) {
+        //build column
+        for (int i = x; i < x + 4; i++) {
+            int j = y;
+            board[i][j] = new wallTile();
+            j = y + 5;
+            board[i][j] = new wallTile();
+        }
+
+        //build row
+        for (int j = y + 1; j < y + 5; j++) {
+            int i = x;
+            board[i][j] = new wallTile();
+            i = x + 3;
+            board[i][j] = new wallTile();
+
+        }
+    }
+
+    private void buildEntrance() {
         board[3][6] = new entranceTile();
         board[6][5] = new entranceTile();
+
         board[5][17] = new entranceTile();
         board[6][20] = new entranceTile();
+
+        board[10][12] = new entranceTile();
+        board[12][9] = new entranceTile();
+        board[11][14] = new entranceTile();
+        board[13][11] = new entranceTile();
+
+        board[18][6] = new entranceTile();
+        board[17][3] = new entranceTile();
+
+        board[20][17] = new entranceTile();
+        board[17][18] = new entranceTile();
     }
+
     /**
      * Draws the board
      */
