@@ -32,10 +32,4 @@ public class Entrance extends Item
   //------------------------
   // INTERFACE
   //------------------------
-
-  public void delete()
-  {
-    super.delete();
-  }
-
 }

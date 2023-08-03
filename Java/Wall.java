@@ -24,10 +24,4 @@ public class Wall extends Item
   //------------------------
   // INTERFACE
   //------------------------
-
-  public void delete()
-  {
-    super.delete();
-  }
-
 }
