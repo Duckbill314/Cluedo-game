@@ -317,6 +317,17 @@ public class Game {
             switch (input) {
 
                 case "1":
+                    Character guessedCharacter = new Character(null,null,0,0);
+                    // get the guessed character card
+                    for(Player player : players){
+                        if(player.getCharacter().getName().equals(character)){
+                            guessedCharacter = player.getCharacter();
+                        }              
+                    }
+                    // teleport the guessed character to the current estate
+                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
+                    // teleport the guessed character to the current estate
+                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
                     diceTotal = 0;
                     // if win (only works on final guesses)
                     boolean win = true;
