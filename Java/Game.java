@@ -132,22 +132,44 @@ public class Game {
 
     // JAMES' WORKING CODE
 
+  /**
+     * gets random number from 1 to max that is not in a given set
+     */
+    private int getRandomNumber(int max,Set<Integer> exclude){
+        double min = 1;
+        int random = 0;
+        while(exclude.contains(random)){
+            random = (int) (Math.random() * (max - min + 1) + min);
+        }
+        return random;
+    }
+    
+
     /**
      * assigns each player a character randomly (must be called after makeCards())
      */
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
+        Set<Integer> exclude = new HashSet<>();
+        exclude.add(0);
+        int random1 = getRandomNumber(names.size(),exclude);
+        exclude.add(random1);
+        int random2 = getRandomNumber(names.size(),exclude);
+        exclude.add(random2);
+        int random3 = getRandomNumber(names.size(),exclude);
+        exclude.add(random3);
         switch (names.size()) {
             case 3:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
-                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
-                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(2), true));
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(random1-1), true));
+                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(random2-1), true));
+                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(random3-1), true));
                 break;
             case 4:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(0), true));
-                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(1), true));
-                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(2), true));
-                players.add(new Player(new Character("Percy", "P", 22, 11), new Worksheet(), names.get(3), true));
+                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(random1-1), true));
+                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(random2-1), true));
+                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(random3-1), true));
+                int random4 = getRandomNumber(names.size(),exclude);
+                players.add(new Player(new Character("Percy", "P", 22, 11), new Worksheet(), names.get(random4-1), true));
                 break;
             default:
                 System.out.println("Fail");
