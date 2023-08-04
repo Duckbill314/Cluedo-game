@@ -501,14 +501,8 @@ public class Game {
      * Contains the primary gameLoop mechanics. Fails and returns 0 if error is detected, 1 if the game concludes successfully
      * Is the central hub for method calling and contains the main loop.
      */
-    private void gameManager(){
-       Player turn = players.get(0);
-       Scanner scanner = new Scanner(System.in);
-       while(true){
-           turn.getIsEligible();
-       }
-    }
-    private void gameManagerOld() {
+
+    private void gameManager() {
         Player turn = players.get(0);
         String input = "0";
         Scanner scanner = new Scanner(System.in);
