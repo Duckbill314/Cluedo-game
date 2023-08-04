@@ -634,13 +634,16 @@ public class Game {
     }
 
     public int moveCharToEstate(Character character, Estate estate) {
-        estate.addItem(character);
-        estate.updateContents();
-        character.setEstate(estate);
-        GameTile current = (GameTile) board.getTile(character.getY(), character.getX());
-        current.setStored(new Item("Used", "+", character.getX(), character.getY()));
-        usedGameTiles.add(current);
-        return 1;
+        if(character.getEstate() != estate){
+            estate.addItem(character);
+            estate.updateContents();
+            character.setEstate(estate);
+            GameTile current = (GameTile) board.getTile(character.getY(), character.getX());
+            current.setStored(new Item("Used", "+", character.getX(), character.getY()));
+            usedGameTiles.add(current);
+            return 1;
+        }
+        return 0;
     }
 
     public int moveCharOutOfEstate(Character character, EntranceTile exit) {
