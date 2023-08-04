@@ -431,14 +431,6 @@ public class Game {
         }
         return refuteableCards.get(Integer.parseInt(input) - 1);
     }
-
-    /**
-     * placeholder for solve method, should invoke guess method in some way but also cost the player their guess attempt
-     */
-    private int solve(Player p, Scanner scanner) {
-        return guess(p, scanner);
-    }
-
     /**
      * Method to randomly return a number 1-6
      */
@@ -546,7 +538,7 @@ public class Game {
                             guess(turn, scanner);
                         }
                         if (input.equals("2") && turn.getCharacter().getEstate() != null) {
-                            int i = solve(turn, scanner);
+                            int i = guess(turn, scanner);
                             if (i == 1) {
                                 System.out.print('\u000C');
                                 System.out.println(turn.getName() + " guessed correctly!");
