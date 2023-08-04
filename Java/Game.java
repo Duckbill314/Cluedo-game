@@ -510,6 +510,7 @@ public class Game {
     }
     private void gameManagerOld() {
         Player turn = players.get(0);
+        String input = "0";
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if (turn.getIsEligible()) {
@@ -636,7 +637,7 @@ public class Game {
                         System.out.println("Enter 1 to roll your dice.");
                         System.out.println("Enter 2 to do an action.");
 
-                        String input = scanner.nextLine();
+                        input = scanner.nextLine();
                     }
 
                 }
