@@ -14,12 +14,11 @@ public class Game {
     private final List<Card> cards = new ArrayList<>();
     private List<GameTile> usedGameTiles = new ArrayList<>();
 
-    public Game() {
+    public Game(Scanner scanner) {
         board.draw();
 
         System.out.print('\u000C');
         System.out.println("Welcome to Hobby Detectives!");
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Do you want to start the game?");
         System.out.println();
@@ -32,7 +31,6 @@ public class Game {
         System.out.print('\u000C');
         if (!startGameInput.equalsIgnoreCase("1")) {
             System.out.println("Game aborted. Goodbye!");
-            scanner.close();
             isInProgress = false;
             try {
                 Thread.sleep(1000);
@@ -40,7 +38,7 @@ public class Game {
                 Thread.currentThread().interrupt();
             }
         }
-        else { // THE FIX IS HERE, PLEASE TURN ALL THESE INTO FUNCTIONS SO THAT THIS IS LESS MESSY
+        else {
             //get the number of players
             int numPlayers = 0;
 
@@ -100,7 +98,6 @@ public class Game {
                 }
                 System.out.print('\u000C');
             }
-            scanner.close();
             board.draw();
             //draw the characters on the board
             for (Player p : players) {
@@ -250,7 +247,7 @@ public class Game {
      * 0 for failed guess and 1 for correct guess
      */
     // line 66 "model.ump"
-    private int guess(Player p) {
+    private int guess(Player p, Scanner scanner) {
         //guess UI
 
         String input = "";
@@ -258,7 +255,6 @@ public class Game {
         boolean weaponSelected = false;
         String character = "";
         String weapon = "";
-        Scanner scanner = new Scanner(System.in);
 
         while (!characterSelected) {
             System.out.print('\u000C');
@@ -393,7 +389,7 @@ public class Game {
 
                         for (Card c : players.get(playerId).getCards()) {
                             if (c.getName().equals(weapon) || c.getName().equals(character) || c.getName().equals(p.getCharacter().getEstate().getName())) {
-                                cardName = refute(players.get(playerId), p, character, weapon);
+                                cardName = refute(players.get(playerId), p, character, weapon, scanner);
                                 input = "0";
                                 while (!input.equals("1")) {
                                     System.out.print('\u000C');
@@ -421,12 +417,10 @@ public class Game {
                     return 2;
             }
         }
-        scanner.close();
         return 0;
     }
 
-    private String refute(Player p, Player guesser, String character, String weapon) {
-        Scanner scanner = new Scanner(System.in);
+    private String refute(Player p, Player guesser, String character, String weapon, Scanner scanner) {
         String input = "0";
 
         while (!input.equals("1")) {
@@ -460,15 +454,14 @@ public class Game {
                 }
             }
         }
-        scanner.close();
         return refuteableCards.get(Integer.parseInt(input) - 1);
     }
 
     /**
      * placeholder for solve method, should invoke guess method in some way but also cost the player their guess attempt
      */
-    private int solve(Player p) {
-        return guess(p);
+    private int solve(Player p, Scanner scanner) {
+        return guess(p, scanner);
     }
 
     /**
@@ -487,10 +480,13 @@ public class Game {
      * Manages bootGame() return values of 0 & 1 respectively for successful or failed attempts to boot
      */
     public static void main(String... args) {
-        Game game = new Game();
-        if (game.isInProgress) {
-        game.gameManager();
-        }
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            Game game = new Game(scanner);
+            if (game.isInProgress) {
+                game.gameManager(scanner);
+            }
+        }        
     }
 
     /**
@@ -498,10 +494,9 @@ public class Game {
      * Is the central hub for method calling and contains the main loop.
      */
 
-    private void gameManager() {
+    private void gameManager(Scanner scanner) {
         Player turn = players.get(0);
         String input = "0";
-        Scanner scanner = new Scanner(System.in);
         while (isInProgress) {
             if (turn.getIsEligible()) {
                 boolean diceRolled = false;
@@ -524,7 +519,7 @@ public class Game {
 
                         input = scanner.nextLine();
                         if (input.equals("1")) {
-                            takePlayerInput(turn);
+                            takePlayerInput(turn, scanner);
                             input = "0";
                         }
                         if (!input.equals("0")) {
@@ -592,10 +587,10 @@ public class Game {
                         input = scanner.nextLine();
 
                         if (input.equals("1") && turn.getCharacter().getEstate() != null) {
-                            guess(turn);
+                            guess(turn, scanner);
                         }
                         if (input.equals("2") && turn.getCharacter().getEstate() != null) {
-                            int i = solve(turn);
+                            int i = solve(turn, scanner);
                             if (i == 1) {
                                 System.out.print('\u000C');
                                 System.out.println(turn.getName() + " guessed correctly!");
@@ -670,7 +665,6 @@ public class Game {
             }
             input = "0";
         }
-        scanner.close();
     }
 
     // WILL'S CODE - check it out and ask me if anything is unclear!
@@ -781,8 +775,7 @@ public class Game {
      * also needs to handle "roll" for rolling the dice (update diceTotal to the return value of rollDice())
      * needs to handle "grid on" "grid off" and capital versions of all commands + errors like invalid inputs.
      */
-    private void takePlayerInput(Player p) {
-        Scanner scanner = new Scanner(System.in);
+    private void takePlayerInput(Player p, Scanner scanner) {
         String input = "";
         while (diceTotal != 0 && !input.equals("5")) {
             System.out.print('\u000C');
@@ -819,7 +812,6 @@ public class Game {
                     System.out.println("\nYour input was not one of the possible actions, please try again!");
             }
         }
-        scanner.close();
     }
 
     // END OF WILL'S CODE
