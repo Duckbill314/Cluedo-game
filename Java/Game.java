@@ -1,9 +1,8 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
 public class Game {
+    public boolean isInProgress = true;
 
     public enum TurnOrder {Lucilla, Bert, Malina, Percy}
 
@@ -34,92 +33,94 @@ public class Game {
         if (!startGameInput.equalsIgnoreCase("1")) {
             System.out.println("Game aborted. Goodbye!");
             scanner.close();
+            isInProgress = false;
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            endGame();
         }
+        else { // THE FIX IS HERE, PLEASE TURN ALL THESE INTO FUNCTIONS SO THAT THIS IS LESS MESSY
+            //get the number of players
+            int numPlayers = 0;
 
-        //get the number of players
-        int numPlayers = 0;
-
-        System.out.print("Please select the number of players.\n");
-        System.out.println();
-        System.out.println("Enter 1 to play with three players and a bot.");
-        System.out.println("Enter 2 to play with four players.");
-        startGameInput = scanner.nextLine();
-        if (!startGameInput.equalsIgnoreCase("1")) {
-            numPlayers = 4;
-        } else {
-            numPlayers = 3;
-        }
-
-        //get player names
-        System.out.print('\u000C');
-        List<String> names = new ArrayList<>();
-        while (numPlayers != names.size()) {
-            System.out.println("Setting up game.\n");
-            for (String n : names) {
-                System.out.println(n);
-            }
+            System.out.print("Please select the number of players.\n");
             System.out.println();
-            System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
-            String name = scanner.nextLine();
-            System.out.print('\u000C');
-            if (name.length() > 15) {
-                System.out.println("Sorry, your name can't exceed 15 characters");
+            System.out.println("Enter 1 to play with three players and a bot.");
+            System.out.println("Enter 2 to play with four players.");
+            startGameInput = scanner.nextLine();
+            if (!startGameInput.equalsIgnoreCase("1")) {
+                numPlayers = 4;
             } else {
-                names.add(name);
+                numPlayers = 3;
             }
-        }
-        // making the players
-        assignCharacters(names);
-        while (true) {
-            System.out.println("Allocating roles for " + numPlayers + " players.");
-            System.out.println();
 
-
-            String first = "";
-            for (Player p : players) {
-                System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
-                if (p.getCharacter().getName().equals("Lucilla")) {
-                    first = p.getName();
+            //get player names
+            System.out.print('\u000C');
+            List<String> names = new ArrayList<>();
+            while (numPlayers != names.size()) {
+                System.out.println("Setting up game.\n");
+                for (String n : names) {
+                    System.out.println(n);
+                }
+                System.out.println();
+                System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
+                String name = scanner.nextLine();
+                System.out.print('\u000C');
+                if (name.length() > 15) {
+                    System.out.println("Sorry, your name can't exceed 15 characters");
+                } else {
+                    names.add(name);
                 }
             }
-            System.out.println();
-            System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
-            System.out.println("\nBegin the your first round?");
-            System.out.println();
+            // making the players
+            assignCharacters(names);
+            while (true) {
+                System.out.println("Allocating roles for " + numPlayers + " players.");
+                System.out.println();
 
-            System.out.println("Enter 1 for yes.");
 
-            String input = scanner.nextLine();
-            if (input.equals("1")) {
-                break;
+                String first = "";
+                for (Player p : players) {
+                    System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
+                    if (p.getCharacter().getName().equals("Lucilla")) {
+                        first = p.getName();
+                    }
+                }
+                System.out.println();
+                System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
+                System.out.println("\nBegin the your first round?");
+                System.out.println();
+
+                System.out.println("Enter 1 for yes.");
+
+                String input = scanner.nextLine();
+                if (input.equals("1")) {
+                    break;
+                }
+                System.out.print('\u000C');
             }
-            System.out.print('\u000C');
-        }
-        scanner.close();
-        board.draw();
-        //draw the characters on the board
-        for (Player p : players) {
-            Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
-            if (t instanceof GameTile) {
-                ((GameTile) t).setStored(p.getCharacter());
+            scanner.close();
+            board.draw();
+            //draw the characters on the board
+            for (Player p : players) {
+                Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
+                if (t instanceof GameTile) {
+                    ((GameTile) t).setStored(p.getCharacter());
+                }
             }
-        }
-        // making the cards
-        makeCards();
-        System.out.println();
-        for (Card c : cards) {
-            if (c.getIsMurder()) {
-                System.out.println("murder card : " + c.getName() + " " + c.getType());
+            // making the cards
+            makeCards();
+            System.out.println();
+            for (Card c : cards) {
+                if (c.getIsMurder()) {
+                    System.out.println("murder card : " + c.getName() + " " + c.getType());
+                }
             }
+
         }
-        gameManager();
-        endGame();
+
+        
     }
 
     public int numberOfPlayers() {
@@ -487,14 +488,9 @@ public class Game {
      */
     public static void main(String... args) {
         Game game = new Game();
-    }
-
-
-    /**
-     * ends the game for a when a player wins
-     */
-    private void endGame() {
-        new Game();
+        if (game.isInProgress) {
+        game.gameManager();
+        }
     }
 
     /**
@@ -506,7 +502,7 @@ public class Game {
         Player turn = players.get(0);
         String input = "0";
         Scanner scanner = new Scanner(System.in);
-        while (true) {
+        while (isInProgress) {
             if (turn.getIsEligible()) {
                 boolean diceRolled = false;
                 while (diceTotal != 0 || !diceRolled) {
@@ -604,13 +600,13 @@ public class Game {
                                 System.out.print('\u000C');
                                 System.out.println(turn.getName() + " guessed correctly!");
                                 System.out.println(turn.getName() + " Wins the game!");
-                                System.out.println("\ngame will restart in 30 seconds");
+                                System.out.println("\ngame will end in 30 seconds");
                                 try {
                                     Thread.sleep(30000);
                                 } catch (InterruptedException e) {
                                     Thread.currentThread().interrupt();
                                 }
-                                endGame();
+                                isInProgress = false;
                             } else if (i == 0) {
                                 turn.setIsEligible(false);
                             }
@@ -674,6 +670,7 @@ public class Game {
             }
             input = "0";
         }
+        scanner.close();
     }
 
     // WILL'S CODE - check it out and ask me if anything is unclear!
@@ -698,13 +695,13 @@ public class Game {
     }
 
     public int moveCharOutOfEstate(Character character, EntranceTile exit) {
-        if (board.isSafeMove(exit.exitY, exit.exitX)) {
-            GameTile next = (GameTile) board.getTile(exit.exitY, exit.exitX);
+        if (board.isSafeMove(exit.getExitY(), exit.getExitX())) {
+            GameTile next = (GameTile) board.getTile(exit.getExitY(), exit.getExitX());
             next.setStored(character);
-            character.setX(exit.exitX);
-            character.setY(exit.exitY);
-            exit.estate.removeItem(character);
-            exit.estate.updateContents();
+            character.setX(exit.getExitX());
+            character.setY(exit.getExitY());
+            exit.getEstate().removeItem(character);
+            exit.getEstate().updateContents();
             character.setEstate(null);
             return 1;
         }
@@ -733,7 +730,7 @@ public class Game {
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
         }
         return moveChar(character, newY, newX);
     }
@@ -746,7 +743,7 @@ public class Game {
         int newX = character.getX() + 1;
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
         }
         return moveChar(character, newY, newX);
     }
@@ -759,7 +756,7 @@ public class Game {
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
         }
         return moveChar(character, newY, newX);
     }
@@ -772,7 +769,7 @@ public class Game {
         int newX = character.getX() - 1;
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
         }
         return moveChar(character, newY, newX);
     }

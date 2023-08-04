@@ -15,4 +15,16 @@ public class EntranceTile extends Tile {
         this.exitY = exitY;
         this.exitX = exitX;
     }
+
+    public Estate getEstate() {
+        return this.estate;
+    }
+
+    public int getExitY() {
+        return this.exitY;
+    }
+
+    public int getExitX() {
+        return this.exitX;
+    }
 }
