@@ -610,12 +610,25 @@ public class Game {
             for (GameTile t : usedGameTiles) {
                 t.setStored(null);
             }
+           boolean lose = true;
+            for(Player p : players){
+                if(p.getIsEligible()){
+                    lose = false;
+                }
+            }
             while (!input.equals("1")) {
                 System.out.print('\u000C');
-                board.draw();
-                System.out.println("Turn is over! It is now " + turn.getName() + "'s turn.\n");
-                System.out.println("Begin " + turn.getName() + "'s turn?\n");
-                System.out.println("Enter 1 for yes.");
+                if(lose){
+                    System.out.println("Game is over! All players failed to guess the murderer incorrectly.");
+                    System.out.println("Restart game?\n");
+                    System.out.println("Enter 1 for yes.");
+                }
+                else{
+                    board.draw();
+                    System.out.println("Turn is over! It is now " + turn.getName() + "'s turn.\n");
+                    System.out.println("Begin " + turn.getName() + "'s turn?\n");
+                    System.out.println("Enter 1 for yes.");
+                }
                 input = scanner.nextLine();
             }
             input = "0";
