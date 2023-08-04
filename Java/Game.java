@@ -10,7 +10,7 @@ public class Game {
     private TurnOrder currentTurn = TurnOrder.Lucilla;
     private int diceTotal = 0;
     Board board = new Board();
-    
+
     private final List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
     private List<GameTile> usedGameTiles = new ArrayList<>();
@@ -67,11 +67,6 @@ public class Game {
             System.out.println();
             System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
             String name = scanner.nextLine();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
             System.out.print('\u000C');
             if (name.length() > 15) {
                 System.out.println("Sorry, your name can't exceed 15 characters");
@@ -167,21 +162,23 @@ public class Game {
     /**
      * creates the random cards that are excluded from the pool and creates the main pool of available cards and distributes them
      */
-    // line 80 "model.ump"
     private void makeCards() {
-        try {
-            File file = new File("cards.txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNext()) {
-                String cardName = scanner.nextLine();
-                String type = scanner.nextLine();
-                cards.add(new Card(false, null, cardName, type));
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + "cards.txt");
-            e.printStackTrace();
-        }
+        cards.add(new Card(false, null, "Lucilla", "character"));
+        cards.add(new Card(false, null, "Bert", "character"));
+        cards.add(new Card(false, null, "Malina", "character"));
+        cards.add(new Card(false, null, "Percy", "character"));
+        cards.add(new Card(false, null, "Broom", "weapon"));
+        cards.add(new Card(false, null, "Scissors", "weapon"));
+        cards.add(new Card(false, null, "Knife", "weapon"));
+        cards.add(new Card(false, null, "Shovel", "weapon"));
+        cards.add(new Card(false, null, "iPad", "weapon"));
+        cards.add(new Card(false, null, "Haunted House", "estate"));
+        cards.add(new Card(false, null, "Manic Manor", "estate"));
+        cards.add(new Card(false, null, "Visitation Villa", "estate"));
+        cards.add(new Card(false, null, "Calamity Castle", "estate"));
+        cards.add(new Card(false, null, "Peril Palace", "estate"));
+
+
         List<String> typesPickedForMurder = new ArrayList<>();
         System.out.println();
         while (typesPickedForMurder.size() != 3) {
@@ -504,9 +501,15 @@ public class Game {
      * Contains the primary gameLoop mechanics. Fails and returns 0 if error is detected, 1 if the game concludes successfully
      * Is the central hub for method calling and contains the main loop.
      */
-    private void gameManager() {
+    private void gameManager(){
+       Player turn = players.get(0);
+       Scanner scanner = new Scanner(System.in);
+       while(true){
+           turn.getIsEligible()
+       }
+    }
+    private void gameManagerOld() {
         Player turn = players.get(0);
-        String input = "0";
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if (turn.getIsEligible()) {
@@ -633,7 +636,7 @@ public class Game {
                         System.out.println("Enter 1 to roll your dice.");
                         System.out.println("Enter 2 to do an action.");
 
-                        input = scanner.nextLine();
+                        String input = scanner.nextLine();
                     }
 
                 }
@@ -693,7 +696,7 @@ public class Game {
         estate.addItem(character);
         estate.updateContents();
         character.setEstate(estate);
-        GameTile current = (GameTile)board.getTile(character.getY(), character.getX());
+        GameTile current = (GameTile) board.getTile(character.getY(), character.getX());
         current.setStored(new Item("Used", "+", character.getX(), character.getY()));
         usedGameTiles.add(current);
         return 1;
@@ -701,7 +704,7 @@ public class Game {
 
     public int moveCharOutOfEstate(Character character, EntranceTile exit) {
         if (board.isSafeMove(exit.exitY, exit.exitX)) {
-            GameTile next = (GameTile)board.getTile(exit.exitY, exit.exitX);
+            GameTile next = (GameTile) board.getTile(exit.exitY, exit.exitX);
             next.setStored(character);
             character.setX(exit.exitX);
             character.setY(exit.exitY);
@@ -715,9 +718,9 @@ public class Game {
 
     private int moveChar(Character character, int newY, int newX) {
         if (board.isSafeMove(newY, newX)) {
-            GameTile next = (GameTile)board.getTile(newY, newX);
+            GameTile next = (GameTile) board.getTile(newY, newX);
             next.setStored(character);
-            GameTile current = (GameTile)board.getTile(character.getY(), character.getX());
+            GameTile current = (GameTile) board.getTile(character.getY(), character.getX());
             current.setStored(new Item("Used", "+", character.getX(), character.getY()));
             usedGameTiles.add(current);
             character.setX(newX);
@@ -735,7 +738,7 @@ public class Game {
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile)next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -748,7 +751,7 @@ public class Game {
         int newX = character.getX() + 1;
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile)next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -761,7 +764,7 @@ public class Game {
         int newX = character.getX();
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile)next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -774,7 +777,7 @@ public class Game {
         int newX = character.getX() - 1;
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile)next).estate);
+            return moveCharToEstate(character, ((EntranceTile) next).estate);
         }
         return moveChar(character, newY, newX);
     }
@@ -831,16 +834,14 @@ public class Game {
 }
 
 
+// JAMES' OLD DEFUNCT CODE
 
-
-    // JAMES' OLD DEFUNCT CODE
-
-    /**
-     * Calls to, and initializes, fields and values that require generation upon a game's creation.
-     * Finally, begin the game loop by calling gameManager().
-     * If the game is fully 'booted' return gameManager() (also int), else return zero to account for errors in generation.
-     */
-    // line 29 "model.ump"
+/**
+ * Calls to, and initializes, fields and values that require generation upon a game's creation.
+ * Finally, begin the game loop by calling gameManager().
+ * If the game is fully 'booted' return gameManager() (also int), else return zero to account for errors in generation.
+ */
+// line 29 "model.ump"
 //    public void bootGame() {
 //        //filling the board with empty tiles
 //        for (int i = 0; i < 24; i++) {
