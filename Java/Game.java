@@ -546,7 +546,10 @@ public class Game {
                         input = scanner.nextLine();
 
                         if (input.equals("1") && turn.getCharacter().getEstate() != null) {
-                            guess(turn, scanner);
+                            int i = guess(turn, scanner);
+                            if(i != 2){
+                            diceRolled = true;
+                            }
                         }
                         if (input.equals("2") && turn.getCharacter().getEstate() != null) {
                             int i = guess(turn, scanner);
