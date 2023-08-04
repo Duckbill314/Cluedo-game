@@ -41,12 +41,11 @@ public class Worksheet
   }
 
   public String toString() {
-    String res = "\n/======MY CARDS======/\n";
+    String res = "\n/======MY CARDS=====/\n";
     for(Card c : cards) {
       res += String.format("%s card: %s\n", c.getType(), c.getName());
     }
-    res += "\n/===================/\n";  
-    res += "\n/====SHOWN CARDS====/\n";
+    res += "/====SHOWN CARDS====/\n";
     if(!shownCards.isEmpty()) {
       for(Card c : shownCards) {
         res += String.format("%s card: %s\n", c.getType(), c.getName());
@@ -54,11 +53,11 @@ public class Worksheet
     } else {
       res += ("I have not been shown any cards yet.\n"); 
     }
-    res += "\n/===================/\n";
+    res += "/===================/\n";
     return res;
   }
   
   public void printWorksheet() {
-    System.out.print(this.toString());
+    System.out.println(this.toString());
   }
 }

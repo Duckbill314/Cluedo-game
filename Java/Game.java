@@ -57,14 +57,11 @@ public class Game {
             System.out.print('\u000C');
             List<String> names = new ArrayList<>();
             while (numPlayers != names.size()) {
-                System.out.println("Setting up game.\n");
                 for (String n : names) {
                     System.out.println(n);
                 }
-                System.out.println();
-                System.out.print("Player " + (names.size() + 1) + " please enter your name : ");
+                System.out.print("Player " + (names.size() + 1) + ", please enter your name: ");
                 String name = scanner.nextLine();
-                System.out.print('\u000C');
                 if (name.length() > 15) {
                     System.out.println("Sorry, your name can't exceed 15 characters");
                 } else {
@@ -73,33 +70,27 @@ public class Game {
             }
             // making the players
             assignCharacters(names);
-            while (true) {
-                System.out.println("Allocating roles for " + numPlayers + " players.");
-                System.out.println();
+            
+            System.out.print('\u000C');
+            System.out.println("Allocating roles for " + numPlayers + " players.");
+            System.out.println();
 
 
-                String first = "";
-                for (Player p : players) {
-                    System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
-                    if (p.getCharacter().getName().equals("Lucilla")) {
-                        first = p.getName();
-                    }
+            String first = "";
+            for (Player p : players) {
+                System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
+                if (p.getCharacter().getName().equals("Lucilla")) {
+                    first = p.getName();
                 }
-                System.out.println();
-                System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
-                System.out.println("\nBegin the your first round?");
-                System.out.println();
-
-                System.out.println("Enter 1 for yes.");
-
-                String input = scanner.nextLine();
-                if (input.equals("1")) {
-                    break;
-                }
-                System.out.print('\u000C');
             }
-            board.draw();
-            //draw the characters on the board
+            System.out.println();
+            System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
+            System.out.println("Begin the first round? Press any key to continue.");
+
+            scanner.nextLine();
+            System.out.print('\u000C');
+            
+            //store the characters on the board
             for (Player p : players) {
                 Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
                 if (t instanceof GameTile) {
@@ -108,29 +99,13 @@ public class Game {
             }
             // making the cards
             makeCards();
-            System.out.println();
-            for (Card c : cards) {
-                if (c.getIsMurder()) {
-                    System.out.println("murder card : " + c.getName() + " " + c.getType());
-                }
-            }
-
+            // System.out.println();
+            // for (Card c : cards) {
+            //     if (c.getIsMurder()) {
+            //         System.out.println("murder card : " + c.getName() + " " + c.getType());
+            //     }
+            // }
         }
-
-        
-    }
-
-    public int numberOfPlayers() {
-        return players.size();
-    }
-
-    public int numberOfCards() {
-        return cards.size();
-    }
-
-    public void delete() {
-        players.clear();
-        cards.clear();
     }
 
     // JAMES' WORKING CODE
@@ -231,7 +206,7 @@ public class Game {
 
     public void displayLocations() {
         //locational infomation
-        System.out.println("Location information: \n");
+        System.out.println("Location information:");
         for (Player p : players) {
             String s = " is on the main board";
             if (p.getCharacter().getEstate() != null) {
@@ -258,8 +233,8 @@ public class Game {
 
         while (!characterSelected) {
             System.out.print('\u000C');
-            System.out.println("WARNING, by guessing you forfit any remaning moves you have. Your turn will end once you guess.\n");
-            System.out.println("Estate : " + p.getCharacter().getEstate().getName());
+            System.out.println("WARNING, by guessing you forfeit any remaining moves you have. Your turn will end once you guess.\n");
+            System.out.println("Estate: " + p.getCharacter().getEstate().getName());
             System.out.println("\nSelect a Character to guess.\n");
 
             System.out.println("Enter 1 to select Lucilla.");
@@ -292,8 +267,8 @@ public class Game {
         }
         while (!weaponSelected) {
             System.out.print('\u000C');
-            System.out.println("Estate : " + p.getCharacter().getEstate().getName());
-            System.out.println("Character : " + character);
+            System.out.println("Estate: " + p.getCharacter().getEstate().getName());
+            System.out.println("Character: " + character);
             System.out.println("\nSelect a Weapon to guess.\n");
 
             System.out.println("Enter 1 to select Broom.");
@@ -331,10 +306,10 @@ public class Game {
         input = "0";
         while (!input.equals("1") || !input.equals("2")) {
             System.out.print('\u000C');
-            System.out.println("Estate : " + p.getCharacter().getEstate().getName());
-            System.out.println("Character : " + character);
-            System.out.println("Weapon : " + weapon);
-            System.out.println("\nGuess : " + character + " commited the murder in the " + p.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
+            System.out.println("Estate: " + p.getCharacter().getEstate().getName());
+            System.out.println("Character: " + character);
+            System.out.println("Weapon: " + weapon);
+            System.out.println("\nGuess: " + character + " commited the murder in the " + p.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
             System.out.println("place guess?\n");
             System.out.println("Enter 1 for yes.");
             System.out.println("Enter 2 to cancel this guess.");
@@ -434,7 +409,7 @@ public class Game {
         input = "0";
         System.out.print('\u000C');
         p.getWorksheet().printWorksheet();
-        System.out.println("The guess was : " + character + " commited the murder in the " + guesser.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
+        System.out.println("The guess was: " + character + " commited the murder in the " + guesser.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
         int count = 1;
         List<String> refuteableCards = new ArrayList<>();
         for (Card c : p.getCards()) {
@@ -468,9 +443,25 @@ public class Game {
      * Method to randomly return a number 1-6
      */
     private int rollDice() {
+        System.out.println("Rolling ");
+        for (int i = 0; i < 3; i++) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.print(". ");
+        }
         double max = 6;
         double min = 1;
-        return (int) (Math.random() * (max - min + 1) + min); // implement random number 1-6 to simulate dice roll
+        int dice = (int) (Math.random() * (max - min + 1) + min); // implement random number 1-6 to simulate dice roll
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("\nROLLED " + dice);
+        return dice;
     }
 
     // END OF JAMES' WORKING CODE
@@ -511,11 +502,11 @@ public class Game {
                     if (diceRolled && !input.equals("2")) {
 
                         System.out.println("You have " + diceTotal + " moves remaining!");
-                        System.out.println("Do you want to move your character or do an action?");
+                        System.out.println("Do you want to move your character or perform an action?");
                         System.out.println();
 
-                        System.out.println("Enter 1 to open the movement menu");
-                        System.out.println("Enter 2 to do an action.");
+                        System.out.println("Enter 1 to open the movement menu.");
+                        System.out.println("Enter 2 to perform an action.");
 
                         input = scanner.nextLine();
                         if (input.equals("1")) {
@@ -531,46 +522,11 @@ public class Game {
                         }
                     }
 
-                    if (input.equals("1") && !diceRolled) {//roll dice since dice has not been roled yet
-                        System.out.println("Rolling ");
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        System.out.print(". ");
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        System.out.print(". ");
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        System.out.print(". ");
+                    //roll dice since dice has not been rolled yet
+                    if (input.equals("1") && !diceRolled) {
                         int dice1 = rollDice();
                         int dice2 = rollDice();
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        System.out.println("\nROLLED " + dice1);
-                        try {
-                            Thread.sleep(600);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        System.out.println("ROLLED " + dice2);
                         diceTotal = dice1 + dice2;
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
                         diceRolled = true;
                     }
 
@@ -629,25 +585,18 @@ public class Game {
             }
             switch (currentTurn) {
                 case Lucilla:
-
                     currentTurn = TurnOrder.Bert;
                     turn = players.get(1);
                     break;
                 case Bert:
-
-
                     currentTurn = TurnOrder.Malina;
                     turn = players.get(2);
                     break;
                 case Malina:
-
-
                     currentTurn = TurnOrder.Percy;
                     turn = players.get(3);
                     break;
                 case Percy:
-
-
                     currentTurn = TurnOrder.Lucilla;
                     turn = players.get(0);
                     break;
@@ -768,12 +717,8 @@ public class Game {
         return moveChar(character, newY, newX);
     }
 
-
     /**
-     * Method to get the next player input (up down left right) using a scanner (or if they are in a estate guess is a valid input)
-     * Handle the Input (tell board to move if up/down/left/right) or call guess() if guess is called and player is in a estate
-     * also needs to handle "roll" for rolling the dice (update diceTotal to the return value of rollDice())
-     * needs to handle "grid on" "grid off" and capital versions of all commands + errors like invalid inputs.
+     * Method to get the next player input for movement.
      */
     private void takePlayerInput(Player p, Scanner scanner) {
         String input = "";
