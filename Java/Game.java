@@ -55,9 +55,10 @@ public class Game {
             }
 
             //get player names
-            System.out.print('\u000C');
             List<String> names = new ArrayList<>();
             while (numPlayers != names.size()) {
+                System.out.print('\u000C');
+                System.out.println("Name allocation : ");
                 for (String n : names) {
                     System.out.println(n);
                 }
