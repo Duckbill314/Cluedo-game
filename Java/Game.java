@@ -505,7 +505,7 @@ public class Game {
        Player turn = players.get(0);
        Scanner scanner = new Scanner(System.in);
        while(true){
-           turn.getIsEligible()
+           turn.getIsEligible();
        }
     }
     private void gameManagerOld() {
