@@ -9,6 +9,7 @@ public class Game {
     private TurnOrder currentTurn = TurnOrder.Lucilla;
     private int diceTotal = 0;
     Board board = new Board();
+    private Player turn = new Player(null,null,null,false);
 
     private final List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
@@ -71,20 +72,40 @@ public class Game {
             // making the players
             assignCharacters(names);
             
+           double max = numPlayers;
+            double min = 1;
+        
+            int startingPlayer = (int) (Math.random() * (max - min + 1) + min);
+            String firstCharacter = "";
+            switch(startingPlayer){
+                case 1 :currentTurn = TurnOrder.Lucilla;
+                firstCharacter = "Lucilla";
+                break;
+                case 2 :currentTurn = TurnOrder.Bert;
+                firstCharacter = "Bert";
+                break;
+                case 3 :currentTurn = TurnOrder.Malina;
+                firstCharacter = "Malina";
+                break;
+                case 4 :currentTurn = TurnOrder.Percy;
+                firstCharacter = "Percy";
+                break;
+            }
+            
             System.out.print('\u000C');
             System.out.println("Allocating roles for " + numPlayers + " players.");
             System.out.println();
 
-
             String first = "";
             for (Player p : players) {
                 System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
-                if (p.getCharacter().getName().equals("Lucilla")) {
+                    if(firstCharacter.equals( p.getCharacter().getName())){
                     first = p.getName();
+                    turn = p;
                 }
             }
             System.out.println();
-            System.out.println("Lucilla will be starting first, please pass the tablet to " + first + ".\n");
+            System.out.println(firstCharacter+" will be starting first, please pass the tablet to " + first + ".\n");
             System.out.println("Begin the first round? Press any key to continue.");
 
             scanner.nextLine();
@@ -489,7 +510,6 @@ public class Game {
      */
 
     private void gameManager(Scanner scanner) {
-        Player turn = players.get(0);
         String input = "0";
         while (isInProgress) {
             if (turn.getIsEligible()) {
