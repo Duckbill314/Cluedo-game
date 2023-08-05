@@ -15,119 +15,189 @@ public class Game {
     private final List<Card> cards = new ArrayList<>();
     private List<GameTile> usedGameTiles = new ArrayList<>();
 
+    /**
+     * Clears the console screen
+     */
+    private void clearConsole() {
+        System.out.print('\u000C');
+    }
+
+    /**
+     * Displays the menu of options to the user and requests that they choose a valid option by number
+     * @param scanner The scanner object to get user input
+     * @param prompt The prompt to display before the choices
+     * @param options The list of choices to display
+     * @return the selected option (as an int)
+     */
+    private int promptUserForChoice(Scanner scanner, String prompt, List<String> options) {
+
+        // Prints the prompt
+        System.out.println();
+        System.out.println();
+        System.out.println("/===================/");
+        System.out.println();
+        System.out.println(prompt);
+        System.out.println();
+        System.out.println("/===================/");
+        System.out.println();
+
+        // Prints the options
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println("  - " + (i + 1) + ". " + options.get(i));
+        }
+
+        // Receives the selected option from the user
+        System.out.println();
+        System.out.println();
+
+        int choice = -1;
+        boolean validChoice = false;
+
+        while (!validChoice) {
+            try {
+                System.out.print("Enter your choice: ");
+                choice = Integer.parseInt(scanner.nextLine());
+
+                if (choice >= 1 && choice <= options.size()) {
+                    validChoice = true;
+                } else {
+                    System.out.println("Invalid choice. Please enter a valid number.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        }
+
+        return choice;
+
+    }
+
+    /**
+     * Ends the game session
+     * @throws InterruptedException if the sleep is interrupted
+     */
+    private void endGame() {
+        isInProgress = false;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+
     public Game(Scanner scanner) {
         board.draw();
 
         System.out.print('\u000C');
         System.out.println("Welcome to Hobby Detectives!");
 
-        System.out.println("Do you want to start the game?");
-        System.out.println();
+        switch (promptUserForChoice(scanner, "Do you want to start the game?",  List.of("Yes", "No"))) {
+            case 1:
+                setupGame(scanner);
+            case 2:
+                System.out.print("Game aborted. Goodbye!");
+                endGame();
+        }
+    }
 
-        System.out.println("Enter 1 for yes.");
-        System.out.println("Enter 2 for no.");
+    /**
+     * Collects the required number of player names for the game
+     * @param scanner The scanner used for user input
+     * @param numPlayers The number of players
+     * @return A list of the collected player names
+     */
+    private List<String> collectPlayerNames(Scanner scanner, int numPlayers) {
+        List<String> names = new ArrayList<>();
 
+        while (numPlayers != names.size()) {
 
-        String startGameInput = scanner.nextLine();
-        System.out.print('\u000C');
-        if (!startGameInput.equalsIgnoreCase("1")) {
-            System.out.println("Game aborted. Goodbye!");
-            isInProgress = false;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            clearConsole();
+
+            System.out.println("Name allocation : ");
+            for (String n : names) {
+                System.out.println(n);
+            }
+
+            System.out.print("Player " + (names.size() + 1) + ", please enter your name: ");
+            String name = scanner.nextLine();
+
+            if (name.length() > 15) {
+                System.out.println("Sorry, your name can't exceed 15 characters");
+            } else {
+                names.add(name);
             }
         }
-        else {
-            //get the number of players
-            int numPlayers = 0;
 
-            System.out.print("Please select the number of players.\n");
-            System.out.println();
-            System.out.println("Enter 1 to play with three players and a bot.");
-            System.out.println("Enter 2 to play with four players.");
-            startGameInput = scanner.nextLine();
-            if (!startGameInput.equalsIgnoreCase("1")) {
-                numPlayers = 4;
-            } else {
-                numPlayers = 3;
-            }
+        return names;
+    }
 
-            //get player names
-            List<String> names = new ArrayList<>();
-            while (numPlayers != names.size()) {
-                System.out.print('\u000C');
-                System.out.println("Name allocation : ");
-                for (String n : names) {
-                    System.out.println(n);
-                }
-                System.out.print("Player " + (names.size() + 1) + ", please enter your name: ");
-                String name = scanner.nextLine();
-                if (name.length() > 15) {
-                    System.out.println("Sorry, your name can't exceed 15 characters");
-                } else {
-                    names.add(name);
-                }
-            }
-            // making the players
-            assignCharacters(names);
-            
-           double max = numPlayers;
-            double min = 1;
-        
-            int startingPlayer = (int) (Math.random() * (max - min + 1) + min);
-            String firstCharacter = "";
-            switch(startingPlayer){
-                case 1 :currentTurn = TurnOrder.Lucilla;
+    /**
+     * Sets up the game by initializing the number of players, collecting player names,
+     * determining starting player, allocating roles, and starting the game
+     * @param scanner The scanner used for user input
+     */
+    private void setupGame(Scanner scanner) {
+
+        // Prompts user for number of players (prompt will return 1 or 2 for 3 players or 4 players respectively)
+        int numPlayers = 2 +  promptUserForChoice(scanner, "Please select the number of players", List.of("Three players and a bot", "Four players"));
+
+
+        // Prompt users for their names
+        List<String> names = collectPlayerNames(scanner, numPlayers);
+
+        // making the players
+        assignCharacters(names);
+
+        double max = numPlayers;
+        double min = 1;
+
+        int startingPlayer = (int) (Math.random() * (max - min + 1) + min);
+        String firstCharacter = "";
+        switch(startingPlayer){
+            case 1 :currentTurn = TurnOrder.Lucilla;
                 firstCharacter = "Lucilla";
                 break;
-                case 2 :currentTurn = TurnOrder.Bert;
+            case 2 :currentTurn = TurnOrder.Bert;
                 firstCharacter = "Bert";
                 break;
-                case 3 :currentTurn = TurnOrder.Malina;
+            case 3 :currentTurn = TurnOrder.Malina;
                 firstCharacter = "Malina";
                 break;
-                case 4 :currentTurn = TurnOrder.Percy;
+            case 4 :currentTurn = TurnOrder.Percy;
                 firstCharacter = "Percy";
                 break;
-            }
-            
-            System.out.print('\u000C');
-            System.out.println("Allocating roles for " + numPlayers + " players.");
-            System.out.println();
-
-            String first = "";
-            for (Player p : players) {
-                System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
-                    if(firstCharacter.equals( p.getCharacter().getName())){
-                    first = p.getName();
-                    turn = p;
-                }
-            }
-            System.out.println();
-            System.out.println(firstCharacter+" will be starting first, please pass the tablet to " + first + ".\n");
-            System.out.println("Begin the first round? Press any key to continue.");
-
-            scanner.nextLine();
-            System.out.print('\u000C');
-            
-            //store the characters on the board
-            for (Player p : players) {
-                Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
-                if (t instanceof GameTile) {
-                    ((GameTile) t).setStored(p.getCharacter());
-                }
-            }
-            // making the cards
-            makeCards();
-            // System.out.println();
-            // for (Card c : cards) {
-            //     if (c.getIsMurder()) {
-            //         System.out.println("murder card : " + c.getName() + " " + c.getType());
-            //     }
-            // }
         }
+
+        System.out.print('\u000C');
+        System.out.println("Allocating roles for " + numPlayers + " players.");
+        System.out.println();
+
+        String first = "";
+        for (Player p : players) {
+            System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
+            if(firstCharacter.equals( p.getCharacter().getName())){
+                first = p.getName();
+                turn = p;
+            }
+        }
+        System.out.println();
+        System.out.println(firstCharacter+" will be starting first, please pass the tablet to " + first + ".\n");
+        System.out.println("Begin the first round? Press any key to continue.");
+
+        scanner.nextLine();
+        System.out.print('\u000C');
+
+        //store the characters on the board
+        for (Player p : players) {
+            Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
+            if (t instanceof GameTile) {
+                ((GameTile) t).setStored(p.getCharacter());
+            }
+        }
+
+
+        makeCards();
     }
 
     // JAMES' WORKING CODE
@@ -146,33 +216,22 @@ public class Game {
     
 
     /**
-     * assigns each player a character randomly (must be called after makeCards())
+     * Assigns each player a character randomly (must be called after makeCards())
+     * @param names The list of player names
      */
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
-        Set<Integer> exclude = new HashSet<>();
-        exclude.add(0);
-        int random1 = getRandomNumber(names.size(),exclude);
-        exclude.add(random1);
-        int random2 = getRandomNumber(names.size(),exclude);
-        exclude.add(random2);
-        int random3 = getRandomNumber(names.size(),exclude);
-        exclude.add(random3);
-        switch (names.size()) {
-            case 3:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(random1-1), true));
-                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(random2-1), true));
-                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(random3-1), true));
-                break;
-            case 4:
-                players.add(new Player(new Character("Lucilla", "L", 11, 1), new Worksheet(), names.get(random1-1), true));
-                players.add(new Player(new Character("Bert", "B", 1, 9), new Worksheet(), names.get(random2-1), true));
-                players.add(new Player(new Character("Malina", "M", 9, 22), new Worksheet(), names.get(random3-1), true));
-                int random4 = getRandomNumber(names.size(),exclude);
-                players.add(new Player(new Character("Percy", "P", 22, 11), new Worksheet(), names.get(random4-1), true));
-                break;
-            default:
-                System.out.println("Fail");
+        List<Character> availableCharacters = new ArrayList<>(Arrays.asList(
+                new Character("Lucilla", "L", 11, 1),
+                new Character("Bert", "B", 1, 9),
+                new Character("Malina", "M", 9, 22),
+                new Character("Percy", "P", 22, 11)
+        ));
+
+        for (String name : names) {
+            int randomIndex = new Random().nextInt(availableCharacters.size());
+            Character character = availableCharacters.remove(randomIndex);
+            players.add(new Player(character, new Worksheet(), name, true));
         }
     }
 
