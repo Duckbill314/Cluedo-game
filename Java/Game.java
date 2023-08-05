@@ -10,8 +10,9 @@ public class Game {
     private int diceTotal = 0;
     Board board = new Board();
     private Player turn = new Player(null,null,null,false);
+    private boolean threePlayer = false;
 
-    private final List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
     private List<GameTile> usedGameTiles = new ArrayList<>();
 
@@ -85,7 +86,6 @@ public class Game {
         }
     }
 
-
     public Game(Scanner scanner) {
         board.draw();
 
@@ -142,13 +142,50 @@ public class Game {
 
         // Prompts user for number of players (prompt will return 1 or 2 for 3 players or 4 players respectively)
         int numPlayers = 2 +  promptUserForChoice(scanner, "Please select the number of players", List.of("Three players and a bot", "Four players"));
-
+        if(numPlayers == 3){
+            threePlayer = true;
+        }
 
         // Prompt users for their names
         List<String> names = collectPlayerNames(scanner, numPlayers);
 
         // making the players
         assignCharacters(names);
+        // get the unused character in 3 player senario
+        List<Player> orderedPlayers = new ArrayList<>();
+        String nullCharacter = "";
+        List<String> orderedCharacters = List.of("Lucilla","Bert","Malina","Percy");
+        if(threePlayer){
+
+            List<String> remainingCharacters = new ArrayList<>();
+            remainingCharacters.add("Lucilla");
+            remainingCharacters.add("Bert");
+            remainingCharacters.add("Malina");
+            remainingCharacters.add("Percy");
+
+            for(int i = 0; i<3;i++){
+                for(Player p : players){
+                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
+                        remainingCharacters.remove(orderedCharacters.get(i));
+                    }
+                }
+            }
+
+            nullCharacter =  remainingCharacters.get(0);
+        }
+
+        // structure the characters
+
+        for(int i = 0; i<4;i++){
+            if(!nullCharacter.equals(orderedCharacters.get(i))){
+                for(Player p : players){
+                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
+                        orderedPlayers.add(p);
+                    }
+                }
+            }
+        }
+        players = orderedPlayers;
 
         // Randomly decides starting player
         Random random = new Random();
@@ -167,7 +204,7 @@ public class Game {
         }
 
         System.out.println();
-        System.out.println(currentTurn.name() + " will be starting first, please pass the tablet to " + turn + ".\n");
+        System.out.println(currentTurn.name() + " will be starting first, please pass the tablet to " + turn.getCharacter().getName() + ".\n");
 
         promptUserForChoice(scanner, "Begin the first round?", List.of("Yes"));
 
@@ -242,7 +279,6 @@ public class Game {
         // Gets a list of the non-murder cards that'll be distributed to the players
         List<Card> nonMurderCards = new ArrayList<>(cards);
         nonMurderCards.removeIf(Card::getIsMurder);
-
 
         // Assigns those cards to players randomly
         Random random = new Random();
@@ -500,6 +536,7 @@ public class Game {
         }
         return refuteableCards.get(Integer.parseInt(input) - 1);
     }
+
     /**
      * Method to randomly return a number 1-6
      */
@@ -606,7 +643,7 @@ public class Game {
                         if (input.equals("1") && turn.getCharacter().getEstate() != null) {
                             int i = guess(turn, scanner);
                             if(i != 2){
-                            diceRolled = true;
+                                diceRolled = true;
                             }
                         }
                         if (input.equals("2") && turn.getCharacter().getEstate() != null) {
@@ -647,28 +684,34 @@ public class Game {
 
                 }
             }
-            switch (currentTurn) {
-                case Lucilla:
+            //trun update
+            int index = players.indexOf(turn);
+            index++;
+            if(index == players.size()){
+                index = 0;
+            }
+            switch (index) {
+                case 1:
                     currentTurn = TurnOrder.Bert;
-                    turn = players.get(1);
+                    turn = players.get(index);
                     break;
-                case Bert:
+                case 2:
                     currentTurn = TurnOrder.Malina;
-                    turn = players.get(2);
+                    turn = players.get(index);
                     break;
-                case Malina:
+                case 3:
                     currentTurn = TurnOrder.Percy;
-                    turn = players.get(3);
+                    turn = players.get(index);
                     break;
-                case Percy:
+                case 0:
                     currentTurn = TurnOrder.Lucilla;
-                    turn = players.get(0);
+                    turn = players.get(index);
                     break;
             }
             for (GameTile t : usedGameTiles) {
                 t.setStored(null);
             }
-           boolean lose = true;
+            boolean lose = true;
             for(Player p : players){
                 if(p.getIsEligible()){
                     lose = false;
@@ -846,9 +889,7 @@ public class Game {
     // END OF WILL'S CODE
 }
 
-
 // JAMES' OLD DEFUNCT CODE
-
 /**
  * Calls to, and initializes, fields and values that require generation upon a game's creation.
  * Finally, begin the game loop by calling gameManager().
