@@ -197,7 +197,9 @@ public class Game {
         }
 
 
-        makeCards();
+        initialiseCards();
+        pickMurderCards();
+        distributeCardsToPlayers();
     }
 
     // JAMES' WORKING CODE
@@ -208,12 +210,7 @@ public class Game {
      */
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
-        List<Character> availableCharacters = new ArrayList<>(Arrays.asList(
-                new Character("Lucilla", "L", 11, 1),
-                new Character("Bert", "B", 1, 9),
-                new Character("Malina", "M", 9, 22),
-                new Character("Percy", "P", 22, 11)
-        ));
+        List<Character> availableCharacters = new ArrayList<>(Arrays.asList(new Character("Lucilla", "L", 11, 1), new Character("Bert", "B", 1, 9), new Character("Malina", "M", 9, 22), new Character("Percy", "P", 22, 11)));
 
         for (String name : names) {
             int randomIndex = new Random().nextInt(availableCharacters.size());
@@ -223,25 +220,21 @@ public class Game {
     }
 
     /**
-     * creates the random cards that are excluded from the pool and creates the main pool of available cards and distributes them
+     * Creates the game card instances
      */
-    private void makeCards() {
-        cards.add(new Card(false, null, "Lucilla", "Character"));
-        cards.add(new Card(false, null, "Bert", "Character"));
-        cards.add(new Card(false, null, "Malina", "Character"));
-        cards.add(new Card(false, null, "Percy", "Character"));
-        cards.add(new Card(false, null, "Broom", "Weapon"));
-        cards.add(new Card(false, null, "Scissors", "Weapon"));
-        cards.add(new Card(false, null, "Knife", "Weapon"));
-        cards.add(new Card(false, null, "Shovel", "Weapon"));
-        cards.add(new Card(false, null, "iPad", "Weapon"));
-        cards.add(new Card(false, null, "Haunted House", "Estate"));
-        cards.add(new Card(false, null, "Manic Manor", "Estate"));
-        cards.add(new Card(false, null, "Visitation Villa", "Estate"));
-        cards.add(new Card(false, null, "Calamity Castle", "Estate"));
-        cards.add(new Card(false, null, "Peril Palace", "Estate"));
+    private void initialiseCards() {
+        String[][] cardData = {{"Lucilla", "Character"}, {"Bert", "Character"}, {"Malina", "Character"}, {"Percy", "Character"}, {"Broom", "Weapon"}, {"Scissors", "Weapon"}, {"Knife", "Weapon"}, {"Shovel", "Weapon"}, {"iPad", "Weapon"}, {"Haunted House", "Estate"}, {"Manic Manor", "Estate"}, {"Visitation Villa", "Estate"}, {"Calamity Castle", "Estate"}, {"Peril Palace", "Estate"}};
 
+        for (String[] data : cardData) {
+            cards.add(new Card(false, null, data[0], data[1]));
+        }
+    }
 
+    /**
+     * Picks cards from the game cards and notes them as the murder cards
+     * Ensures that one of each type of card (character, weapon, estate) is a murder card
+     */
+    private void pickMurderCards() {
         List<String> typesPickedForMurder = new ArrayList<>();
         System.out.println();
         while (typesPickedForMurder.size() != 3) {
@@ -252,44 +245,33 @@ public class Game {
                 typesPickedForMurder.add(cards.get(randomIndex).getType());
             }
         }
-        // list of remaining cards that are not the murder cards
-        List<Card> remainingCards = new ArrayList<>();
-        for (Card c : cards) {
-            if (!c.getIsMurder()) {
-                remainingCards.add(c);
-            }
-        }
-        //assigning those cards to players randomly
+    }
 
-        while (!remainingCards.isEmpty()) {
-            List<Player> playerHolder = new ArrayList<>();
-            for (Player p : players) {
-                playerHolder.add(p);
-            }
-            while (!playerHolder.isEmpty()) {
-                Random random = new Random();
-                int randomPlayer = random.nextInt(playerHolder.size());
+    /**
+     * Distributes the (non-murder) cards from the game among the players and updates their worksheets
+     * Uses the 'round-robin' style of dealing to ensure equally distributed cards
+     */
+    private void distributeCardsToPlayers() {
 
-                Player currentPlayer = playerHolder.get(randomPlayer);
-                playerHolder.remove(randomPlayer);
+        // Gets a list of the non-murder cards that'll be distributed to the players
+        List<Card> nonMurderCards = new ArrayList<>(cards);
+        nonMurderCards.removeIf(Card::getIsMurder);
 
-                if (remainingCards.size() == 0) {
-                    break;
+
+        // Assigns those cards to players randomly
+        Random random = new Random();
+        while (!nonMurderCards.isEmpty()) {
+            for (Player player : players) {
+                if (nonMurderCards.isEmpty()) {
+                    break;  // No need to continue if there are no more cards to distribute
                 }
-                random = new Random();
-                int randomCard = random.nextInt(remainingCards.size());
 
-                Card currentCard = remainingCards.get(randomCard);
-                remainingCards.remove(randomCard);
+                int randomCardIndex = random.nextInt(nonMurderCards.size());
+                Card cardToAssign = nonMurderCards.remove(randomCardIndex);
 
-                currentPlayer.addCard(currentCard);
-                currentCard.setOwner(currentPlayer);
-            }
-        }
-
-        for (Player p : players) {
-            for (Card c : p.getCards()) {
-                p.getWorksheet().addCard(c);
+                player.addCard(cardToAssign);
+                player.getWorksheet().addCard(cardToAssign);
+                cardToAssign.setOwner(player);
             }
         }
     }
