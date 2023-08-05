@@ -968,7 +968,7 @@ public class Game {
 //
 //        System.out.print("Please select the number of players.\n");
 //        System.out.println();
-//        System.out.println("Enter 1 to play with three players and a bot.");
+//        System.out.println("Enter 1 to play with three players.");
 //        System.out.println("Enter 2 to play with four players.");
 //        startGameInput = scanner.nextLine();
 //        if (!startGameInput.equalsIgnoreCase("1")) {
