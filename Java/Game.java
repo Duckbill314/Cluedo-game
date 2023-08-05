@@ -95,6 +95,7 @@ public class Game {
         switch (promptUserForChoice(scanner, "Do you want to start the game?",  List.of("Yes", "No"))) {
             case 1:
                 setupGame(scanner);
+                gameManager(scanner);
             case 2:
                 System.out.print("Game aborted. Goodbye!");
                 endGame();
@@ -149,46 +150,30 @@ public class Game {
         // making the players
         assignCharacters(names);
 
-        double max = numPlayers;
-        double min = 1;
+        // Randomly decides starting player
+        Random random = new Random();
+        int startingPlayerIndex = random.nextInt(numPlayers);
+        currentTurn = TurnOrder.values()[startingPlayerIndex];
 
-        int startingPlayer = (int) (Math.random() * (max - min + 1) + min);
-        String firstCharacter = "";
-        switch(startingPlayer){
-            case 1 :currentTurn = TurnOrder.Lucilla;
-                firstCharacter = "Lucilla";
-                break;
-            case 2 :currentTurn = TurnOrder.Bert;
-                firstCharacter = "Bert";
-                break;
-            case 3 :currentTurn = TurnOrder.Malina;
-                firstCharacter = "Malina";
-                break;
-            case 4 :currentTurn = TurnOrder.Percy;
-                firstCharacter = "Percy";
-                break;
-        }
-
-        System.out.print('\u000C');
+        clearConsole();
         System.out.println("Allocating roles for " + numPlayers + " players.");
         System.out.println();
 
-        String first = "";
         for (Player p : players) {
             System.out.println(p.getName() + " will be playing as " + p.getCharacter().getName());
-            if(firstCharacter.equals( p.getCharacter().getName())){
-                first = p.getName();
+            if (p.getCharacter().getName() == currentTurn.name()) {
                 turn = p;
             }
         }
-        System.out.println();
-        System.out.println(firstCharacter+" will be starting first, please pass the tablet to " + first + ".\n");
-        System.out.println("Begin the first round? Press any key to continue.");
 
-        scanner.nextLine();
+        System.out.println();
+        System.out.println(currentTurn.name() + " will be starting first, please pass the tablet to " + turn + ".\n");
+
+        promptUserForChoice(scanner, "Begin the first round?", List.of("Yes"));
+
         System.out.print('\u000C');
 
-        //store the characters on the board
+        // Update the tiles that contain characters on the board
         for (Player p : players) {
             Tile t = board.getTile(p.getCharacter().getY(), p.getCharacter().getX());
             if (t instanceof GameTile) {
@@ -196,10 +181,11 @@ public class Game {
             }
         }
 
-
+        // Set up and manage the cards
         initialiseCards();
         pickMurderCards();
         distributeCardsToPlayers();
+
     }
 
     // JAMES' WORKING CODE
