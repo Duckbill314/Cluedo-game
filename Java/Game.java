@@ -95,7 +95,7 @@ public class Game {
 
         switch (promptUserForChoice(scanner, "Do you want to start the game?",  List.of("Yes", "No"))) {
             case 1:
-                setupGame(scanner);
+                (scanner);
                 gameManager(scanner);
             case 2:
                 System.out.print("Game aborted. Goodbye!");
@@ -149,7 +149,41 @@ public class Game {
 
         // making the players
         assignCharacters(names);
+        // get the unused character in 3 player senario
+        List<Player> orderedPlayers = new ArrayList<>();
+        String nullCharacter = "";
+        List<String> orderedCharacters = List.of("Lucilla","Bert","Malina","Percy");
+        if(playerCount == 3){
 
+            List<String> remainingCharacters = new ArrayList<>();
+            remainingCharacters.add("Lucilla");
+            remainingCharacters.add("Bert");
+            remainingCharacters.add("Malina");
+            remainingCharacters.add("Percy");
+
+            for(int i = 0; i<3;i++){
+                for(Player p : players){
+                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
+                        remainingCharacters.remove(orderedCharacters.get(i));
+                    }
+                }
+            }
+
+            nullCharacter =  remainingCharacters.get(0);
+        }
+
+        // structure the characters
+
+        for(int i = 0; i<4;i++){
+            if(!nullCharacter.equals(orderedCharacters.get(i))){
+                for(Player p : players){
+                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
+                        orderedPlayers.add(p);
+                    }
+                }
+            }
+        }
+        players = orderedPlayers;
         // Randomly decides starting player
         Random random = new Random();
         do {
