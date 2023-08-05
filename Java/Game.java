@@ -736,6 +736,7 @@ public class Game {
         }
         int newY = character.getY() - 1;
         int newX = character.getX();
+        if(!board.isSafeMove(newY,newX)){return 0;}
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
             return moveCharToEstate(character, ((EntranceTile) next).getEstate());
@@ -749,6 +750,7 @@ public class Game {
         }
         int newY = character.getY();
         int newX = character.getX() + 1;
+        if(!board.isSafeMove(newY,newX)){return 0;}
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
             return moveCharToEstate(character, ((EntranceTile) next).getEstate());
@@ -762,6 +764,7 @@ public class Game {
         }
         int newY = character.getY() + 1;
         int newX = character.getX();
+        if(!board.isSafeMove(newY,newX)){return 0;}
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
             return moveCharToEstate(character, ((EntranceTile) next).getEstate());
@@ -775,6 +778,7 @@ public class Game {
         }
         int newY = character.getY();
         int newX = character.getX() - 1;
+        if(!board.isSafeMove(newY,newX)){return 0;}
         Tile next = board.getTile(newY, newX);
         if (next instanceof EntranceTile) {
             return moveCharToEstate(character, ((EntranceTile) next).getEstate());
