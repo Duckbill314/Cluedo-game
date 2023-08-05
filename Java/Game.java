@@ -10,7 +10,8 @@ public class Game {
     private int diceTotal = 0;
     Board board = new Board();
     private Player turn = new Player(null,null,null,false);
-    private boolean threePlayer = false;
+    private int playerCount;
+    private TurnOrder invalidCharacter;
 
     private List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
@@ -105,13 +106,12 @@ public class Game {
     /**
      * Collects the required number of player names for the game
      * @param scanner The scanner used for user input
-     * @param numPlayers The number of players
      * @return A list of the collected player names
      */
-    private List<String> collectPlayerNames(Scanner scanner, int numPlayers) {
+    private List<String> collectPlayerNames(Scanner scanner) {
         List<String> names = new ArrayList<>();
 
-        while (numPlayers != names.size()) {
+        while (playerCount != names.size()) {
 
             clearConsole();
 
@@ -141,59 +141,24 @@ public class Game {
     private void setupGame(Scanner scanner) {
 
         // Prompts user for number of players (prompt will return 1 or 2 for 3 players or 4 players respectively)
-        int numPlayers = 2 +  promptUserForChoice(scanner, "Please select the number of players", List.of("Three players and a bot", "Four players"));
-        if(numPlayers == 3){
-            threePlayer = true;
-        }
+        playerCount = 2 +  promptUserForChoice(scanner, "Please select the number of players", List.of("Three players and a bot", "Four players"));
+
 
         // Prompt users for their names
-        List<String> names = collectPlayerNames(scanner, numPlayers);
+        List<String> names = collectPlayerNames(scanner);
 
         // making the players
         assignCharacters(names);
-        // get the unused character in 3 player senario
-        List<Player> orderedPlayers = new ArrayList<>();
-        String nullCharacter = "";
-        List<String> orderedCharacters = List.of("Lucilla","Bert","Malina","Percy");
-        if(threePlayer){
-
-            List<String> remainingCharacters = new ArrayList<>();
-            remainingCharacters.add("Lucilla");
-            remainingCharacters.add("Bert");
-            remainingCharacters.add("Malina");
-            remainingCharacters.add("Percy");
-
-            for(int i = 0; i<3;i++){
-                for(Player p : players){
-                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
-                        remainingCharacters.remove(orderedCharacters.get(i));
-                    }
-                }
-            }
-
-            nullCharacter =  remainingCharacters.get(0);
-        }
-
-        // structure the characters
-
-        for(int i = 0; i<4;i++){
-            if(!nullCharacter.equals(orderedCharacters.get(i))){
-                for(Player p : players){
-                    if(p.getCharacter().getName().equals(orderedCharacters.get(i))){
-                        orderedPlayers.add(p);
-                    }
-                }
-            }
-        }
-        players = orderedPlayers;
 
         // Randomly decides starting player
         Random random = new Random();
-        int startingPlayerIndex = random.nextInt(numPlayers);
-        currentTurn = TurnOrder.values()[startingPlayerIndex];
+        do {
+            int startingPlayerIndex = random.nextInt(playerCount);
+            currentTurn = TurnOrder.values()[startingPlayerIndex];
+        } while (currentTurn == invalidCharacter);
 
         clearConsole();
-        System.out.println("Allocating roles for " + numPlayers + " players.");
+        System.out.println("Allocating roles for " + playerCount + " players.");
         System.out.println();
 
         for (Player p : players) {
@@ -234,12 +199,41 @@ public class Game {
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
         List<Character> availableCharacters = new ArrayList<>(Arrays.asList(new Character("Lucilla", "L", 11, 1), new Character("Bert", "B", 1, 9), new Character("Malina", "M", 9, 22), new Character("Percy", "P", 22, 11)));
+        List<Player> assignedPlayers = new ArrayList<>();
 
-        for (String name : names) {
+        // Creates the player objects and randomly assigns them a character
+        for (int i = 0; i < playerCount; i++) {
             int randomIndex = new Random().nextInt(availableCharacters.size());
             Character character = availableCharacters.remove(randomIndex);
-            players.add(new Player(character, new Worksheet(), name, true));
+            players.add(new Player(character, new Worksheet(), names.get(i), true));
         }
+
+        // Finds the TurnOrder enum value for the invalid character (if playing with only 3 characters)
+
+        if(playerCount == 3) {
+
+            // Creates an array of TurnOrders (of character names, basically) and sets all but the invalid one to null
+            TurnOrder[] remainingCharacters = TurnOrder.values();
+            for (Player player : players) {
+                for (int i = 0; i < remainingCharacters.length; i++) {
+                    if (remainingCharacters[i] != null && player.getCharacter().getName().equals(remainingCharacters[i].toString())) {
+                        remainingCharacters[i] = null;
+                        break;
+                    }
+                }
+            }
+
+            // Finds the remaining character that isn't null - this is our invalid character
+            for (TurnOrder character : remainingCharacters) {
+                if (character != null) {
+                    invalidCharacter = character;
+                    break;
+                }
+            }
+
+        }
+
+
     }
 
     /**
