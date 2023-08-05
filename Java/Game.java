@@ -202,19 +202,6 @@ public class Game {
 
     // JAMES' WORKING CODE
 
-  /**
-     * gets random number from 1 to max that is not in a given set
-     */
-    private int getRandomNumber(int max,Set<Integer> exclude){
-        double min = 1;
-        int random = 0;
-        while(exclude.contains(random)){
-            random = (int) (Math.random() * (max - min + 1) + min);
-        }
-        return random;
-    }
-    
-
     /**
      * Assigns each player a character randomly (must be called after makeCards())
      * @param names The list of player names
