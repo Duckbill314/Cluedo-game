@@ -180,20 +180,20 @@ public class Game {
      * creates the random cards that are excluded from the pool and creates the main pool of available cards and distributes them
      */
     private void makeCards() {
-        cards.add(new Card(false, null, "Lucilla", "character"));
-        cards.add(new Card(false, null, "Bert", "character"));
-        cards.add(new Card(false, null, "Malina", "character"));
-        cards.add(new Card(false, null, "Percy", "character"));
-        cards.add(new Card(false, null, "Broom", "weapon"));
-        cards.add(new Card(false, null, "Scissors", "weapon"));
-        cards.add(new Card(false, null, "Knife", "weapon"));
-        cards.add(new Card(false, null, "Shovel", "weapon"));
-        cards.add(new Card(false, null, "iPad", "weapon"));
-        cards.add(new Card(false, null, "Haunted House", "estate"));
-        cards.add(new Card(false, null, "Manic Manor", "estate"));
-        cards.add(new Card(false, null, "Visitation Villa", "estate"));
-        cards.add(new Card(false, null, "Calamity Castle", "estate"));
-        cards.add(new Card(false, null, "Peril Palace", "estate"));
+        cards.add(new Card(false, null, "Lucilla", "Character"));
+        cards.add(new Card(false, null, "Bert", "Character"));
+        cards.add(new Card(false, null, "Malina", "Character"));
+        cards.add(new Card(false, null, "Percy", "Character"));
+        cards.add(new Card(false, null, "Broom", "Weapon"));
+        cards.add(new Card(false, null, "Scissors", "Weapon"));
+        cards.add(new Card(false, null, "Knife", "Weapon"));
+        cards.add(new Card(false, null, "Shovel", "Weapon"));
+        cards.add(new Card(false, null, "iPad", "Weapon"));
+        cards.add(new Card(false, null, "Haunted House", "Estate"));
+        cards.add(new Card(false, null, "Manic Manor", "Estate"));
+        cards.add(new Card(false, null, "Visitation Villa", "Estate"));
+        cards.add(new Card(false, null, "Calamity Castle", "Estate"));
+        cards.add(new Card(false, null, "Peril Palace", "Estate"));
 
 
         List<String> typesPickedForMurder = new ArrayList<>();
@@ -585,6 +585,7 @@ public class Game {
                         System.out.println("Enter 2 to make a solve attempt.");
                         System.out.println("Enter 3 to toggle grid on / grid off.");
                         System.out.println("Enter 4 to return to the previous menu.");
+                        System.out.print("Enter number here: ");
 
                         input = scanner.nextLine();
 
