@@ -230,6 +230,10 @@ public class Board {
         }
 
         Tile target = getTile(y, x);
+        
+        if (target instanceof EntranceTile) {
+            return true;
+        }
 
         if (!(target instanceof GameTile)) {
             return false;
