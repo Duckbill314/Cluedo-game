@@ -245,4 +245,8 @@ public class Board {
         
         return true;
     }
+
+    public List<Estate> getEstates() {
+        return estates;
+    }
 }
