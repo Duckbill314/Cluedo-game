@@ -809,7 +809,9 @@ public class Game {
 
     private void teleportItem(Item item, Estate toEstate) {
         Estate fromEstate = item.getEstate();
-        removeItemFromEstate(item, fromEstate);
+        if(fromEstate != null){
+            removeItemFromEstate(item, fromEstate);
+        }
         addItemToEstate(item, toEstate);
     }
 
