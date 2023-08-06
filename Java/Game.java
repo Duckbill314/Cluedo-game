@@ -9,7 +9,7 @@ public class Game {
 
     private TurnOrder currentTurn = TurnOrder.Lucilla;
     private int diceTotal = 0;
-    Board board = new Board();
+    private Board board = new Board();
     private Player turn = new Player(null,null,null,false);
     private int playerCount;
     private TurnOrder invalidCharacter;
