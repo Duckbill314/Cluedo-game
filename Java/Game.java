@@ -16,6 +16,7 @@ public class Game {
     private List<Player> players = new ArrayList<>();
     private final List<Card> cards = new ArrayList<>();
     private List<GameTile> usedGameTiles = new ArrayList<>();
+    private List<Weapon> weapons = new ArrayList<>();
 
     /**
      * Clears the console screen
@@ -93,7 +94,7 @@ public class Game {
         System.out.print('\u000C');
         System.out.println("Welcome to Hobby Detectives!");
 
-        switch (promptUserForChoice(scanner, "Do you want to start the game?",  List.of("Yes", "No"))) {
+        switch (promptUserForChoice(scanner, "Do you want to start the game?",  Arrays.asList("Yes", "No"))) {
             case 1:
                 setupGame(scanner);
                 gameManager(scanner);
@@ -141,7 +142,7 @@ public class Game {
     private void setupGame(Scanner scanner) {
 
         // Prompts user for number of players (prompt will return 1 or 2 for 3 players or 4 players respectively)
-        playerCount = 2 +  promptUserForChoice(scanner, "Please select the number of players", List.of("Three players and a bot", "Four players"));
+        playerCount = 2 +  promptUserForChoice(scanner, "Please select the number of players", Arrays.asList("Three players and a bot", "Four players"));
 
 
         // Prompt users for their names
@@ -152,7 +153,7 @@ public class Game {
         // get the unused character in 3 player senario
         List<Player> orderedPlayers = new ArrayList<>();
         String nullCharacter = "";
-        List<String> orderedCharacters = List.of("Lucilla","Bert","Malina","Percy");
+        List<String> orderedCharacters = Arrays.asList("Lucilla","Bert","Malina","Percy");
         if(playerCount == 3){
 
             List<String> remainingCharacters = new ArrayList<>();
@@ -205,7 +206,7 @@ public class Game {
         System.out.println();
         System.out.println(currentTurn.name() + " will be starting first, please pass the tablet to " + turn.getCharacter().getName() + ".\n");
 
-        promptUserForChoice(scanner, "Begin the first round?", List.of("Yes"));
+        promptUserForChoice(scanner, "Begin the first round?", Arrays.asList("Yes"));
 
         System.out.print('\u000C');
 
@@ -216,6 +217,9 @@ public class Game {
                 ((GameTile) t).setStored(p.getCharacter());
             }
         }
+
+        // place weapons on board
+        initialiseWeapons();
 
         // Set up and manage the cards
         initialiseCards();
@@ -233,8 +237,7 @@ public class Game {
     // line 85 "model.ump"
     private void assignCharacters(List<String> names) {
         List<Character> availableCharacters = new ArrayList<>(Arrays.asList(new Character("Lucilla", "L", 11, 1), new Character("Bert", "B", 1, 9), new Character("Malina", "M", 9, 22), new Character("Percy", "P", 22, 11)));
-        List<Player> assignedPlayers = new ArrayList<>();
-
+        
         // Creates the player objects and randomly assigns them a character
         for (int i = 0; i < playerCount; i++) {
             int randomIndex = new Random().nextInt(availableCharacters.size());
@@ -272,6 +275,25 @@ public class Game {
                 if (!characterFound) {
                     invalidCharacter = character;
                     break;
+                }
+            }
+        }
+    }
+
+    private void initialiseWeapons() {
+        String[][] weaponData = {{"Broom", "b"}, {"Scissors", "s"}, {"Knife", "k"}, {"Shovel", "v"}, {"iPad", "i"}};
+        for (String[] data : weaponData) {
+            weapons.add(new Weapon(data[0], data[1], 0, 0));
+        }
+        List<Estate> estates = board.getEstates();
+        for (Weapon weapon : weapons) {
+            boolean isAdded = false;
+            while (!isAdded) {
+                int randomIndex = new Random().nextInt(estates.size());
+                Estate selectedEstate = estates.get(randomIndex);
+                if (selectedEstate.getItems().isEmpty()) {
+                    addItemToEstate(weapon, selectedEstate);
+                    isAdded = true;
                 }
             }
         }
@@ -446,17 +468,19 @@ public class Game {
             switch (input) {
 
                 case "1":
-                    Character guessedCharacter = new Character(null,null,0,0);
-                    // get the guessed character card
+                    // teleport the guessed character to the current estate
                     for(Player player : players){
-                        if(player.getCharacter().getName().equals(character)){
-                            guessedCharacter = player.getCharacter();
+                        if (player.getCharacter().getName().equals(character)) {
+                            teleportItem(player.getCharacter(), p.getCharacter().getEstate());
                         }              
                     }
-                    // teleport the guessed character to the current estate
-                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
-                    // teleport the guessed character to the current estate
-                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
+                    // teleport the guessed weapon to the current estate
+                    for (Weapon w : weapons) {
+                        if (w.getName().equals(weapon)) {
+                            teleportItem(w, p.getCharacter().getEstate());
+                        }
+                    }
+                    
                     diceTotal = 0;
                     // if win (only works on final guesses)
                     boolean win = true;
@@ -487,7 +511,6 @@ public class Game {
                     // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
                     int turn = 0;
                     input = "0";
-                    boolean gotMatch = false;
                     String cardName = "";
                     for (int i = 0; i < players.size(); i++) {
                         if (players.get(i).getCharacter().getName().equals(p.getCharacter().getName())) {
@@ -771,15 +794,23 @@ public class Game {
         }
     }
 
-    // WILL'S CODE - check it out and ask me if anything is unclear!
+    // WILL'S CODE 
+
+    private void addItemToEstate(Item item, Estate estate) {
+        estate.addItem(item);
+        estate.updateContents();
+        item.setEstate(estate);
+    }
+
+    private void removeItemFromEstate(Item item, Estate estate) {
+        estate.removeItem(item);
+        estate.updateContents();
+    }
 
     private void teleportItem(Item item, Estate toEstate) {
         Estate fromEstate = item.getEstate();
-        fromEstate.removeItem(item);
-        fromEstate.updateContents();
-        toEstate.addItem(item);
-        toEstate.updateContents();
-        item.setEstate(toEstate);
+        removeItemFromEstate(item, fromEstate);
+        addItemToEstate(item, toEstate);
     }
 
     public int moveCharToEstate(Character character, Estate estate) {
