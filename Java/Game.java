@@ -143,7 +143,7 @@ public class Game {
     private void setupGame(Scanner scanner) {
 
         // Prompts user for number of players (prompt will return 1 or 2 for 3 players or 4 players respectively)
-        playerCount = 2 +  promptUserForChoice(scanner, "Please select the number of players", Arrays.asList("Three players and a bot", "Four players"));
+        playerCount = 2 +  promptUserForChoice(scanner, "Please select the number of players", Arrays.asList("Three players", "Four players"));
 
 
         // Prompt users for their names
