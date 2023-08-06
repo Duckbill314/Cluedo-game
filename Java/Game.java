@@ -354,98 +354,54 @@ public class Game {
     private int guess(Player p, Scanner scanner) {
         //guess UI
 
-        String input = "";
-        boolean characterSelected = false;
-        boolean weaponSelected = false;
-        String character = "";
-        String weapon = "";
+        String input;
+        String character;
+        String weapon;
 
-        while (!characterSelected) {
-            System.out.print('\u000C');
+        while (true) {
+            clearConsole();;
             System.out.println("WARNING, by guessing you forfeit any remaining moves you have. Your turn will end once you guess.\n");
             System.out.println("Estate: " + p.getCharacter().getEstate().getName());
-            System.out.println("\nSelect a Character to guess.\n");
 
-            System.out.println("Enter 1 to select Lucilla.");
-            System.out.println("Enter 2 to select Bert.");
-            System.out.println("Enter 3 to select Malina.");
-            System.out.println("Enter 4 to select Percy.");
+            List<String> options = List.of("Lucilla", "Bert", "Malina", "Percy", "Cancel");
+            input = options.get(promptUserForChoice(scanner, "Select a character to guess", options) - 1);
 
-            System.out.println("\nEnter 5 to cancel this guess.");
-            input = scanner.nextLine();
-
-            switch (input) {
-                case "1":
-                    character = "Lucilla";
-                    break;
-                case "2":
-                    character = "Bert";
-                    break;
-                case "3":
-                    character = "Malina";
-                    break;
-                case "4":
-                    character = "Percy";
-                    break;
-                case "5":
-                    return 2;
-            }
-            if (!character.equals("")) {
-                characterSelected = true;
+            if (input == "Cancel") {
+                return 2;
+            } else {
+                character = input;
+                break;
             }
         }
-        while (!weaponSelected) {
-            System.out.print('\u000C');
+        while (true) {
+            clearConsole();
             System.out.println("Estate: " + p.getCharacter().getEstate().getName());
             System.out.println("Character: " + character);
-            System.out.println("\nSelect a Weapon to guess.\n");
 
-            System.out.println("Enter 1 to select Broom.");
-            System.out.println("Enter 2 to select Scissors.");
-            System.out.println("Enter 3 to select Knife.");
-            System.out.println("Enter 4 to select Shovel.");
-            System.out.println("Enter 5 to select iPad.");
+            List<String> options = List.of("Broom", "Scissors", "Knife", "Shovel", "iPad", "Cancel");
+            input = options.get(promptUserForChoice(scanner, "Select a weapon to guess", options) - 1);
 
-            System.out.println("\nEnter 6 to cancel this guess.");
-            input = scanner.nextLine();
-
-            switch (input) {
-                case "1":
-                    weapon = "Broom";
-                    break;
-                case "2":
-                    weapon = "Scissors";
-                    break;
-                case "3":
-                    weapon = "Knife";
-                    break;
-                case "4":
-                    weapon = "Shovel";
-                    break;
-                case "5":
-                    weapon = "iPad";
-                    break;
-                case "6":
-                    return 2;
-            }
-            if (!weapon.equals("")) {
-                weaponSelected = true;
+            if (input == "Cancel") {
+                return 2;
+            } else {
+                weapon = input;
+                break;
             }
         }
+
+
         input = "0";
         while (!input.equals("1") || !input.equals("2")) {
-            System.out.print('\u000C');
+
+            clearConsole();
+
             System.out.println("Estate: " + p.getCharacter().getEstate().getName());
             System.out.println("Character: " + character);
             System.out.println("Weapon: " + weapon);
             System.out.println("\nGuess: " + character + " commited the murder in the " + p.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
-            System.out.println("place guess?\n");
-            System.out.println("Enter 1 for yes.");
-            System.out.println("Enter 2 to cancel this guess.");
-            input = scanner.nextLine();
-            switch (input) {
 
-                case "1":
+            switch (promptUserForChoice(scanner, "Place the guess?", List.of("Yes", "No/Cancel Guess"))) {
+                case 1:
                     Character guessedCharacter = new Character(null,null,0,0);
                     // get the guessed character card
                     for(Player player : players){
@@ -528,7 +484,7 @@ public class Game {
                         input = scanner.nextLine();
                     }
                     return 0;
-                case "2":
+                case 2:
                     return 2;
             }
         }
