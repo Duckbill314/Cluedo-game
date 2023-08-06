@@ -1,0 +1,208 @@
+class Board {
+  
+public Estate buildEstate(String arg0){
+
+}
+public void draw(){
+
+}
+}
+
+class Card {
+  
+  Player owner;
+  name;
+  type;
+  boolean isMurder;
+}
+
+class Character {
+  
+  isA Item;
+}
+
+class EntranceTile {
+  
+  Estate estate;
+int exitY;
+int exitX;
+isA Tile;
+}
+
+class Estate {
+  
+}
+
+class Game {
+  
+  Board board;
+  
+public int guess(Player arg0){
+
+}
+public String refute(Player arg0){
+
+}
+public void addItemToEstate(Item arg0,Estate arg1){
+
+}
+public void removeItemFromEstate(Item arg0,Estate arg1){
+
+}
+public void teleportItem(Item arg0,Estate arg1){
+
+}
+public int moveCharToEstate(Character arg0,Estate arg1){
+
+}
+public int moveCharOutOfEstate(Character arg0,EntranceTile arg1){
+
+}
+public int moveChar(Character arg0){
+
+}
+public void takePlayerInput(Player arg0){
+
+}
+}
+
+class GameTile {
+  
+  Item stored;
+isA Tile;
+}
+
+class Item {
+  
+  name;
+  displayIcon;
+  int x;
+  int y;
+  Estate estate;
+}
+
+class Player {
+  
+  Character character;
+  Worksheet worksheet;
+  name;
+  boolean isEligible;
+public void printHand(){
+
+}
+}
+
+class Tile {
+  
+    int xCoord;
+  int yCoord;
+  output;
+public void draw(){
+
+}
+}
+
+class WallTile {
+  
+  isA Tile;
+}
+
+class Weapon {
+  
+  isA Item;
+}
+
+class Worksheet {
+  
+public void printWorksheet(){
+
+}
+}
+
+association {
+  1 Game - 3..4 Player;
+  1 Game -  Card;
+  1 Game -  GameTile;
+  1 Game -  Weapon;
+  1 Board -  Tile;
+  1 Board -  Estate;
+  1 Player -  Card;
+  1 Worksheet -  Card;
+}
+
+$[End_of_model]$
+
+namespace -;
+
+
+class Board
+{
+  position 9 52 219.281 95.3594;
+  position.association Board__Game 110,4 7,58;
+  position.association Board__Game 92,0 0,49;
+  position.association Board__Game 102,0 0,49;
+  position.association Board__Game 87,0 0,52;
+}
+
+class Card
+{
+  position 284 184 145.547 129.359;
+}
+
+class Character
+{
+  position 860 491 109 61.3594;
+}
+
+class EntranceTile
+{
+  position 268 597 118.281 112.359;
+}
+
+class Estate
+{
+  position 50 430 109 45;
+}
+
+class Game
+{
+  position 697 212 378.906 231.359;
+  position.association Board__Game 0,55 99,0;
+  position.association Card__Game 0,10 146,81;
+  position.association Game__Player 166,0 196,92;
+}
+
+class GameTile
+{
+  position 427 608 109 78.3594;
+}
+
+class Item
+{
+  position 710 576 151.312 146.359;
+}
+
+class Player
+{
+  position 581 31 195.062 146.359;
+}
+
+class Tile
+{
+  position 243 371 161.578 129.359;
+}
+
+class WallTile
+{
+  position 60 615 109 61.3594;
+}
+
+class Weapon
+{
+  position 624 479 109 61.3594;
+}
+
+class Worksheet
+{
+  position 251 45 231.016 78.3594;
+}
