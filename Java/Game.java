@@ -443,6 +443,61 @@ public class Game {
                     // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
                     int turn = 0;
                     input = "0";
+                    while (!input.equals("1") || !input.equals("2")) {
+            System.out.print('\u000C');
+            System.out.println("Estate: " + p.getCharacter().getEstate().getName());
+            System.out.println("Character: " + character);
+            System.out.println("Weapon: " + weapon);
+            System.out.println("\nGuess: " + character + " commited the murder in the " + p.getCharacter().getEstate().getName() + " with the " + weapon.toLowerCase() + ".\n");
+            System.out.println("place guess?\n");
+            System.out.println("Enter 1 for yes.");
+            System.out.println("Enter 2 to cancel this guess.");
+            input = scanner.nextLine();
+            switch (input) {
+
+                case "1":
+                    Character guessedCharacter = new Character(null,null,0,0);
+                    // get the guessed character card
+                    for(Player player : players){
+                        if(player.getCharacter().getName().equals(character)){
+                            guessedCharacter = player.getCharacter();
+                        }              
+                    }
+                    // teleport the guessed character to the current estate
+                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
+                    // teleport the guessed character to the current estate
+                    moveCharToEstate(guessedCharacter, p.getCharacter().getEstate());
+                    diceTotal = 0;
+                    // if win (only works on final guesses)
+                    boolean win = true;
+                    for (Card c : cards) {
+                        if (c.getIsMurder()) {
+                            System.out.println(c.getName());
+                            switch (c.getType()) {
+                                case "Estate":
+                                    if (!c.getName().equals(p.getCharacter().getEstate().getName())) {
+                                        win = false;
+                                    }
+                                    break;
+                                case "Character":
+                                    if (!c.getName().equals(character)) {
+                                        win = false;
+                                    }
+                                    break;
+                                case "Weapon":
+                                    if (!c.getName().equals(weapon)) {
+                                        win = false;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    if (win) {
+                        return 1;
+                    }
+                    // first, we need to find the ordering of player turns at the moment, dont modify the enum beacause these are not real turns
+                    int turn = 0;
+                    input = "0";
                     boolean gotMatch = false;
                     String cardName = "";
                     for (int i = 0; i < players.size(); i++) {
@@ -452,10 +507,11 @@ public class Game {
                     }
                     // then we need to pass this guess onto the refute method for the next 3 players
                     // but only if the next player actually has a card in the guess
-                    for (int i = 0; i < 3; i++) {
+                
+                    for (int i = 0; i < players.size()-1; i++) {
                         int playerId = i + turn + 1;
-                        if (playerId > 3) {
-                            playerId = playerId - 4;
+                        if (playerId > players.size()-1) {
+                            playerId = playerId - players.size();
                         }
 
                         for (Card c : players.get(playerId).getCards()) {
@@ -739,7 +795,7 @@ public class Game {
     }
 
     public int moveCharToEstate(Character character, Estate estate) {
-        if(character.getEstate() != estate){
+        if(character.getEstate() != estate && character.getName() !=  null){
             estate.addItem(character);
             estate.updateContents();
             character.setEstate(estate);
