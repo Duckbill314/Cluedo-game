@@ -40,7 +40,7 @@ public class Estate {
     }
 
     public void removeItem(Item item) {
-        this.items.remove(this.items.indexOf((item)));
+        this.items.remove(this.items.indexOf(item));
         updateContents();
     }
 
