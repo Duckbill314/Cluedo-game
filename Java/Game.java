@@ -5,6 +5,7 @@ public class Game {
     public boolean isInProgress = true;
 
     public enum TurnOrder {Lucilla, Bert, Malina, Percy}
+    public enum Direction {Up, Right, Down, Left}
 
     private TurnOrder currentTurn = TurnOrder.Lucilla;
     private int diceTotal = 0;
@@ -150,7 +151,7 @@ public class Game {
 
         // making the players
         assignCharacters(names);
-        // get the unused character in 3 player senario
+        // get the unused character in 3 player scenario
         List<Player> orderedPlayers = new ArrayList<>();
         String nullCharacter = "";
         List<String> orderedCharacters = Arrays.asList("Lucilla","Bert","Malina","Percy");
@@ -665,7 +666,7 @@ public class Game {
 
                         input = scanner.nextLine();
                         if (input.equals("1")) {
-                            takePlayerInput(turn, scanner);
+                            takePlayerInput(scanner, turn);
                             input = "0";
                         }
                         if (!input.equals("0")) {
@@ -742,7 +743,7 @@ public class Game {
 
                 }
             }
-            //trun update
+            // tun update
             int index = players.indexOf(turn);
             index++;
             if(index == players.size()){
@@ -856,101 +857,71 @@ public class Game {
         return 0;
     }
 
-    private int moveUp(Character character) {
+    private int moveInDirection(Character character, Direction direction) {
+
+        // If in estate, leave
         if (character.getEstate() != null) {
             return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(0));
         }
-        int newY = character.getY() - 1;
-        int newX = character.getX();
-        if(!board.isSafeMove(newY,newX)){return 0;}
-        Tile next = board.getTile(newY, newX);
-        if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
-        }
-        return moveChar(character, newY, newX);
-    }
 
-    private int moveRight(Character character) {
-        if (character.getEstate() != null) {
-            return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(1));
-        }
+        // Find coordinates of next direction
         int newY = character.getY();
-        int newX = character.getX() + 1;
-        if(!board.isSafeMove(newY,newX)){return 0;}
-        Tile next = board.getTile(newY, newX);
-        if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
-        }
-        return moveChar(character, newY, newX);
-    }
-
-    private int moveDown(Character character) {
-        if (character.getEstate() != null) {
-            return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(2));
-        }
-        int newY = character.getY() + 1;
         int newX = character.getX();
-        if(!board.isSafeMove(newY,newX)){return 0;}
-        Tile next = board.getTile(newY, newX);
-        if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
+        switch (direction) {
+            case Up:
+                newY -= 1;
+                break;
+            case Down:
+                newY += 1;
+                break;
+            case Left:
+                newX -= 1;
+                break;
+            case Right:
+                newX += 1;
+                break;
         }
-        return moveChar(character, newY, newX);
-    }
 
-    private int moveLeft(Character character) {
-        if (character.getEstate() != null) {
-            return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(3));
+        if(board.isSafeMove(newY,newX)){
+            Tile next = board.getTile(newY, newX);
+
+            // Check for estate entrance
+            if (next instanceof EntranceTile) {
+                return moveCharToEstate(character, ((EntranceTile) next).getEstate());
+            }
+
+            return moveChar(character, newY, newX);
         }
-        int newY = character.getY();
-        int newX = character.getX() - 1;
-        if(!board.isSafeMove(newY,newX)){return 0;}
-        Tile next = board.getTile(newY, newX);
-        if (next instanceof EntranceTile) {
-            return moveCharToEstate(character, ((EntranceTile) next).getEstate());
-        }
-        return moveChar(character, newY, newX);
+        return 0;
     }
 
     /**
      * Method to get the next player input for movement.
      */
-    private void takePlayerInput(Player p, Scanner scanner) {
-        String input = "";
-        while (diceTotal != 0 && !input.equals("5")) {
-            System.out.print('\u000C');
+    private void takePlayerInput(Scanner scanner, Player p) {
+
+        Direction dir;
+        int choice;
+        while (diceTotal > 0) {
+            clearConsole();
             board.draw();
             p.getWorksheet().printWorksheet();
             displayLocations();
+
             System.out.println(String.format("You have %d moves remaining. You are playing as %s (%s).", diceTotal, p.getCharacter().getName(), p.getCharacter().getDisplayIcon()));
-            System.out.println("What direction will you move?\n");
-            System.out.println("Enter 1 to move up.");
-            System.out.println("Enter 2 to move right.");
-            System.out.println("Enter 3 to move down.");
-            System.out.println("Enter 4 to move left.");
-            System.out.println("Enter 5 to return to the previous menu.");
 
-            input = scanner.nextLine();
+            // Requests input from user
+            List<String> directionOptions = Arrays.asList("Move Up", "Move Right", "Move Down", "Move Left", "Return to Previous Menu");
+            choice = promptUserForChoice(scanner, "What direction will you move?\n", directionOptions);
 
-            // handling direction move
-            switch (input) {
-                case "1":
-                    diceTotal -= moveUp(p.getCharacter());
-                    break;
-                case "2":
-                    diceTotal -= moveRight(p.getCharacter());
-                    break;
-                case "3":
-                    diceTotal -= moveDown(p.getCharacter());
-                    break;
-                case "4":
-                    diceTotal -= moveLeft(p.getCharacter());
-                    break;
-                case "5":
-                    break;
-                default:
-                    System.out.println("\nYour input was not one of the possible actions, please try again!");
+            // Cancels move action
+            if (choice == 5) {
+                return;
             }
+
+            // Moves in given direction and reduces dice total
+            dir = Direction.values()[choice - 1];
+            diceTotal -= moveInDirection(p.getCharacter(), dir);
         }
     }
 }
