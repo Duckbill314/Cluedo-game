@@ -463,17 +463,17 @@ public class Game {
                     for (Card c : cards) {
                         if (c.getIsMurder()) {
                             switch (c.getType()) {
-                                case "estate":
+                                case "Estate":
                                     if (!c.getName().equals(p.getCharacter().getEstate().getName())) {
                                         win = false;
                                     }
                                     break;
-                                case "character":
+                                case "Character":
                                     if (!c.getName().equals(character)) {
                                         win = false;
                                     }
                                     break;
-                                case "weapon":
+                                case "Weapon":
                                     if (!c.getName().equals(weapon)) {
                                         win = false;
                                     }
