@@ -12,7 +12,7 @@ public class Board {
         buildGameSpace();
 
         estates.add(buildEstate("Haunted House"));
-        estates.add(buildEstate("Calamity House"));
+        estates.add(buildEstate("Calamity Castle"));
         estates.add(buildEstate("Manic Manor"));
         estates.add(buildEstate("Peril Palace"));
         estates.add(buildEstate("Visitation Villa"));
