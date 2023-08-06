@@ -95,7 +95,7 @@ public class Game {
 
         switch (promptUserForChoice(scanner, "Do you want to start the game?",  List.of("Yes", "No"))) {
             case 1:
-                (scanner);
+                setupGame(scanner);
                 gameManager(scanner);
             case 2:
                 System.out.print("Game aborted. Goodbye!");
@@ -242,32 +242,39 @@ public class Game {
             players.add(new Player(character, new Worksheet(), names.get(i), true));
         }
 
-        // Finds the TurnOrder enum value for the invalid character (if playing with only 3 characters)
+        // Reorders the players list according to the sequence L->B->M->P
+        List<Player> orderedPlayers = new ArrayList<>();
+        for (TurnOrder character : TurnOrder.values()) {
+            for (Player player : players) {
+                if (player.getCharacter().getName().equals(character.toString())) {
+                    orderedPlayers.add(player);
+                    break;
+                }
+            }
+        }
+        players = orderedPlayers;
 
+        // Finds the TurnOrder enum value for the invalid character (if playing with only 3 characters)
         if(playerCount == 3) {
 
-            // Creates an array of TurnOrders (of character names, basically) and sets all but the invalid one to null
-            TurnOrder[] remainingCharacters = TurnOrder.values();
-            for (Player player : players) {
-                for (int i = 0; i < remainingCharacters.length; i++) {
-                    if (remainingCharacters[i] != null && player.getCharacter().getName().equals(remainingCharacters[i].toString())) {
-                        remainingCharacters[i] = null;
+            for (TurnOrder character : TurnOrder.values()) {
+                boolean characterFound = false;
+
+                // Check each player to see if one of them has this character
+                for (Player player : players) {
+                    if (player.getCharacter().getName().equals(character.toString())) {
+                        characterFound = true;
                         break;
                     }
                 }
-            }
 
-            // Finds the remaining character that isn't null - this is our invalid character
-            for (TurnOrder character : remainingCharacters) {
-                if (character != null) {
+                // If no players have this character, it's the invalid character
+                if (!characterFound) {
                     invalidCharacter = character;
                     break;
                 }
             }
-
         }
-
-
     }
 
     /**
