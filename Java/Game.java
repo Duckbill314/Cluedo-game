@@ -859,27 +859,32 @@ public class Game {
 
     private int moveInDirection(Character character, Direction direction) {
 
-        // If in estate, leave
-        if (character.getEstate() != null) {
-            return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(0));
-        }
-
-        // Find coordinates of next direction
+        // Find coordinates of next direction, or which exit to take
         int newY = character.getY();
         int newX = character.getX();
+        int exit = 0;
         switch (direction) {
             case Up:
                 newY -= 1;
+                exit = 0;
                 break;
             case Down:
                 newY += 1;
+                exit = 2;
                 break;
             case Left:
                 newX -= 1;
+                exit = 3;
                 break;
             case Right:
                 newX += 1;
+                exit = 1;
                 break;
+        }
+
+        // If in estate, leave
+        if (character.getEstate() != null) {
+            return moveCharOutOfEstate(character, character.getEstate().getEntranceTiles().get(exit));
         }
 
         if(board.isSafeMove(newY,newX)){
